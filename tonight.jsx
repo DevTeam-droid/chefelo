@@ -598,9 +598,9 @@ export default function TonightApp() {
           animation: tnLoadingBar 4.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
         @keyframes tnPulseHat {
-          0% { transform: scale(1); filter: drop-shadow(0 4px 6px rgba(242,169,59,0.2)); }
-          50% { transform: scale(1.08); filter: drop-shadow(0 15px 25px rgba(242,169,59,0.5)); }
-          100% { transform: scale(1); filter: drop-shadow(0 4px 6px rgba(242,169,59,0.2)); }
+          0% { transform: scale(1); filter: drop-shadow(0 2px 4px rgba(4,81,55,0.08)); }
+          50% { transform: scale(1.06); filter: drop-shadow(0 6px 14px rgba(4,81,55,0.18)); }
+          100% { transform: scale(1); filter: drop-shadow(0 2px 4px rgba(4,81,55,0.08)); }
         }
         .tn-pulse-hat {
           animation: tnPulseHat 1.8s infinite ease-in-out;
@@ -1441,7 +1441,7 @@ const styles = {
   loaderAvatar: {
     width: 140,
     height: 140,
-    filter: "drop-shadow(0 15px 30px rgba(0,0,0,0.3))",
+    filter: "drop-shadow(0 4px 12px rgba(4,81,55,0.12))",
   },
   loaderTitle: {
     color: "#23322D",
