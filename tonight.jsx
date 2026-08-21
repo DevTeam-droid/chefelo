@@ -1020,7 +1020,7 @@ const styles = {
   page: {
     minHeight: "100%",
     width: "100%",
-    background: "linear-gradient(180deg, #23322D 0%, #151F1C 100%)",
+    background: "#FFFFFF",
     padding: "28px 16px 40px",
     display: "flex",
     justifyContent: "center",
@@ -1028,7 +1028,7 @@ const styles = {
   wrap: { width: "100%", maxWidth: 420 },
   header: { marginBottom: 26, textAlign: "left" },
   eyebrow: {
-    color: "#0BE49B",
+    color: "#045137",
     fontSize: 11,
     letterSpacing: "0.14em",
     display: "flex",
@@ -1037,7 +1037,7 @@ const styles = {
     fontFamily: "'DM Sans', sans-serif",
   },
   h1: {
-    color: "#CEE9DF",
+    color: "#23322D",
     fontSize: 34,
     fontWeight: 700,
     letterSpacing: "-0.02em",
@@ -1047,7 +1047,7 @@ const styles = {
   },
   askPanel: {},
   sectionTitle: {
-    color: "#A5BEB4",
+    color: "#6B8F82",
     fontSize: 11,
     letterSpacing: "0.12em",
     marginBottom: 10,
@@ -1056,9 +1056,9 @@ const styles = {
   },
   chipRow: { display: "flex", flexWrap: "wrap", gap: 8 },
   chip: {
-    background: "rgba(206, 233, 223, 0.05)",
-    border: "1px solid rgba(206, 233, 223, 0.18)",
-    color: "#CEE9DF",
+    background: "#F5F9F7",
+    border: "1px solid #C2DDD4",
+    color: "#23322D",
     borderRadius: 999,
     padding: "9px 16px",
     fontSize: 13.5,
@@ -1069,9 +1069,9 @@ const styles = {
     fontWeight: 500,
   },
   chipActive: {
-    background: "#CEE9DF",
-    border: "1px solid #CEE9DF",
-    color: "#23322D",
+    background: "#045137",
+    border: "1px solid #045137",
+    color: "#FFFFFF",
     fontWeight: 600,
   },
   decideBtn: {
@@ -1160,8 +1160,8 @@ const styles = {
   rejectBtn: {
     flex: 1,
     background: "transparent",
-    color: "#A5BEB4",
-    border: "1px solid rgba(206, 233, 223, 0.2)",
+    color: "#6B8F82",
+    border: "1px solid #C2DDD4",
     borderRadius: 8,
     padding: "14px 10px",
     fontSize: 14.5,
@@ -1186,7 +1186,7 @@ const styles = {
   },
   donePanel: { textAlign: "center", paddingTop: 30 },
   doneName: {
-    color: "#CEE9DF",
+    color: "#23322D",
     fontSize: 26,
     fontWeight: 700,
     margin: "10px 0 8px",
@@ -1198,10 +1198,10 @@ const styles = {
     objectFit: "cover",
     borderRadius: 16,
     marginBottom: 20,
-    border: "1px solid rgba(206, 233, 223, 0.12)",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+    border: "1px solid #E0EDE8",
+    boxShadow: "0 8px 24px rgba(4,81,55,0.12)",
   },
-  doneSub: { color: "#A5BEB4", fontSize: 14, marginBottom: 22, fontFamily: "'Inter', sans-serif" },
+  doneSub: { color: "#6B8F82", fontSize: 14, marginBottom: 22, fontFamily: "'Inter', sans-serif" },
   recipeBtn: {
     background: "#CEE9DF",
     border: "none",
@@ -1217,8 +1217,8 @@ const styles = {
     alignItems: "center",
   },
   recipeBox: {
-    background: "rgba(206, 233, 223, 0.04)",
-    border: "1px solid rgba(206, 233, 223, 0.12)",
+    background: "#F3FAF7",
+    border: "1px solid #C2DDD4",
     borderRadius: 12,
     padding: "22px 20px",
     textAlign: "left",
@@ -1235,7 +1235,7 @@ const styles = {
     fontWeight: 600,
   },
   recipeLabel: {
-    color: "#0BE49B",
+    color: "#045137",
     fontSize: 11,
     letterSpacing: "0.12em",
     marginBottom: 10,
@@ -1245,7 +1245,7 @@ const styles = {
   },
   ingList: { margin: 0, padding: 0, listStyle: "none" },
   ingItem: {
-    color: "#CEE9DF",
+    color: "#23322D",
     fontSize: 14.5,
     lineHeight: 1.9,
     paddingLeft: 16,
@@ -1260,14 +1260,14 @@ const styles = {
     alignItems: "flex-start",
   },
   stepNum: {
-    color: "#0BE49B",
+    color: "#045137",
     fontSize: 12,
     paddingTop: 2,
     flexShrink: 0,
     fontFamily: "'IBM Plex Mono', monospace",
   },
   stepText: {
-    color: "#CEE9DF",
+    color: "#23322D",
     fontSize: 14.5,
     lineHeight: 1.55,
     fontFamily: "'Inter', sans-serif",
@@ -1292,8 +1292,8 @@ const styles = {
   botCard: {
     display: "flex",
     gap: 16,
-    background: "rgba(206, 233, 223, 0.03)",
-    border: "1px solid rgba(206, 233, 223, 0.12)",
+    background: "#F3FAF7",
+    border: "1px solid #C2DDD4",
     borderRadius: 16,
     padding: 20,
     alignItems: "center",
@@ -1331,8 +1331,8 @@ const styles = {
     fontFamily: "'Inter', sans-serif",
   },
   timerBox: {
-    background: "rgba(4, 81, 55, 0.16)",
-    border: "1px solid rgba(11, 228, 155, 0.2)",
+    background: "#F3FAF7",
+    border: "1px solid #C2DDD4",
     borderRadius: 16,
     padding: "24px 20px",
     textAlign: "center",
@@ -1343,7 +1343,7 @@ const styles = {
     boxShadow: "0 0 20px rgba(208, 95, 13, 0.4)",
   },
   stepIndicator: {
-    color: "#A5BEB4",
+    color: "#6B8F82",
     fontSize: 11,
     letterSpacing: "0.08em",
     marginBottom: 10,
@@ -1351,7 +1351,7 @@ const styles = {
     fontWeight: 600,
   },
   timerDisplay: {
-    color: "#CEE9DF",
+    color: "#23322D",
     fontSize: 48,
     fontWeight: 700,
     fontFamily: "'IBM Plex Mono', monospace",
@@ -1361,7 +1361,7 @@ const styles = {
   progressBarBg: {
     width: "100%",
     height: 6,
-    background: "rgba(206, 233, 223, 0.08)",
+    background: "#E0EDE8",
     borderRadius: 999,
     overflow: "hidden",
     marginBottom: 20,
@@ -1379,9 +1379,9 @@ const styles = {
     gap: 12,
   },
   timerControlBtn: {
-    background: "rgba(206, 233, 223, 0.04)",
-    border: "1px solid rgba(206, 233, 223, 0.12)",
-    color: "#CEE9DF",
+    background: "#FFFFFF",
+    border: "1px solid #C2DDD4",
+    color: "#23322D",
     width: 42,
     height: 42,
     borderRadius: "50%",
@@ -1415,7 +1415,7 @@ const styles = {
   quitBtn: {
     background: "transparent",
     border: "none",
-    color: "#A5BEB4",
+    color: "#6B8F82",
     fontSize: 13.5,
     fontFamily: "'Inter', sans-serif",
     cursor: "pointer",
@@ -1444,7 +1444,7 @@ const styles = {
     filter: "drop-shadow(0 15px 30px rgba(0,0,0,0.3))",
   },
   loaderTitle: {
-    color: "#CEE9DF",
+    color: "#23322D",
     fontSize: 22,
     fontWeight: 700,
     fontFamily: "'DM Sans', sans-serif",
@@ -1454,7 +1454,7 @@ const styles = {
   loaderBarBg: {
     width: 200,
     height: 6,
-    background: "rgba(206, 233, 223, 0.08)",
+    background: "#E0EDE8",
     borderRadius: 999,
     overflow: "hidden",
   },
