@@ -547,23 +547,23 @@ export default function TonightApp() {
   return (
     <div style={styles.page}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
         * { box-sizing: border-box; }
-        .tn-root { font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        .tn-root { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         .tn-mono { font-family: 'IBM Plex Mono', monospace; }
         .tn-chip {
           transition: transform .15s ease, background .15s ease, border-color .15s ease;
         }
         .tn-chip:active { transform: scale(0.96); }
         .tn-btn-primary { transition: transform .12s ease, box-shadow .12s ease; }
-        .tn-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(242,169,59,0.35); }
+        .tn-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(208,95,13,0.35); }
         .tn-btn-primary:active { transform: translateY(0); }
         .tn-card-enter {
-          animation: tnCardIn .5s cubic-bezier(.2,.8,.2,1) both;
+          animation: tnCardIn .4s cubic-bezier(.25, 1, .5, 1) both;
         }
         @keyframes tnCardIn {
-          0% { opacity: 0; transform: translateY(18px) rotate(-2deg) scale(.97); }
-          100% { opacity: 1; transform: translateY(0) rotate(-0.6deg) scale(1); }
+          0% { opacity: 0; transform: translateY(12px) scale(.98); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
         }
         .tn-pin {
           filter: drop-shadow(0 3px 4px rgba(0,0,0,0.35));
@@ -572,12 +572,12 @@ export default function TonightApp() {
           .tn-card-enter, .tn-btn-primary, .tn-chip { animation: none !important; transition: none !important; }
         }
         .tn-focus:focus-visible {
-          outline: 2px solid #F2A93B;
+          outline: 2px solid #0BE49B;
           outline-offset: 3px;
         }
         @keyframes tnAlarmPulse {
-          0% { border-color: rgba(201, 72, 46, 0.4); box-shadow: 0 0 10px rgba(201, 72, 46, 0.2); }
-          100% { border-color: rgba(201, 72, 46, 1); box-shadow: 0 0 25px rgba(201, 72, 46, 0.6); }
+          0% { border-color: rgba(208, 95, 13, 0.4); box-shadow: 0 0 10px rgba(208, 95, 13, 0.2); }
+          100% { border-color: rgba(208, 95, 13, 1); box-shadow: 0 0 25px rgba(208, 95, 13, 0.6); }
         }
         .tn-timer-alarm {
           animation: tnAlarmPulse 1s infinite alternate;
@@ -620,26 +620,26 @@ export default function TonightApp() {
                 <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
                 
                 {/* Body & Jacket */}
-                <rect x="46" y="65" width="8" height="10" fill="#F2A93B" rx="2" />
+                <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
                 <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
                 <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
                 <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
                 <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
                 <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
-                <path d="M 45 70 L 50 82 L 55 70 Z" fill="#EF4444" />
+                <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
                 
                 {/* Head */}
-                <rect x="32" y="38" width="36" height="28" rx="10" fill="#F2A93B" stroke="#D97706" strokeWidth="1" />
-                <rect x="28" y="47" width="4" height="10" rx="1" fill="#D97706" />
-                <rect x="68" y="47" width="4" height="10" rx="1" fill="#D97706" />
-                <rect x="37" y="43" width="26" height="18" rx="5" fill="#1E293B" />
+                <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
+                <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
+                <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
+                <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
                 
                 {/* Eyes */}
-                <path d="M 41 50 Q 45 46 49 50" fill="none" stroke="#38BDF8" strokeWidth="2.5" strokeLinecap="round" />
-                <path d="M 51 50 Q 55 46 59 50" fill="none" stroke="#38BDF8" strokeWidth="2.5" strokeLinecap="round" />
+                <path d="M 41 50 Q 45 46 49 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
+                <path d="M 51 50 Q 55 46 59 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
                 
                 {/* Mouth */}
-                <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
+                <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#0BE49B" strokeWidth="2" strokeLinecap="round" />
               </svg>
             </div>
             <h2 style={styles.loaderTitle}>Hi, I'm Elo, your Chef!</h2>
@@ -661,26 +661,26 @@ export default function TonightApp() {
                 <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
                 
                 {/* Body & Jacket */}
-                <rect x="46" y="65" width="8" height="10" fill="#F2A93B" rx="2" />
+                <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
                 <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
                 <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
                 <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
                 <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
                 <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
-                <path d="M 45 70 L 50 82 L 55 70 Z" fill="#EF4444" />
+                <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
                 
                 {/* Head */}
-                <rect x="32" y="38" width="36" height="28" rx="10" fill="#F2A93B" stroke="#D97706" strokeWidth="1" />
-                <rect x="28" y="47" width="4" height="10" rx="1" fill="#D97706" />
-                <rect x="68" y="47" width="4" height="10" rx="1" fill="#D97706" />
-                <rect x="37" y="43" width="26" height="18" rx="5" fill="#1E293B" />
+                <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
+                <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
+                <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
+                <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
                 
                 {/* Eyes (Glowing LEDs) */}
-                <circle cx="45" cy="51" r="2.5" fill="#38BDF8" />
-                <circle cx="55" cy="51" r="2.5" fill="#38BDF8" />
+                <circle cx="45" cy="51" r="2.5" fill="#0BE49B" />
+                <circle cx="55" cy="51" r="2.5" fill="#0BE49B" />
                 
                 {/* Mouth */}
-                <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
+                <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#0BE49B" strokeWidth="2" strokeLinecap="round" />
               </svg>
             </div>
             <h2 style={styles.loaderTitle}>Elo is scouting the web...</h2>
@@ -718,26 +718,26 @@ export default function TonightApp() {
                     <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
                     
                     {/* Body & Jacket */}
-                    <rect x="46" y="65" width="8" height="10" fill="#F2A93B" rx="2" />
+                    <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
                     <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
                     <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
                     <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
                     <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
                     <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
-                    <path d="M 45 70 L 50 82 L 55 70 Z" fill="#EF4444" />
+                    <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
                     
                     {/* Head */}
-                    <rect x="32" y="38" width="36" height="28" rx="10" fill="#F2A93B" stroke="#D97706" strokeWidth="1" />
-                    <rect x="28" y="47" width="4" height="10" rx="1" fill="#D97706" />
-                    <rect x="68" y="47" width="4" height="10" rx="1" fill="#D97706" />
-                    <rect x="37" y="43" width="26" height="18" rx="5" fill="#1E293B" />
+                    <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
+                    <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
+                    <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
+                    <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
                     
                     {/* Eyes */}
-                    <path d="M 41 50 Q 45 46 49 50" fill="none" stroke="#38BDF8" strokeWidth="2.5" strokeLinecap="round" />
-                    <path d="M 51 50 Q 55 46 59 50" fill="none" stroke="#38BDF8" strokeWidth="2.5" strokeLinecap="round" />
+                    <path d="M 41 50 Q 45 46 49 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
+                    <path d="M 51 50 Q 55 46 59 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
                     
                     {/* Mouth */}
-                    <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" />
+                    <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#0BE49B" strokeWidth="2" strokeLinecap="round" />
                   </svg>
                 </div>
                 <div style={styles.speechBubble}>
@@ -1020,7 +1020,7 @@ const styles = {
   page: {
     minHeight: "100%",
     width: "100%",
-    background: "radial-gradient(ellipse at 30% 0%, #1D2B24 0%, #14201C 55%, #101A16 100%)",
+    background: "linear-gradient(180deg, #23322D 0%, #151F1C 100%)",
     padding: "28px 16px 40px",
     display: "flex",
     justifyContent: "center",
@@ -1028,59 +1028,66 @@ const styles = {
   wrap: { width: "100%", maxWidth: 420 },
   header: { marginBottom: 26, textAlign: "left" },
   eyebrow: {
-    color: "#F2A93B",
+    color: "#0BE49B",
     fontSize: 11,
     letterSpacing: "0.14em",
     display: "flex",
     alignItems: "center",
     marginBottom: 8,
+    fontFamily: "'DM Sans', sans-serif",
   },
   h1: {
-    color: "#F3ECDB",
+    color: "#CEE9DF",
     fontSize: 34,
     fontWeight: 700,
     letterSpacing: "-0.02em",
     margin: 0,
     lineHeight: 1.1,
+    fontFamily: "'DM Sans', sans-serif",
   },
   askPanel: {},
   sectionTitle: {
-    color: "#7FA487",
-    fontSize: 10.5,
+    color: "#A5BEB4",
+    fontSize: 11,
     letterSpacing: "0.12em",
     marginBottom: 10,
+    fontFamily: "'DM Sans', sans-serif",
+    fontWeight: 500,
   },
   chipRow: { display: "flex", flexWrap: "wrap", gap: 8 },
   chip: {
-    background: "rgba(243,236,219,0.05)",
-    border: "1px solid rgba(243,236,219,0.16)",
-    color: "#DCD4BF",
+    background: "rgba(206, 233, 223, 0.05)",
+    border: "1px solid rgba(206, 233, 223, 0.18)",
+    color: "#CEE9DF",
     borderRadius: 999,
-    padding: "9px 15px",
+    padding: "9px 16px",
     fontSize: 13.5,
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     cursor: "pointer",
     display: "flex",
     alignItems: "center",
+    fontWeight: 500,
   },
   chipActive: {
-    background: "rgba(242,169,59,0.16)",
-    border: "1px solid #F2A93B",
-    color: "#F2A93B",
+    background: "#CEE9DF",
+    border: "1px solid #CEE9DF",
+    color: "#23322D",
+    fontWeight: 600,
   },
   decideBtn: {
     width: "100%",
     marginTop: 10,
-    background: "linear-gradient(180deg, #F5B44F 0%, #E89B29 100%)",
-    color: "#1B140A",
+    background: "#D05F0D",
+    color: "#FFF",
     border: "none",
-    borderRadius: 14,
-    padding: "17px 20px",
-    fontSize: 16.5,
+    borderRadius: 8,
+    padding: "16px 20px",
+    fontSize: 16,
     fontWeight: 700,
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     cursor: "pointer",
-    boxShadow: "0 6px 20px rgba(242,169,59,0.25)",
+    boxShadow: "0 6px 22px rgba(208, 95, 13, 0.35)",
+    transition: "transform 0.1s ease, box-shadow 0.1s ease",
   },
   revealPanel: { display: "flex", flexDirection: "column", alignItems: "center" },
   cardShell: {
@@ -1095,11 +1102,11 @@ const styles = {
     top: -10,
     left: "50%",
     transform: "translateX(-50%) rotate(8deg)",
-    color: "#C9482E",
+    color: "#D05F0D",
     zIndex: 2,
   },
   cardPaper: {
-    background: "#F3ECDB",
+    background: "#CEE9DF",
     borderRadius: "3px 3px 10px 10px",
     padding: "34px 26px 30px",
     boxShadow: "0 18px 40px rgba(0,0,0,0.4), 0 2px 0 rgba(0,0,0,0.05)",
@@ -1110,61 +1117,68 @@ const styles = {
     width: "100%",
     height: 180,
     objectFit: "cover",
-    borderRadius: 8,
-    marginBottom: 18,
-    border: "1px solid rgba(0,0,0,0.08)",
+    borderRadius: 12,
+    marginBottom: 16,
+    border: "1px solid rgba(4, 81, 55, 0.08)",
   },
   cardEyebrow: {
-    color: "#9B8B63",
+    color: "#045137",
     fontSize: 10.5,
     letterSpacing: "0.14em",
-    marginBottom: 10,
+    marginBottom: 8,
+    fontFamily: "'DM Sans', sans-serif",
+    fontWeight: 700,
   },
   cardName: {
-    color: "#14201C",
-    fontSize: 25,
+    color: "#23322D",
+    fontSize: 24,
     fontWeight: 700,
     letterSpacing: "-0.01em",
     lineHeight: 1.2,
-    marginBottom: 12,
+    marginBottom: 10,
+    fontFamily: "'DM Sans', sans-serif",
   },
   cardReason: {
-    color: "#43503F",
+    color: "#23322D",
     fontSize: 14.5,
     lineHeight: 1.5,
-    marginBottom: 18,
+    marginBottom: 16,
+    opacity: 0.85,
+    fontFamily: "'Inter', sans-serif",
   },
   cardTagRow: { display: "flex", flexWrap: "wrap", gap: 6 },
   cardTag: {
-    background: "rgba(20,32,28,0.08)",
-    color: "#43503F",
+    background: "rgba(4, 81, 55, 0.08)",
+    color: "#045137",
     borderRadius: 6,
-    padding: "4px 9px",
-    fontSize: 10.5,
-    letterSpacing: "0.04em",
+    padding: "4px 10px",
+    fontSize: 11,
+    fontFamily: "'Inter', sans-serif",
+    fontWeight: 600,
   },
   actionRow: { display: "flex", gap: 10, width: "100%", maxWidth: 340 },
   rejectBtn: {
     flex: 1,
     background: "transparent",
-    color: "#B8AF9A",
-    border: "1px solid rgba(243,236,219,0.2)",
-    borderRadius: 12,
+    color: "#A5BEB4",
+    border: "1px solid rgba(206, 233, 223, 0.2)",
+    borderRadius: 8,
     padding: "14px 10px",
     fontSize: 14.5,
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     cursor: "pointer",
+    fontWeight: 500,
   },
   acceptBtn: {
     flex: 1.4,
-    background: "#7FA487",
-    color: "#0F1B14",
+    background: "#045137",
+    color: "#FFF",
     border: "none",
-    borderRadius: 12,
+    borderRadius: 8,
     padding: "14px 10px",
     fontSize: 14.5,
     fontWeight: 600,
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -1172,10 +1186,11 @@ const styles = {
   },
   donePanel: { textAlign: "center", paddingTop: 30 },
   doneName: {
-    color: "#F3ECDB",
+    color: "#CEE9DF",
     fontSize: 26,
     fontWeight: 700,
     margin: "10px 0 8px",
+    fontFamily: "'DM Sans', sans-serif",
   },
   doneImage: {
     width: "100%",
@@ -1183,18 +1198,18 @@ const styles = {
     objectFit: "cover",
     borderRadius: 16,
     marginBottom: 20,
-    border: "1px solid rgba(243,236,219,0.12)",
+    border: "1px solid rgba(206, 233, 223, 0.12)",
     boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
   },
-  doneSub: { color: "#9AA69A", fontSize: 14, marginBottom: 22 },
+  doneSub: { color: "#A5BEB4", fontSize: 14, marginBottom: 22, fontFamily: "'Inter', sans-serif" },
   recipeBtn: {
-    background: "rgba(127,164,135,0.14)",
-    border: "1px solid rgba(127,164,135,0.4)",
-    color: "#7FA487",
-    borderRadius: 999,
-    padding: "11px 18px",
+    background: "#CEE9DF",
+    border: "none",
+    color: "#23322D",
+    borderRadius: 8,
+    padding: "12px 20px",
     fontSize: 13.5,
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     fontWeight: 600,
     cursor: "pointer",
     marginBottom: 26,
@@ -1202,35 +1217,40 @@ const styles = {
     alignItems: "center",
   },
   recipeBox: {
-    background: "rgba(243,236,219,0.04)",
-    border: "1px solid rgba(243,236,219,0.12)",
-    borderRadius: 14,
+    background: "rgba(206, 233, 223, 0.04)",
+    border: "1px solid rgba(206, 233, 223, 0.12)",
+    borderRadius: 12,
     padding: "22px 20px",
     textAlign: "left",
     marginBottom: 24,
   },
   recipeTime: {
-    color: "#F2A93B",
+    color: "#D05F0D",
     fontSize: 11,
     letterSpacing: "0.06em",
     marginBottom: 18,
     display: "flex",
     alignItems: "center",
+    fontFamily: "'Inter', sans-serif",
+    fontWeight: 600,
   },
   recipeLabel: {
-    color: "#7FA487",
-    fontSize: 10.5,
+    color: "#0BE49B",
+    fontSize: 11,
     letterSpacing: "0.12em",
     marginBottom: 10,
     marginTop: 18,
+    fontFamily: "'DM Sans', sans-serif",
+    fontWeight: 700,
   },
   ingList: { margin: 0, padding: 0, listStyle: "none" },
   ingItem: {
-    color: "#DCD4BF",
-    fontSize: 14,
+    color: "#CEE9DF",
+    fontSize: 14.5,
     lineHeight: 1.9,
     paddingLeft: 16,
     position: "relative",
+    fontFamily: "'Inter', sans-serif",
   },
   stepList: { margin: 0, padding: 0, listStyle: "none" },
   stepItem: {
@@ -1240,25 +1260,28 @@ const styles = {
     alignItems: "flex-start",
   },
   stepNum: {
-    color: "#F2A93B",
-    fontSize: 11.5,
+    color: "#0BE49B",
+    fontSize: 12,
     paddingTop: 2,
     flexShrink: 0,
+    fontFamily: "'IBM Plex Mono', monospace",
   },
   stepText: {
-    color: "#DCD4BF",
-    fontSize: 14,
+    color: "#CEE9DF",
+    fontSize: 14.5,
     lineHeight: 1.55,
+    fontFamily: "'Inter', sans-serif",
   },
   overBtn: {
-    background: "rgba(243,236,219,0.06)",
-    border: "1px solid rgba(243,236,219,0.18)",
-    color: "#DCD4BF",
-    borderRadius: 999,
+    background: "rgba(206, 233, 223, 0.06)",
+    border: "1px solid rgba(206, 233, 223, 0.18)",
+    color: "#CEE9DF",
+    borderRadius: 8,
     padding: "12px 20px",
     fontSize: 13.5,
-    fontFamily: "'IBM Plex Mono', monospace",
+    fontFamily: "'Inter', sans-serif",
     cursor: "pointer",
+    fontWeight: 500,
   },
   cookingPanel: {
     display: "flex",
@@ -1269,8 +1292,8 @@ const styles = {
   botCard: {
     display: "flex",
     gap: 16,
-    background: "rgba(243,236,219,0.03)",
-    border: "1px solid rgba(243,236,219,0.12)",
+    background: "rgba(206, 233, 223, 0.03)",
+    border: "1px solid rgba(206, 233, 223, 0.12)",
     borderRadius: 16,
     padding: 20,
     alignItems: "center",
@@ -1286,45 +1309,49 @@ const styles = {
   },
   speechBubble: {
     flex: 1,
-    background: "#F3ECDB",
+    background: "#CEE9DF",
     borderRadius: "12px 12px 12px 0px",
     padding: "14px 18px",
     position: "relative",
-    boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.25)",
   },
   speechTitle: {
-    color: "#9B8B63",
+    color: "#045137",
     fontSize: 9.5,
     letterSpacing: "0.1em",
     marginBottom: 6,
-    fontWeight: 600,
+    fontWeight: 700,
+    fontFamily: "'Inter', sans-serif",
   },
   speechText: {
-    color: "#14201C",
+    color: "#23322D",
     fontSize: 14.5,
     lineHeight: 1.45,
-    fontWeight: 500,
+    fontWeight: 600,
+    fontFamily: "'Inter', sans-serif",
   },
   timerBox: {
-    background: "rgba(20,32,28,0.4)",
-    border: "1px solid rgba(127,164,135,0.2)",
+    background: "rgba(4, 81, 55, 0.16)",
+    border: "1px solid rgba(11, 228, 155, 0.2)",
     borderRadius: 16,
     padding: "24px 20px",
     textAlign: "center",
     transition: "border-color 0.3s ease, box-shadow 0.3s ease",
   },
   timerAlarm: {
-    borderColor: "#C9482E",
-    boxShadow: "0 0 20px rgba(201, 72, 46, 0.4)",
+    borderColor: "#D05F0D",
+    boxShadow: "0 0 20px rgba(208, 95, 13, 0.4)",
   },
   stepIndicator: {
-    color: "#7FA487",
+    color: "#A5BEB4",
     fontSize: 11,
     letterSpacing: "0.08em",
     marginBottom: 10,
+    fontFamily: "'Inter', sans-serif",
+    fontWeight: 600,
   },
   timerDisplay: {
-    color: "#F3ECDB",
+    color: "#CEE9DF",
     fontSize: 48,
     fontWeight: 700,
     fontFamily: "'IBM Plex Mono', monospace",
@@ -1334,14 +1361,14 @@ const styles = {
   progressBarBg: {
     width: "100%",
     height: 6,
-    background: "rgba(243,236,219,0.08)",
+    background: "rgba(206, 233, 223, 0.08)",
     borderRadius: 999,
     overflow: "hidden",
     marginBottom: 20,
   },
   progressBarFill: {
     height: "100%",
-    background: "#F2A93B",
+    background: "#0BE49B",
     borderRadius: 999,
     transition: "width 1s linear",
   },
@@ -1352,9 +1379,9 @@ const styles = {
     gap: 12,
   },
   timerControlBtn: {
-    background: "rgba(243,236,219,0.04)",
-    border: "1px solid rgba(243,236,219,0.12)",
-    color: "#DCD4BF",
+    background: "rgba(206, 233, 223, 0.04)",
+    border: "1px solid rgba(206, 233, 223, 0.12)",
+    color: "#CEE9DF",
     width: 42,
     height: 42,
     borderRadius: "50%",
@@ -1365,9 +1392,9 @@ const styles = {
     transition: "background 0.2s ease, border-color 0.2s ease",
   },
   timerPlayBtn: {
-    background: "#7FA487",
+    background: "#0BE49B",
     border: "none",
-    color: "#101A16",
+    color: "#23322D",
     width: 48,
     height: 48,
     borderRadius: "50%",
@@ -1378,7 +1405,7 @@ const styles = {
     transition: "transform 0.15s ease, background 0.15s ease",
   },
   timerPlayBtnActive: {
-    background: "#F2A93B",
+    background: "#D05F0D",
   },
   cookingActions: {
     display: "flex",
@@ -1388,11 +1415,12 @@ const styles = {
   quitBtn: {
     background: "transparent",
     border: "none",
-    color: "#B8AF9A",
+    color: "#A5BEB4",
     fontSize: 13.5,
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Inter', sans-serif",
     cursor: "pointer",
     textDecoration: "underline",
+    fontWeight: 500,
   },
   loaderPage: {
     display: "flex",
@@ -1416,23 +1444,23 @@ const styles = {
     filter: "drop-shadow(0 15px 30px rgba(0,0,0,0.3))",
   },
   loaderTitle: {
-    color: "#F3ECDB",
+    color: "#CEE9DF",
     fontSize: 22,
     fontWeight: 700,
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'DM Sans', sans-serif",
     margin: "8px 0 16px",
     textAlign: "center",
   },
   loaderBarBg: {
     width: 200,
     height: 6,
-    background: "rgba(243,236,219,0.08)",
+    background: "rgba(206, 233, 223, 0.08)",
     borderRadius: 999,
     overflow: "hidden",
   },
   loaderBarFill: {
     height: "100%",
-    background: "linear-gradient(90deg, #F2A93B 0%, #F5B44F 100%)",
+    background: "linear-gradient(90deg, #0BE49B 0%, #CEE9DF 100%)",
     borderRadius: 999,
   },
 };
