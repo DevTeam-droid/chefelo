@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack } from "lucide-react";
+import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack, MoreVertical, Sparkles, Sliders } from "lucide-react";
 
 // ---------- Data ----------
 const MEALS = [
@@ -632,6 +632,7 @@ export default function TonightApp() {
     }
   });
   const [showPaywall, setShowPaywall] = useState(false);
+  const [showMenuDropdown, setShowMenuDropdown] = useState(false);
   const [hasUsedOnce, setHasUsedOnce] = useState(() => {
     try {
       return localStorage.getItem("elo_has_used_once") === "true";
@@ -1070,28 +1071,116 @@ export default function TonightApp() {
                   <ChefHat size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
                   {timeInfo.eyebrow}
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setShowPaywall(true)}
-                  className="tn-focus"
-                  style={{
-                    background: subStatus === "active" ? "#045137" : subStatus === "trialing" ? "#CEE9DF" : "#F5F9F7",
-                    color: subStatus === "active" ? "#FFFFFF" : "#045137",
-                    border: "1px solid #C2DDD4",
-                    borderRadius: 999,
-                    padding: "4px 10px",
-                    fontSize: 10.5,
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 4,
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    letterSpacing: "0.04em",
-                  }}
-                >
-                  {subStatus === "active" ? "★ PRO ACTIVE" : subStatus === "trialing" ? `★ TRIAL: ${trialDaysLeft}D LEFT` : "★ 7-DAY FREE TRIAL"}
-                </button>
+                {stage !== "health" && (
+                  <div style={{ position: "relative" }}>
+                    <button
+                      type="button"
+                      onClick={() => setShowMenuDropdown(!showMenuDropdown)}
+                      className="tn-focus"
+                      aria-label="Settings and options"
+                      style={{
+                        background: "#F5F9F7",
+                        border: "1px solid #C2DDD4",
+                        borderRadius: "50%",
+                        width: 32,
+                        height: 32,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#045137",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <MoreVertical size={16} />
+                    </button>
+
+                    {/* Options Dropdown Menu */}
+                    {showMenuDropdown && (
+                      <>
+                        <div
+                          style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 100 }}
+                          onClick={() => setShowMenuDropdown(false)}
+                        />
+                        <div
+                          className="tn-card-enter"
+                          style={{
+                            position: "absolute",
+                            top: 38,
+                            right: 0,
+                            background: "#FFFFFF",
+                            border: "1px solid #C2DDD4",
+                            borderRadius: 14,
+                            boxShadow: "0 8px 24px rgba(4, 81, 55, 0.12)",
+                            width: 210,
+                            zIndex: 101,
+                            padding: "6px 0",
+                            textAlign: "left",
+                          }}
+                        >
+                          <button
+                            onClick={() => {
+                              setShowMenuDropdown(false);
+                              setShowPaywall(true);
+                            }}
+                            className="tn-focus"
+                            style={{
+                              width: "100%",
+                              padding: "10px 14px",
+                              background: "none",
+                              border: "none",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 8,
+                              color: "#045137",
+                              fontSize: 13,
+                              fontWeight: 700,
+                              cursor: "pointer",
+                              fontFamily: "'Inter', sans-serif",
+                              textAlign: "left",
+                            }}
+                          >
+                            <Sparkles size={15} color="#D05F0D" />
+                            <span>
+                              {subStatus === "active"
+                                ? "Pro Subscription"
+                                : subStatus === "trialing"
+                                ? `Pro Trial (${trialDaysLeft}d left)`
+                                : "7-Day Free Trial"}
+                            </span>
+                          </button>
+
+                          <div style={{ height: 1, background: "#E8F3EE", margin: "4px 0" }} />
+
+                          <button
+                            onClick={() => {
+                              setShowMenuDropdown(false);
+                              setStage("health");
+                            }}
+                            className="tn-focus"
+                            style={{
+                              width: "100%",
+                              padding: "10px 14px",
+                              background: "none",
+                              border: "none",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 8,
+                              color: "#23322D",
+                              fontSize: 13,
+                              fontWeight: 500,
+                              cursor: "pointer",
+                              fontFamily: "'Inter', sans-serif",
+                              textAlign: "left",
+                            }}
+                          >
+                            <Sliders size={14} color="#6B8F82" />
+                            <span>Dietary & Allergies</span>
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
               <h1 style={styles.h1}>{timeInfo.title}</h1>
             </header>
