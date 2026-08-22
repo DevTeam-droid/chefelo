@@ -601,6 +601,65 @@ export default function TonightApp() {
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
 
+  // ---------- Paywall & Subscription State ----------
+  const [subStatus, setSubStatus] = useState(() => {
+    try {
+      return localStorage.getItem("elo_sub_status") || "none";
+    } catch {
+      return "none";
+    }
+  }); // "none" | "trialing" | "active"
+  const [trialStartDate, setTrialStartDate] = useState(() => {
+    try {
+      return localStorage.getItem("elo_trial_start") || null;
+    } catch {
+      return null;
+    }
+  });
+  const [selectedPlan, setSelectedPlan] = useState(() => {
+    try {
+      return localStorage.getItem("elo_selected_plan") || "annual";
+    } catch {
+      return "annual";
+    }
+  }); // "annual" | "monthly"
+  const [reminderEnabled, setReminderEnabled] = useState(() => {
+    try {
+      const saved = localStorage.getItem("elo_reminder_enabled");
+      return saved !== null ? saved === "true" : true;
+    } catch {
+      return true;
+    }
+  });
+  const [showPaywall, setShowPaywall] = useState(false);
+
+  const getTrialDaysRemaining = (start) => {
+    if (!start) return 7;
+    const diffMs = Date.now() - new Date(start).getTime();
+    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    return Math.max(0, 7 - days);
+  };
+
+  const trialDaysLeft = getTrialDaysRemaining(trialStartDate);
+
+  const startFreeTrial = (planToUse = selectedPlan) => {
+    const now = new Date().toISOString();
+    setSubStatus("trialing");
+    setTrialStartDate(now);
+    setSelectedPlan(planToUse);
+    try {
+      localStorage.setItem("elo_sub_status", "trialing");
+      localStorage.setItem("elo_trial_start", now);
+      localStorage.setItem("elo_selected_plan", planToUse);
+      localStorage.setItem("elo_reminder_enabled", reminderEnabled ? "true" : "false");
+    } catch {}
+
+    if (reminderEnabled && typeof Notification !== "undefined" && Notification.permission === "default") {
+      Notification.requestPermission().catch(() => {});
+    }
+    setShowPaywall(false);
+  };
+
   const currentRecipe = current?.recipe || (current ? RECIPES[current.id] : null);
 
   useEffect(() => {
@@ -937,9 +996,33 @@ export default function TonightApp() {
         <div className="tn-root" style={styles.wrap}>
           {!isCooking && (
             <header style={styles.header}>
-              <div className="tn-mono" style={styles.eyebrow}>
-                <ChefHat size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
-                {timeInfo.eyebrow}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                <div className="tn-mono" style={{ ...styles.eyebrow, marginBottom: 0 }}>
+                  <ChefHat size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
+                  {timeInfo.eyebrow}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowPaywall(true)}
+                  className="tn-focus"
+                  style={{
+                    background: subStatus === "active" ? "#045137" : subStatus === "trialing" ? "#CEE9DF" : "#F5F9F7",
+                    color: subStatus === "active" ? "#FFFFFF" : "#045137",
+                    border: "1px solid #C2DDD4",
+                    borderRadius: 999,
+                    padding: "4px 10px",
+                    fontSize: 10.5,
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 4,
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  {subStatus === "active" ? "★ PRO ACTIVE" : subStatus === "trialing" ? `★ TRIAL: ${trialDaysLeft}D LEFT` : "★ 7-DAY FREE TRIAL"}
+                </button>
               </div>
               <h1 style={styles.h1}>{timeInfo.title}</h1>
             </header>
@@ -1382,6 +1465,307 @@ export default function TonightApp() {
               >
                 Maybe later
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 7-Day Free Trial Paywall Modal */}
+      {showPaywall && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(35, 50, 45, 0.7)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+          zIndex: 99999,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "16px 14px",
+          overflowY: "auto",
+        }} className="tn-card-enter">
+          <div style={{
+            background: "#FFFFFF",
+            borderRadius: 22,
+            border: "1px solid #C2DDD4",
+            padding: "24px 20px 22px",
+            maxWidth: 400,
+            width: "100%",
+            textAlign: "center",
+            position: "relative",
+            maxHeight: "92vh",
+            overflowY: "auto",
+          }}>
+            {/* Close Button */}
+            <button
+              onClick={() => setShowPaywall(false)}
+              aria-label="Close"
+              className="tn-focus"
+              style={{
+                position: "absolute",
+                top: 14,
+                right: 14,
+                background: "#F5F9F7",
+                border: "1px solid #C2DDD4",
+                borderRadius: "50%",
+                width: 32,
+                height: 32,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#6B8F82",
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 700,
+              }}
+            >
+              ✕
+            </button>
+
+            {/* Header Badge */}
+            <div style={{
+              width: 58,
+              height: 58,
+              borderRadius: 16,
+              background: "#23322D",
+              margin: "0 auto 12px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden",
+              padding: 4,
+            }}>
+              <img src="/favicon.svg" alt="Chef Elo" style={{ width: "100%", height: "100%" }} />
+            </div>
+
+            <div className="tn-mono" style={{ fontSize: 11, color: "#045137", letterSpacing: "0.12em", fontWeight: 700, marginBottom: 4 }}>
+              CHEF ELO PRO
+            </div>
+            <h2 style={{ color: "#23322D", fontSize: 23, fontWeight: 700, margin: "0 0 6px", fontFamily: "'DM Sans', sans-serif", letterSpacing: "-0.01em" }}>
+              Decide what to eat in seconds.
+            </h2>
+            <p style={{ color: "#6B8F82", fontSize: 13.5, margin: "0 0 16px", fontFamily: "'Inter', sans-serif" }}>
+              Unlimited recipe discovery, allergy protection & smart cooking timers.
+            </p>
+
+            {/* 3-Step Transparent Timeline */}
+            <div style={{
+              background: "#F5F9F7",
+              border: "1px solid #C2DDD4",
+              borderRadius: 14,
+              padding: "14px 14px",
+              marginBottom: 16,
+              textAlign: "left",
+            }}>
+              <div className="tn-mono" style={{ fontSize: 10.5, color: "#045137", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 10 }}>
+                HOW YOUR 7-DAY TRIAL WORKS:
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <div style={{ background: "#045137", color: "#FFF", borderRadius: "50%", width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>
+                    1
+                  </div>
+                  <div>
+                    <div style={{ color: "#23322D", fontSize: 12.5, fontWeight: 700, fontFamily: "'Inter', sans-serif" }}>
+                      Today: Free Trial Starts
+                    </div>
+                    <div style={{ color: "#6B8F82", fontSize: 11.5, lineHeight: 1.4, fontFamily: "'Inter', sans-serif" }}>
+                      Instant access to all Pro features. You will not be charged today ($0.00).
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <div style={{ background: "#D05F0D", color: "#FFF", borderRadius: "50%", width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>
+                    🔔
+                  </div>
+                  <div>
+                    <div style={{ color: "#23322D", fontSize: 12.5, fontWeight: 700, fontFamily: "'Inter', sans-serif" }}>
+                      Day 5: Friendly Reminder Notification
+                    </div>
+                    <div style={{ color: "#6B8F82", fontSize: 11.5, lineHeight: 1.4, fontFamily: "'Inter', sans-serif" }}>
+                      We notify you 2 days before your trial ends so you can cancel if needed.
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <div style={{ background: "#23322D", color: "#FFF", borderRadius: "50%", width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>
+                    3
+                  </div>
+                  <div>
+                    <div style={{ color: "#23322D", fontSize: 12.5, fontWeight: 700, fontFamily: "'Inter', sans-serif" }}>
+                      Day 7: Subscription Begins
+                    </div>
+                    <div style={{ color: "#6B8F82", fontSize: 11.5, lineHeight: 1.4, fontFamily: "'Inter', sans-serif" }}>
+                      {selectedPlan === "annual" ? "Billed $29.99/year (~$2.50/mo)." : "Billed $4.99/month."} Cancel anytime with 1 tap.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Plan Selection Cards */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 14 }}>
+              {/* Annual Plan (Default) */}
+              <div
+                onClick={() => setSelectedPlan("annual")}
+                style={{
+                  border: selectedPlan === "annual" ? "2px solid #045137" : "1px solid #C2DDD4",
+                  background: selectedPlan === "annual" ? "#E8F5F0" : "#FFFFFF",
+                  borderRadius: 12,
+                  padding: "12px 14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  cursor: "pointer",
+                  position: "relative",
+                  textAlign: "left",
+                  transition: "all 0.15s ease",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{
+                    width: 18,
+                    height: 18,
+                    borderRadius: "50%",
+                    border: selectedPlan === "annual" ? "5px solid #045137" : "2px solid #C2DDD4",
+                    background: "#FFF",
+                  }} />
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ color: "#23322D", fontSize: 14, fontWeight: 700, fontFamily: "'Inter', sans-serif" }}>
+                        Annual Plan
+                      </span>
+                      <span style={{
+                        background: "#D05F0D",
+                        color: "#FFFFFF",
+                        fontSize: 9.5,
+                        fontWeight: 700,
+                        padding: "2px 6px",
+                        borderRadius: 4,
+                        fontFamily: "'IBM Plex Mono', monospace",
+                      }}>
+                        SAVE 50%
+                      </span>
+                    </div>
+                    <div style={{ color: "#6B8F82", fontSize: 11.5, fontFamily: "'Inter', sans-serif", marginTop: 2 }}>
+                      $29.99 / year · works out to <strong>~$2.50 / mo</strong>
+                    </div>
+                  </div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ color: "#045137", fontSize: 16, fontWeight: 700, fontFamily: "'DM Sans', sans-serif" }}>
+                    $2.50<span style={{ fontSize: 11, fontWeight: 500 }}>/mo</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Monthly Plan */}
+              <div
+                onClick={() => setSelectedPlan("monthly")}
+                style={{
+                  border: selectedPlan === "monthly" ? "2px solid #045137" : "1px solid #C2DDD4",
+                  background: selectedPlan === "monthly" ? "#E8F5F0" : "#FFFFFF",
+                  borderRadius: 12,
+                  padding: "12px 14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  cursor: "pointer",
+                  position: "relative",
+                  textAlign: "left",
+                  transition: "all 0.15s ease",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{
+                    width: 18,
+                    height: 18,
+                    borderRadius: "50%",
+                    border: selectedPlan === "monthly" ? "5px solid #045137" : "2px solid #C2DDD4",
+                    background: "#FFF",
+                  }} />
+                  <div>
+                    <div style={{ color: "#23322D", fontSize: 14, fontWeight: 700, fontFamily: "'Inter', sans-serif" }}>
+                      Monthly Plan
+                    </div>
+                    <div style={{ color: "#6B8F82", fontSize: 11.5, fontFamily: "'Inter', sans-serif", marginTop: 2 }}>
+                      Standard monthly billing
+                    </div>
+                  </div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ color: "#23322D", fontSize: 16, fontWeight: 700, fontFamily: "'DM Sans', sans-serif" }}>
+                    $4.99<span style={{ fontSize: 11, fontWeight: 500 }}>/mo</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Reminder Opt-In Checkbox */}
+            <label style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              justifyContent: "center",
+              cursor: "pointer",
+              marginBottom: 16,
+              fontSize: 12.5,
+              color: "#23322D",
+              fontFamily: "'Inter', sans-serif",
+            }}>
+              <input
+                type="checkbox"
+                checked={reminderEnabled}
+                onChange={(e) => setReminderEnabled(e.target.checked)}
+                style={{ accentColor: "#045137", width: 16, height: 16, cursor: "pointer" }}
+              />
+              <span>🔔 Send me a reminder on <strong>Day 5</strong> before trial ends</span>
+            </label>
+
+            {/* CTA Button */}
+            <button
+              className="tn-focus"
+              style={{
+                ...styles.decideBtn,
+                marginTop: 0,
+                boxShadow: "none",
+                padding: "15px 20px",
+                fontSize: 15.5,
+                fontWeight: 700,
+                width: "100%",
+                background: "#045137",
+                color: "#FFFFFF",
+              }}
+              onClick={() => startFreeTrial(selectedPlan)}
+            >
+              Start 7-Day Free Trial
+            </button>
+
+            {/* Microcopy Under Button */}
+            <p style={{ color: "#6B8F82", fontSize: 11.5, margin: "8px 0 14px", fontFamily: "'Inter', sans-serif" }}>
+              {selectedPlan === "annual" ? "Then $29.99/year (~$2.50/mo) after 7 days." : "Then $4.99/month after 7 days."} Cancel anytime.
+            </p>
+
+            {/* Legal / Policy Links */}
+            <div style={{ display: "flex", justifyContent: "center", gap: 14, fontSize: 11, color: "#6B8F82", fontFamily: "'Inter', sans-serif" }}>
+              <span style={{ cursor: "pointer", textDecoration: "underline" }} onClick={() => alert("All purchases are up to date.")}>
+                Restore Purchases
+              </span>
+              <span>·</span>
+              <span style={{ cursor: "pointer", textDecoration: "underline" }} onClick={() => alert("Terms of Service: Standard subscription terms apply. Cancel anytime in your account.")}>
+                Terms
+              </span>
+              <span>·</span>
+              <span style={{ cursor: "pointer", textDecoration: "underline" }} onClick={() => alert("Privacy Policy: Your dietary preferences and meal history remain private on your device.")}>
+                Privacy
+              </span>
             </div>
           </div>
         </div>
