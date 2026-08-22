@@ -145,37 +145,6 @@ function ChefBotAvatar({ style, isScouting = false }) {
   );
 }
 
-// ---------- Head of Chef Bot with Soft Shadow ----------
-function ChefBotHead({ style, size = 68 }) {
-  return (
-    <svg viewBox="0 0 100 100" style={{ width: size, height: size, filter: "drop-shadow(0 4px 10px rgba(0, 0, 0, 0.10))", ...style }}>
-      {/* White Chef Hat */}
-      <path d="M 22 46 C 22 18, 78 18, 78 46 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.8" />
-      <circle cx="36" cy="27" r="14" fill="#FFFFFF" />
-      <circle cx="50" cy="20" r="16" fill="#FFFFFF" />
-      <circle cx="64" cy="27" r="14" fill="#FFFFFF" />
-      <rect x="26" y="40" width="48" height="10" rx="3" fill="#E2E8F0" />
-
-      {/* Ear Bolts (Charcoal) */}
-      <rect x="18" y="62" width="6" height="14" rx="2" fill="#23322D" />
-      <rect x="76" y="62" width="6" height="14" rx="2" fill="#23322D" />
-
-      {/* Head (Pure White, No Green) */}
-      <rect x="23" y="50" width="54" height="40" rx="14" fill="#FFFFFF" />
-      
-      {/* Face Screen */}
-      <rect x="29" y="56" width="42" height="28" rx="8" fill="#23322D" />
-      
-      {/* Glowing Neon Eyes */}
-      <path d="M 35 68 Q 41 62 47 68" fill="none" stroke="#0BE49B" strokeWidth="3" strokeLinecap="round" />
-      <path d="M 53 68 Q 59 62 65 68" fill="none" stroke="#0BE49B" strokeWidth="3" strokeLinecap="round" />
-      
-      {/* Glowing Neon Mouth */}
-      <path d="M 43 76 Q 50 82 57 76" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 // ---------- Reusable Chef Bot at Dining Table ----------
 function ChefBotDiningTable({ style }) {
   return (
@@ -1324,7 +1293,7 @@ export default function TonightApp() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: "rgba(0, 0, 0, 0.5)",
+          background: "rgba(35, 50, 45, 0.65)",
           backdropFilter: "blur(6px)",
           WebkitBackdropFilter: "blur(6px)",
           zIndex: 99999,
@@ -1336,30 +1305,31 @@ export default function TonightApp() {
           <div style={{
             background: "#FFFFFF",
             borderRadius: 20,
-            border: "none",
-            boxShadow: "0 20px 48px rgba(0, 0, 0, 0.16), 0 4px 12px rgba(0, 0, 0, 0.06)",
+            border: "1px solid #C2DDD4",
             padding: "30px 24px 26px",
             maxWidth: 360,
             width: "100%",
             textAlign: "center",
+            boxShadow: "none",
             position: "relative",
           }}>
-            {/* Chef Bot Head with slight shadow on clean white background */}
+            {/* Chef Bot Head Icon Badge */}
             <div style={{
-              width: 80,
-              height: 80,
-              borderRadius: 22,
-              background: "#FFFFFF",
+              width: 72,
+              height: 72,
+              borderRadius: 18,
+              background: "#23322D",
               margin: "0 auto 16px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              boxShadow: "0 6px 18px rgba(0, 0, 0, 0.08)",
+              overflow: "hidden",
+              padding: 6,
             }}>
-              <ChefBotHead size={66} />
+              <img src="/favicon.svg" alt="Chef Elo" style={{ width: "100%", height: "100%" }} />
             </div>
 
-            <div className="tn-mono" style={{ fontSize: 11, color: "#64748B", letterSpacing: "0.1em", fontWeight: 700, marginBottom: 6 }}>
+            <div className="tn-mono" style={{ fontSize: 11, color: "#045137", letterSpacing: "0.1em", fontWeight: 700, marginBottom: 6 }}>
               APP INSTALLATION
             </div>
             <h2 style={{ color: "#23322D", fontSize: 22, fontWeight: 700, margin: "0 0 10px", fontFamily: "'DM Sans', sans-serif" }}>
@@ -1367,7 +1337,7 @@ export default function TonightApp() {
             </h2>
 
             {isIOS ? (
-              <div style={{ background: "#F8FAFC", border: "none", boxShadow: "0 2px 8px rgba(0,0,0,0.04)", borderRadius: 12, padding: "14px 16px", margin: "14px 0 20px", textAlign: "left" }}>
+              <div style={{ background: "#F3FAF7", border: "1px solid #C2DDD4", borderRadius: 12, padding: "14px 16px", margin: "14px 0 20px", textAlign: "left" }}>
                 <p style={{ color: "#23322D", fontSize: 13.5, lineHeight: 1.5, margin: 0, fontFamily: "'Inter', sans-serif" }}>
                   To add to your home screen:
                 </p>
