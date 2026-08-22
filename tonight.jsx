@@ -986,7 +986,7 @@ export default function TonightApp() {
                   {current.image && (
                     <img src={current.image} alt={current.name} style={styles.doneImage} />
                   )}
-                  <p style={styles.doneSub}>One less thing tonight.</p>
+                  <p style={styles.doneSub}>Something amazing</p>
 
                   {!showRecipe && currentRecipe && (
                     <button className="tn-focus" style={styles.recipeBtn} onClick={() => setShowRecipe(true)}>
