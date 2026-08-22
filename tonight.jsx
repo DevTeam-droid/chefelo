@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack, MoreVertical, Sparkles, Sliders } from "lucide-react";
+import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack } from "lucide-react";
 
 // ---------- Data ----------
 const MEALS = [
@@ -623,32 +623,30 @@ export default function TonightApp() {
       return "annual";
     }
   }); // "annual" | "monthly"
-  const [reminderEnabled, setReminderEnabled] = useState(() => {
-    try {
-      const saved = localStorage.getItem("elo_reminder_enabled");
-      return saved !== null ? saved === "true" : true;
-    } catch {
-      return true;
-    }
-  });
   const [showPaywall, setShowPaywall] = useState(false);
-  const [showMenuDropdown, setShowMenuDropdown] = useState(false);
-  const [hasUsedOnce, setHasUsedOnce] = useState(() => {
+
+  // 24-Hour Device Clock Tracker
+  const [firstOpenTime] = useState(() => {
     try {
-      return localStorage.getItem("elo_has_used_once") === "true";
+      let saved = localStorage.getItem("elo_first_open_time");
+      if (!saved) {
+        saved = Date.now().toString();
+        localStorage.setItem("elo_first_open_time", saved);
+      }
+      return parseInt(saved, 10);
     } catch {
-      return false;
+      return Date.now();
     }
   });
 
-  const getTrialDaysRemaining = (start) => {
-    if (!start) return 7;
-    const diffMs = Date.now() - new Date(start).getTime();
-    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    return Math.max(0, 7 - days);
-  };
+  const is24HoursPassed = Date.now() - firstOpenTime >= 24 * 60 * 60 * 1000;
 
-  const trialDaysLeft = getTrialDaysRemaining(trialStartDate);
+  useEffect(() => {
+    // If 24 hours have passed on device and user hasn't activated trial, trigger mandatory paywall
+    if (is24HoursPassed && subStatus === "none") {
+      setShowPaywall(true);
+    }
+  }, [is24HoursPassed, subStatus]);
 
   const startFreeTrial = (planToUse = selectedPlan) => {
     const amount = planToUse === "annual" ? 29.99 : 4.99;
@@ -683,13 +681,9 @@ export default function TonightApp() {
             localStorage.setItem("elo_sub_status", "trialing");
             localStorage.setItem("elo_trial_start", now);
             localStorage.setItem("elo_selected_plan", planToUse);
-            localStorage.setItem("elo_reminder_enabled", reminderEnabled ? "true" : "false");
             localStorage.setItem("elo_flw_tx", data.transaction_id || data.tx_ref || "verified");
           } catch {}
 
-          if (reminderEnabled && typeof Notification !== "undefined" && Notification.permission === "default") {
-            Notification.requestPermission().catch(() => {});
-          }
           setShowPaywall(false);
         },
         onclose: function() {}
@@ -704,7 +698,6 @@ export default function TonightApp() {
         localStorage.setItem("elo_sub_status", "trialing");
         localStorage.setItem("elo_trial_start", now);
         localStorage.setItem("elo_selected_plan", planToUse);
-        localStorage.setItem("elo_reminder_enabled", reminderEnabled ? "true" : "false");
       } catch {}
       setShowPaywall(false);
     }
@@ -866,8 +859,8 @@ export default function TonightApp() {
   };
 
   const decide = async () => {
-    // If user has already used the app once and is not subscribed/trialing, require trial activation
-    if (hasUsedOnce && subStatus === "none") {
+    // If 24 hours have passed on device or trial expired, block app and enforce paywall
+    if (is24HoursPassed && subStatus === "none") {
       setShowPaywall(true);
       return;
     }
@@ -1066,121 +1059,9 @@ export default function TonightApp() {
         <div className="tn-root" style={styles.wrap}>
           {!isCooking && (
             <header style={styles.header}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                <div className="tn-mono" style={{ ...styles.eyebrow, marginBottom: 0 }}>
-                  <ChefHat size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
-                  {timeInfo.eyebrow}
-                </div>
-                {stage !== "health" && (
-                  <div style={{ position: "relative" }}>
-                    <button
-                      type="button"
-                      onClick={() => setShowMenuDropdown(!showMenuDropdown)}
-                      className="tn-focus"
-                      aria-label="Settings and options"
-                      style={{
-                        background: "#F5F9F7",
-                        border: "1px solid #C2DDD4",
-                        borderRadius: "50%",
-                        width: 32,
-                        height: 32,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        color: "#045137",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <MoreVertical size={16} />
-                    </button>
-
-                    {/* Options Dropdown Menu */}
-                    {showMenuDropdown && (
-                      <>
-                        <div
-                          style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 100 }}
-                          onClick={() => setShowMenuDropdown(false)}
-                        />
-                        <div
-                          className="tn-card-enter"
-                          style={{
-                            position: "absolute",
-                            top: 38,
-                            right: 0,
-                            background: "#FFFFFF",
-                            border: "1px solid #C2DDD4",
-                            borderRadius: 14,
-                            boxShadow: "0 8px 24px rgba(4, 81, 55, 0.12)",
-                            width: 210,
-                            zIndex: 101,
-                            padding: "6px 0",
-                            textAlign: "left",
-                          }}
-                        >
-                          <button
-                            onClick={() => {
-                              setShowMenuDropdown(false);
-                              setShowPaywall(true);
-                            }}
-                            className="tn-focus"
-                            style={{
-                              width: "100%",
-                              padding: "10px 14px",
-                              background: "none",
-                              border: "none",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 8,
-                              color: "#045137",
-                              fontSize: 13,
-                              fontWeight: 700,
-                              cursor: "pointer",
-                              fontFamily: "'Inter', sans-serif",
-                              textAlign: "left",
-                            }}
-                          >
-                            <Sparkles size={15} color="#D05F0D" />
-                            <span>
-                              {subStatus === "active"
-                                ? "Pro Subscription"
-                                : subStatus === "trialing"
-                                ? `Pro Trial (${trialDaysLeft}d left)`
-                                : "7-Day Free Trial"}
-                            </span>
-                          </button>
-
-                          <div style={{ height: 1, background: "#E8F3EE", margin: "4px 0" }} />
-
-                          <button
-                            onClick={() => {
-                              setShowMenuDropdown(false);
-                              setStage("health");
-                            }}
-                            className="tn-focus"
-                            style={{
-                              width: "100%",
-                              padding: "10px 14px",
-                              background: "none",
-                              border: "none",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: 8,
-                              color: "#23322D",
-                              fontSize: 13,
-                              fontWeight: 500,
-                              cursor: "pointer",
-                              fontFamily: "'Inter', sans-serif",
-                              textAlign: "left",
-                            }}
-                          >
-                            <Sliders size={14} color="#6B8F82" />
-                            <span>Dietary & Allergies</span>
-                          </button>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                )}
+              <div className="tn-mono" style={styles.eyebrow}>
+                <ChefHat size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
+                {timeInfo.eyebrow}
               </div>
               <h1 style={styles.h1}>{timeInfo.title}</h1>
             </header>
@@ -1413,10 +1294,7 @@ export default function TonightApp() {
                     <button className="tn-focus" style={styles.rejectBtn} onClick={notThis}>
                       Not this one
                     </button>
-                    <button className="tn-focus" style={styles.acceptBtn} onClick={() => {
-                      setStage("done");
-                      markFirstUseAndCheckPaywall();
-                    }}>
+                    <button className="tn-focus" style={styles.acceptBtn} onClick={() => setStage("done")}>
                       <Check size={16} style={{ marginRight: 6, verticalAlign: "-3px" }} />
                       Doing this
                     </button>
@@ -1639,7 +1517,7 @@ export default function TonightApp() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: "rgba(35, 50, 45, 0.7)",
+          background: "rgba(35, 50, 45, 0.8)",
           backdropFilter: "blur(8px)",
           WebkitBackdropFilter: "blur(8px)",
           zIndex: 99999,
@@ -1653,7 +1531,7 @@ export default function TonightApp() {
             background: "#FFFFFF",
             borderRadius: 22,
             border: "1px solid #C2DDD4",
-            padding: "24px 20px 22px",
+            padding: "26px 20px 22px",
             maxWidth: 400,
             width: "100%",
             textAlign: "center",
@@ -1661,31 +1539,33 @@ export default function TonightApp() {
             maxHeight: "92vh",
             overflowY: "auto",
           }}>
-            {/* Close Button */}
-            <button
-              onClick={() => setShowPaywall(false)}
-              aria-label="Close"
-              className="tn-focus"
-              style={{
-                position: "absolute",
-                top: 14,
-                right: 14,
-                background: "#F5F9F7",
-                border: "1px solid #C2DDD4",
-                borderRadius: "50%",
-                width: 32,
-                height: 32,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#6B8F82",
-                cursor: "pointer",
-                fontSize: 14,
-                fontWeight: 700,
-              }}
-            >
-              ✕
-            </button>
+            {/* Close Button - Only visible if 24 hours have not yet locked the app */}
+            {!is24HoursPassed && (
+              <button
+                onClick={() => setShowPaywall(false)}
+                aria-label="Close"
+                className="tn-focus"
+                style={{
+                  position: "absolute",
+                  top: 14,
+                  right: 14,
+                  background: "#F5F9F7",
+                  border: "1px solid #C2DDD4",
+                  borderRadius: "50%",
+                  width: 32,
+                  height: 32,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#6B8F82",
+                  cursor: "pointer",
+                  fontSize: 14,
+                  fontWeight: 700,
+                }}
+              >
+                ✕
+              </button>
+            )}
 
             {/* Header Badge */}
             <div style={{
@@ -1707,13 +1587,13 @@ export default function TonightApp() {
               CHEF ELO PRO
             </div>
             <h2 style={{ color: "#23322D", fontSize: 23, fontWeight: 700, margin: "0 0 6px", fontFamily: "'DM Sans', sans-serif", letterSpacing: "-0.01em" }}>
-              Decide what to eat in seconds.
+              Unlock Unlimited Cooking
             </h2>
             <p style={{ color: "#6B8F82", fontSize: 13.5, margin: "0 0 16px", fontFamily: "'Inter', sans-serif" }}>
-              Unlimited recipe discovery, allergy protection & smart cooking timers.
+              Activate your 7-day free trial to continue using Chef Elo.
             </p>
 
-            {/* 3-Step Transparent Timeline */}
+            {/* Transparent Trial Flow */}
             <div style={{
               background: "#F5F9F7",
               border: "1px solid #C2DDD4",
@@ -1723,7 +1603,7 @@ export default function TonightApp() {
               textAlign: "left",
             }}>
               <div className="tn-mono" style={{ fontSize: 10.5, color: "#045137", letterSpacing: "0.08em", fontWeight: 700, marginBottom: 10 }}>
-                HOW YOUR 7-DAY TRIAL WORKS:
+                YOUR 7-DAY TRIAL TIMELINE:
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -1733,38 +1613,24 @@ export default function TonightApp() {
                   </div>
                   <div>
                     <div style={{ color: "#23322D", fontSize: 12.5, fontWeight: 700, fontFamily: "'Inter', sans-serif" }}>
-                      Today: Free Trial Starts
+                      Today: Free Trial Starts ($0.00)
                     </div>
                     <div style={{ color: "#6B8F82", fontSize: 11.5, lineHeight: 1.4, fontFamily: "'Inter', sans-serif" }}>
-                      Instant access to all Pro features. You will not be charged today ($0.00).
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                  <div style={{ background: "#D05F0D", color: "#FFF", borderRadius: "50%", width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>
-                    🔔
-                  </div>
-                  <div>
-                    <div style={{ color: "#23322D", fontSize: 12.5, fontWeight: 700, fontFamily: "'Inter', sans-serif" }}>
-                      Day 5: Friendly Reminder Notification
-                    </div>
-                    <div style={{ color: "#6B8F82", fontSize: 11.5, lineHeight: 1.4, fontFamily: "'Inter', sans-serif" }}>
-                      We notify you 2 days before your trial ends so you can cancel if needed.
+                      Instant full access to all features. You will not be charged today.
                     </div>
                   </div>
                 </div>
 
                 <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                   <div style={{ background: "#23322D", color: "#FFF", borderRadius: "50%", width: 20, height: 20, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>
-                    3
+                    2
                   </div>
                   <div>
                     <div style={{ color: "#23322D", fontSize: 12.5, fontWeight: 700, fontFamily: "'Inter', sans-serif" }}>
-                      Day 7: Subscription Begins
+                      Day 7: Automatic Billing Begins
                     </div>
                     <div style={{ color: "#6B8F82", fontSize: 11.5, lineHeight: 1.4, fontFamily: "'Inter', sans-serif" }}>
-                      {selectedPlan === "annual" ? "Billed $29.99/year (~$2.50/mo)." : "Billed $4.99/month."} Cancel anytime with 1 tap.
+                      After 7 days, your card is automatically billed {selectedPlan === "annual" ? "$29.99/year (~$2.50/mo)" : "$4.99/month"}.
                     </div>
                   </div>
                 </div>
@@ -1869,27 +1735,6 @@ export default function TonightApp() {
               </div>
             </div>
 
-            {/* Reminder Opt-In Checkbox */}
-            <label style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              justifyContent: "center",
-              cursor: "pointer",
-              marginBottom: 16,
-              fontSize: 12.5,
-              color: "#23322D",
-              fontFamily: "'Inter', sans-serif",
-            }}>
-              <input
-                type="checkbox"
-                checked={reminderEnabled}
-                onChange={(e) => setReminderEnabled(e.target.checked)}
-                style={{ accentColor: "#045137", width: 16, height: 16, cursor: "pointer" }}
-              />
-              <span>🔔 Send me a reminder on <strong>Day 5</strong> before trial ends</span>
-            </label>
-
             {/* Security & Card Guarantee Badge */}
             <div style={{
               background: "#F5F9F7",
@@ -1908,7 +1753,7 @@ export default function TonightApp() {
                   Zero Charge Today · 256-Bit Bank Grade Encryption
                 </div>
                 <div style={{ color: "#6B8F82", fontSize: 11, lineHeight: 1.45, fontFamily: "'Inter', sans-serif", marginTop: 2 }}>
-                  Your card details are processed safely through <strong>Flutterwave</strong> to activate your 7-day trial. You will NOT be charged today. Your details are safe with us.
+                  Your card details are processed safely through <strong>Flutterwave</strong> to activate your 7-day trial. You will NOT be charged today.
                 </div>
               </div>
             </div>
@@ -1934,7 +1779,7 @@ export default function TonightApp() {
 
             {/* Microcopy Under Button */}
             <p style={{ color: "#6B8F82", fontSize: 11.5, margin: "8px 0 14px", fontFamily: "'Inter', sans-serif" }}>
-              {selectedPlan === "annual" ? "Free for 7 days, then $29.99/year (~$2.50/mo)." : "Free for 7 days, then $4.99/month."} Cancel anytime.
+              {selectedPlan === "annual" ? "Free for 7 days, then $29.99/year (~$2.50/mo)." : "Free for 7 days, then $4.99/month."}
             </p>
 
             {/* Legal / Policy Links */}
@@ -1943,11 +1788,11 @@ export default function TonightApp() {
                 Restore Purchases
               </span>
               <span>·</span>
-              <span style={{ cursor: "pointer", textDecoration: "underline" }} onClick={() => alert("Terms of Service: Standard subscription terms apply. Cancel anytime in your account.")}>
+              <span style={{ cursor: "pointer", textDecoration: "underline" }} onClick={() => alert("Terms of Service: Standard subscription terms apply.")}>
                 Terms
               </span>
               <span>·</span>
-              <span style={{ cursor: "pointer", textDecoration: "underline" }} onClick={() => alert("Privacy Policy: Your dietary preferences and meal history remain private on your device.")}>
+              <span style={{ cursor: "pointer", textDecoration: "underline" }} onClick={() => alert("Privacy Policy: Your details remain private.")}>
                 Privacy
               </span>
             </div>
