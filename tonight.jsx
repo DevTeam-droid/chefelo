@@ -534,6 +534,22 @@ function pickMeal({ effort, pantry, diet, rejectedIds, lastId, selectedAllergies
   return top[Math.floor(Math.random() * top.length)].m;
 }
 
+// ---------- Fullscreen Helper ----------
+function requestAppFullscreen() {
+  try {
+    if (typeof document === "undefined") return;
+    const doc = document;
+    const isFs = doc.fullscreenElement || doc.webkitFullscreenElement || doc.mozFullScreenElement || doc.msFullscreenElement;
+    if (!isFs) {
+      const el = doc.documentElement;
+      const rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+      if (rfs) {
+        rfs.call(el).catch(() => {});
+      }
+    }
+  } catch {}
+}
+
 // ---------- Component ----------
 export default function TonightApp() {
   const [stage, setStage] = useState(() => {
@@ -582,6 +598,26 @@ export default function TonightApp() {
   const [isFetching, setIsFetching] = useState(false);
 
   const currentRecipe = current?.recipe || (current ? RECIPES[current.id] : null);
+
+  useEffect(() => {
+    // Attempt fullscreen immediately
+    requestAppFullscreen();
+
+    // Trigger on first user interaction to satisfy browser gesture requirements
+    const handleFirstTouch = () => {
+      requestAppFullscreen();
+    };
+
+    window.addEventListener("click", handleFirstTouch, { passive: true });
+    window.addEventListener("touchstart", handleFirstTouch, { passive: true });
+    window.addEventListener("pointerdown", handleFirstTouch, { passive: true });
+
+    return () => {
+      window.removeEventListener("click", handleFirstTouch);
+      window.removeEventListener("touchstart", handleFirstTouch);
+      window.removeEventListener("pointerdown", handleFirstTouch);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isLoading) return;
