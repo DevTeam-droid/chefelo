@@ -917,13 +917,15 @@ export default function TonightApp() {
                   >
                     <RotateCcw size={16} />
                   </button>
-                  <button 
-                    className="tn-focus"
-                    style={styles.timerControlBtn} 
-                    onClick={nextStep}
-                  >
-                    <SkipForward size={18} />
-                  </button>
+                  {!isFinalStep && (
+                    <button 
+                      className="tn-focus"
+                      style={styles.timerControlBtn} 
+                      onClick={nextStep}
+                    >
+                      <SkipForward size={18} />
+                    </button>
+                  )}
                 </div>
               </div>
 
