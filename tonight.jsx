@@ -29,6 +29,8 @@ const MEALS = [
   { id: "m24", name: "Pan-roasted pork chops", reason: "Thick, juicy chops seared with garlic and rosemary.", effort: "30", pantry: ["pork"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1432139548911-59b9dae9115f?auto=format&fit=crop&w=600&q=80" },
   { id: "m25", name: "Quick beef tacos", reason: "Warm tortillas, seasoned beef, and fresh toppings.", effort: "10", pantry: ["beef"], diet: ["kid-friendly"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80" },
   { id: "m26", name: "Savory lentil stew", reason: "Warm, earthy lentils packed with vegetables and flavor.", effort: "30", pantry: ["staples", "veg"], diet: ["vegetarian", "dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" },
+  { id: "m27", name: "Spicy peanut sesame noodles", reason: "Creamy, savory peanut sauce tossed with warm noodles and scallions.", effort: "10", pantry: ["pasta"], diet: ["vegetarian"], allergies: ["nuts", "gluten"], health: [], image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80" },
+  { id: "m28", name: "Walnut & spinach pesto pasta", reason: "Rich, vibrant nutty pesto ready in fifteen minutes.", effort: "10", pantry: ["pasta", "veg"], diet: ["vegetarian"], allergies: ["nuts", "dairy", "gluten"], health: [], image: "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=600&q=80" }
 ];
 
 const RECIPES = {
@@ -57,7 +59,9 @@ const RECIPES = {
   m23: { time: "12 min", ingredients: ["250g shrimp, peeled & deveined", "2 tbsp butter", "3 garlic cloves, minced", "Lemon juice", "Parsley"], steps: ["Melt butter in a skillet over medium heat.", "Add garlic and sauté for 1 minute until fragrant.", "Add shrimp and cook for 2-3 minutes per side until pink.", "Squeeze lemon juice and sprinkle fresh parsley before serving."], durations: [60, 60, 180, 60] },
   m24: { time: "25 min", ingredients: ["2 thick pork chops", "1 tbsp olive oil", "2 garlic cloves, crushed", "1 sprig rosemary", "Salt & pepper"], steps: ["Season pork chops generously with salt and pepper.", "Sear chops in a hot skillet with olive oil for 4 minutes per side.", "Add garlic, rosemary, and a pat of butter if desired; spoon over chops for 2 minutes.", "Reduce heat and cook for 8-10 minutes, flipping once, until cooked through."], durations: [120, 480, 120, 540] },
   m25: { time: "15 min", ingredients: ["300g ground beef", "1 tbsp taco seasoning", "8 taco shells", "Shredded lettuce & cheese"], steps: ["Brown ground beef in a skillet over medium-high heat, draining excess fat.", "Stir in taco seasoning and 1/4 cup water; simmer for 5 minutes.", "Warm taco shells in the oven or microwave.", "Assemble tacos with beef, lettuce, cheese, and your favorite salsa."], durations: [300, 300, 120, 180] },
-  m26: { time: "35 min", ingredients: ["1 cup brown lentils", "1 onion, diced", "2 carrots, sliced", "4 cups vegetable stock", "1 can diced tomatoes"], steps: ["Sauté onion and carrots in a pot with olive oil for 5 minutes.", "Add rinsed lentils, diced tomatoes, and vegetable stock to the pot.", "Bring to a boil, then reduce heat and simmer covered for 25 minutes.", "Season to taste with salt, pepper, and fresh spinach if available."], durations: [300, 120, 1500, 60] }
+  m26: { time: "35 min", ingredients: ["1 cup brown lentils", "1 onion, diced", "2 carrots, sliced", "4 cups vegetable stock", "1 can diced tomatoes"], steps: ["Sauté onion and carrots in a pot with olive oil for 5 minutes.", "Add rinsed lentils, diced tomatoes, and vegetable stock to the pot.", "Bring to a boil, then reduce heat and simmer covered for 25 minutes.", "Season to taste with salt, pepper, and fresh spinach if available."], durations: [300, 120, 1500, 60] },
+  m27: { time: "10 min", ingredients: ["200g ramen or egg noodles", "3 tbsp smooth peanut butter", "1 tbsp soy sauce", "1 tbsp sesame oil", "1 tsp chili crisp", "2 scallions, sliced"], steps: ["Cook noodles in boiling water according to package instructions, reserving 1/4 cup pasta water.", "Whisk peanut butter, soy sauce, sesame oil, chili crisp, and warm pasta water into a smooth creamy sauce.", "Toss drained noodles with sauce until completely coated.", "Garnish with sliced scallions and toasted sesame seeds."], durations: [300, 120, 120, 60] },
+  m28: { time: "15 min", ingredients: ["250g pasta", "1/2 cup walnuts, toasted", "2 cups baby spinach", "1/3 cup grated parmesan", "1/3 cup olive oil", "1 clove garlic"], steps: ["Boil pasta in salted water until al dente.", "Pulse toasted walnuts, spinach, garlic, parmesan, and olive oil in a food processor until smooth.", "Drain pasta, reserving 2 tbsp cooking water.", "Toss hot pasta with walnut pesto and reserved water until glossy."], durations: [480, 180, 60, 120] }
 };
 
 const EFFORT = [
@@ -96,12 +100,75 @@ const HEALTH_CONDITIONS = [
   { id: "low-sodium", label: "Low-sodium" },
 ];
 
-// ---------- Audio Synth ----------
+// ---------- Reusable Chef Bot Avatar ----------
+function ChefBotAvatar({ style, isScouting = false }) {
+  return (
+    <svg viewBox="0 0 100 100" style={style || styles.botSvg}>
+      {/* White Chef Hat */}
+      <path d="M30 32 C30 15, 70 15, 70 32 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
+      <circle cx="40" cy="20" r="10" fill="#FFFFFF" />
+      <circle cx="50" cy="15" r="12" fill="#FFFFFF" />
+      <circle cx="60" cy="20" r="10" fill="#FFFFFF" />
+      <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
+      
+      {/* Body & Jacket */}
+      <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
+      <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
+      <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
+      <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
+      <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
+      <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
+      <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
+      
+      {/* Head */}
+      <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
+      <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
+      <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
+      <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
+      
+      {/* Eyes */}
+      {isScouting ? (
+        <>
+          <circle cx="45" cy="51" r="2.5" fill="#0BE49B" />
+          <circle cx="55" cy="51" r="2.5" fill="#0BE49B" />
+        </>
+      ) : (
+        <>
+          <path d="M 41 50 Q 45 46 49 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
+          <path d="M 51 50 Q 55 46 59 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
+        </>
+      )}
+      
+      {/* Mouth */}
+      <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#0BE49B" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// ---------- Audio Synth (Reuses single AudioContext to prevent leak) ----------
+let sharedAudioCtx = null;
+function getSharedAudioContext() {
+  try {
+    if (typeof window === "undefined") return null;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return null;
+    if (!sharedAudioCtx || sharedAudioCtx.state === "closed") {
+      sharedAudioCtx = new AudioContext();
+    }
+    if (sharedAudioCtx.state === "suspended") {
+      sharedAudioCtx.resume();
+    }
+    return sharedAudioCtx;
+  } catch (e) {
+    console.error("Audio Context initialization error:", e);
+    return null;
+  }
+}
+
 const playBellSound = () => {
   try {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    if (!AudioContext) return;
-    const ctx = new AudioContext();
+    const ctx = getSharedAudioContext();
+    if (!ctx) return;
     const now = ctx.currentTime;
     
     // Metallic chime chord: D5, A5, D6, F#6
@@ -130,7 +197,7 @@ const playBellSound = () => {
   }
 };
 
-// ---------- Recipe Outsourcing API ----------
+// ---------- Recipe Outsourcing API (Parallelized Lookups & Nut Allergy Check) ----------
 const fetchOutsourcedRecipe = async (filters) => {
   const { effort, pantry, diet, selectedAllergies, selectedHealth, rejectedIds = [] } = filters;
 
@@ -159,16 +226,20 @@ const fetchOutsourcedRecipe = async (filters) => {
       m => !rejectedIds.includes("db_" + m.idMeal)
     );
 
-    // Shuffle stubs
+    // Shuffle stubs and take top 4 candidates for fast parallel lookup
     const shuffledStubs = [...filteredStubs].sort(() => Math.random() - 0.5);
+    const candidateStubs = shuffledStubs.slice(0, 4);
 
-    // Try top 8 candidates
-    for (let j = 0; j < Math.min(shuffledStubs.length, 8); j++) {
-      const stub = shuffledStubs[j];
-      const detailRes = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${stub.idMeal}`);
-      if (!detailRes.ok) continue;
-      const detailData = await detailRes.json();
-      if (!detailData.meals || detailData.meals.length === 0) continue;
+    const lookupPromises = candidateStubs.map(stub =>
+      fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${stub.idMeal}`)
+        .then(r => r.ok ? r.json() : null)
+        .catch(() => null)
+    );
+
+    const lookupResults = await Promise.all(lookupPromises);
+
+    for (const detailData of lookupResults) {
+      if (!detailData || !detailData.meals || detailData.meals.length === 0) continue;
 
       const meal = detailData.meals[0];
       
@@ -204,6 +275,12 @@ const fetchOutsourcedRecipe = async (filters) => {
       if (selectedAllergies.includes("eggs")) {
         const eggTerms = ["egg", "mayo"];
         if (eggTerms.some(term => rawIngredients.some(ing => ing.includes(term)) || instructionsLower.includes(term))) {
+          isAllergic = true;
+        }
+      }
+      if (selectedAllergies.includes("nuts")) {
+        const nutTerms = ["nut", "peanut", "almond", "walnut", "cashew", "pecan", "hazelnut", "pistachio", "macadamia", "pine nut", "chestnut", "praline", "marzipan", "nutella", "almond milk", "peanut butter"];
+        if (nutTerms.some(term => rawIngredients.some(ing => ing.includes(term)) || instructionsLower.includes(term))) {
           isAllergic = true;
         }
       }
@@ -265,9 +342,9 @@ const fetchOutsourcedRecipe = async (filters) => {
         derivedEffort = "30";
       }
 
-      // If user requested 10-min, we strictly require it to be 10-min
+      // If user requested 10-min, strictly require 10-min
       if (effort === "10" && derivedEffort !== "10") continue;
-      // If user requested 30-min, it can be 10 or 30-min
+      // If user requested 30-min, require 10 or 30-min
       if (effort === "30" && derivedEffort === "cook") continue;
 
       // Calculate step durations
@@ -283,9 +360,8 @@ const fetchOutsourcedRecipe = async (filters) => {
       const totalMins = Math.ceil(durations.reduce((sum, d) => sum + d, 0) / 60);
       const timeStr = `${totalMins} min`;
 
-      // Cache recipe details
       const id = "db_" + meal.idMeal;
-      RECIPES[id] = {
+      const recipeData = {
         time: timeStr,
         ingredients: normalizedIngredients,
         steps: steps,
@@ -310,7 +386,8 @@ const fetchOutsourcedRecipe = async (filters) => {
         effort: derivedEffort,
         pantry: [pantry || "empty"],
         diet: dietTags,
-        image: meal.strMealThumb
+        image: meal.strMealThumb,
+        recipe: recipeData
       };
     }
   } catch (err) {
@@ -383,7 +460,13 @@ function pickMeal({ effort, pantry, diet, rejectedIds, lastId, selectedAllergies
 
 // ---------- Component ----------
 export default function TonightApp() {
-  const [stage, setStage] = useState("health"); // health | ask | reveal
+  const [stage, setStage] = useState(() => {
+    try {
+      return localStorage.getItem("elo_preferences_set") ? "ask" : "health";
+    } catch {
+      return "health";
+    }
+  }); // health | ask | reveal | done
   const [effort, setEffort] = useState(null);
   const [pantry, setPantry] = useState(null);
   const [diet, setDiet] = useState([]);
@@ -392,22 +475,60 @@ export default function TonightApp() {
   const [rejectCount, setRejectCount] = useState(0);
   const [flip, setFlip] = useState(false);
   const [showRecipe, setShowRecipe] = useState(false);
-  const [selectedAllergies, setSelectedAllergies] = useState([]);
-  const [selectedHealth, setSelectedHealth] = useState([]);
+  const [selectedAllergies, setSelectedAllergies] = useState(() => {
+    try {
+      const saved = localStorage.getItem("elo_allergies");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [selectedHealth, setSelectedHealth] = useState(() => {
+    try {
+      const saved = localStorage.getItem("elo_health");
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
   const [isCooking, setIsCooking] = useState(false);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isTimerActive, setIsTimerActive] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    try {
+      return !sessionStorage.getItem("elo_intro_seen");
+    } catch {
+      return false;
+    }
+  });
   const [isRinging, setIsRinging] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
+  const currentRecipe = current?.recipe || (current ? RECIPES[current.id] : null);
+
   useEffect(() => {
+    if (!isLoading) return;
+    try {
+      sessionStorage.setItem("elo_intro_seen", "true");
+    } catch {}
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 4500);
+    }, 2800);
     return () => clearTimeout(timer);
-  }, []);
+  }, [isLoading]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("elo_allergies", JSON.stringify(selectedAllergies));
+    } catch {}
+  }, [selectedAllergies]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("elo_health", JSON.stringify(selectedHealth));
+    } catch {}
+  }, [selectedHealth]);
 
   useEffect(() => {
     let ringInterval = null;
@@ -443,6 +564,13 @@ export default function TonightApp() {
 
   const toggleHealth = (id) =>
     setSelectedHealth((h) => (h.includes(id) ? h.filter((x) => x !== id) : [...h, id]));
+
+  const completeHealthSetup = () => {
+    try {
+      localStorage.setItem("elo_preferences_set", "true");
+    } catch {}
+    setStage("ask");
+  };
 
   const decide = async () => {
     setIsFetching(true);
@@ -487,7 +615,7 @@ export default function TonightApp() {
   };
 
   const startOver = () => {
-    setStage("health");
+    setStage("ask");
     setCurrent(null);
     setRejected([]);
     setRejectCount(0);
@@ -499,23 +627,23 @@ export default function TonightApp() {
   };
 
   const startCooking = () => {
-    if (!current || !RECIPES[current.id]) return;
+    if (!current || !currentRecipe) return;
     setIsCooking(true);
     setCurrentStepIndex(0);
-    const duration = RECIPES[current.id].durations?.[0] || 300;
+    const duration = currentRecipe.durations?.[0] || 300;
     setTimeLeft(duration);
     setIsTimerActive(true);
     setIsRinging(false);
   };
 
   const nextStep = () => {
-    if (!current || !RECIPES[current.id]) return;
+    if (!current || !currentRecipe) return;
     setIsRinging(false);
-    const steps = RECIPES[current.id].steps;
+    const steps = currentRecipe.steps;
     if (currentStepIndex < steps.length - 1) {
       const nextIdx = currentStepIndex + 1;
       setCurrentStepIndex(nextIdx);
-      const duration = RECIPES[current.id].durations?.[nextIdx] || 300;
+      const duration = currentRecipe.durations?.[nextIdx] || 300;
       setTimeLeft(duration);
       setIsTimerActive(true);
     } else {
@@ -525,12 +653,12 @@ export default function TonightApp() {
   };
 
   const prevStep = () => {
-    if (!current || !RECIPES[current.id]) return;
+    if (!current || !currentRecipe) return;
     setIsRinging(false);
     if (currentStepIndex > 0) {
       const prevIdx = currentStepIndex - 1;
       setCurrentStepIndex(prevIdx);
-      const duration = RECIPES[current.id].durations?.[prevIdx] || 300;
+      const duration = currentRecipe.durations?.[prevIdx] || 300;
       setTimeLeft(duration);
       setIsTimerActive(true);
     }
@@ -595,7 +723,7 @@ export default function TonightApp() {
           100% { width: 100%; }
         }
         .tn-loading-bar-fill {
-          animation: tnLoadingBar 4.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+          animation: tnLoadingBar 2.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
         @keyframes tnPulseHat {
           0% { transform: scale(1); filter: drop-shadow(0 2px 4px rgba(4,81,55,0.08)); }
@@ -611,36 +739,7 @@ export default function TonightApp() {
         <div style={styles.loaderPage} className="tn-card-enter">
           <div style={styles.loaderContent} className="tn-float">
             <div style={styles.loaderAvatar}>
-              <svg viewBox="0 0 100 100" style={styles.botSvg}>
-                {/* White Chef Hat */}
-                <path d="M30 32 C30 15, 70 15, 70 32 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
-                <circle cx="40" cy="20" r="10" fill="#FFFFFF" />
-                <circle cx="50" cy="15" r="12" fill="#FFFFFF" />
-                <circle cx="60" cy="20" r="10" fill="#FFFFFF" />
-                <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
-                
-                {/* Body & Jacket */}
-                <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
-                <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
-                <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
-                <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
-                <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
-                <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
-                <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
-                
-                {/* Head */}
-                <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
-                <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
-                <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
-                <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
-                
-                {/* Eyes */}
-                <path d="M 41 50 Q 45 46 49 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
-                <path d="M 51 50 Q 55 46 59 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
-                
-                {/* Mouth */}
-                <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#0BE49B" strokeWidth="2" strokeLinecap="round" />
-              </svg>
+              <ChefBotAvatar />
             </div>
             <h2 style={styles.loaderTitle}>Hi, I'm Elo, your Chef!</h2>
             <div style={styles.loaderBarBg}>
@@ -652,43 +751,14 @@ export default function TonightApp() {
         <div style={styles.loaderPage} className="tn-card-enter">
           <div style={styles.loaderContent} className="tn-float">
             <div style={styles.loaderAvatar} className="tn-pulse-hat">
-              <svg viewBox="0 0 100 100" style={styles.botSvg}>
-                {/* White Chef Hat */}
-                <path d="M30 32 C30 15, 70 15, 70 32 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
-                <circle cx="40" cy="20" r="10" fill="#FFFFFF" />
-                <circle cx="50" cy="15" r="12" fill="#FFFFFF" />
-                <circle cx="60" cy="20" r="10" fill="#FFFFFF" />
-                <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
-                
-                {/* Body & Jacket */}
-                <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
-                <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
-                <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
-                <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
-                <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
-                <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
-                <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
-                
-                {/* Head */}
-                <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
-                <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
-                <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
-                <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
-                
-                {/* Eyes (Glowing LEDs) */}
-                <circle cx="45" cy="51" r="2.5" fill="#0BE49B" />
-                <circle cx="55" cy="51" r="2.5" fill="#0BE49B" />
-                
-                {/* Mouth */}
-                <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#0BE49B" strokeWidth="2" strokeLinecap="round" />
-              </svg>
+              <ChefBotAvatar isScouting={true} />
             </div>
             <h2 style={styles.loaderTitle}>Elo is scouting the web...</h2>
-            <p style={{ color: "#B8AF9A", fontSize: 14, fontFamily: "'Poppins', sans-serif", margin: "-8px 0 10px", textAlign: "center" }}>
+            <p style={{ color: "#6B8F82", fontSize: 14, fontFamily: "'Inter', sans-serif", margin: "-8px 0 10px", textAlign: "center" }}>
               Finding the perfect recipe matching your pantry and filters.
             </p>
             <div style={styles.loaderBarBg}>
-              <div style={{ ...styles.loaderBarFill, width: "100%", animation: "tnLoadingBar 3.5s infinite linear" }} className="" />
+              <div style={{ ...styles.loaderBarFill, width: "100%", animation: "tnLoadingBar 2.5s infinite linear" }} />
             </div>
           </div>
         </div>
@@ -704,46 +774,17 @@ export default function TonightApp() {
             </header>
           )}
 
-          {isCooking && current && RECIPES[current.id] ? (
+          {isCooking && current && currentRecipe ? (
             <div style={styles.cookingPanel} className="tn-card-enter">
               {/* Chef Bot Header Card */}
               <div style={styles.botCard}>
                 <div style={styles.botAvatarContainer}>
-                  <svg viewBox="0 0 100 100" style={styles.botSvg}>
-                    {/* White Chef Hat */}
-                    <path d="M30 32 C30 15, 70 15, 70 32 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
-                    <circle cx="40" cy="20" r="10" fill="#FFFFFF" />
-                    <circle cx="50" cy="15" r="12" fill="#FFFFFF" />
-                    <circle cx="60" cy="20" r="10" fill="#FFFFFF" />
-                    <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
-                    
-                    {/* Body & Jacket */}
-                    <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
-                    <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
-                    <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
-                    <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
-                    <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
-                    <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
-                    <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
-                    
-                    {/* Head */}
-                    <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
-                    <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
-                    <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
-                    <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
-                    
-                    {/* Eyes */}
-                    <path d="M 41 50 Q 45 46 49 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
-                    <path d="M 51 50 Q 55 46 59 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
-                    
-                    {/* Mouth */}
-                    <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#0BE49B" strokeWidth="2" strokeLinecap="round" />
-                  </svg>
+                  <ChefBotAvatar />
                 </div>
                 <div style={styles.speechBubble}>
                   <div className="tn-mono" style={styles.speechTitle}>CHEF BOT SAYS:</div>
                   <div style={styles.speechText}>
-                    {RECIPES[current.id].steps[currentStepIndex]}
+                    {currentRecipe.steps[currentStepIndex]}
                   </div>
                 </div>
               </div>
@@ -754,7 +795,7 @@ export default function TonightApp() {
                 className={timeLeft === 0 ? "tn-timer-alarm" : ""}
               >
                 <div className="tn-mono" style={styles.stepIndicator}>
-                  STEP {currentStepIndex + 1} OF {RECIPES[current.id].steps.length}
+                  STEP {currentStepIndex + 1} OF {currentRecipe.steps.length}
                 </div>
                 <div style={styles.timerDisplay}>
                   {formatTime(timeLeft)}
@@ -764,7 +805,7 @@ export default function TonightApp() {
                 <div style={styles.progressBarBg}>
                   <div style={{
                     ...styles.progressBarFill,
-                    width: `${(timeLeft / (RECIPES[current.id].durations?.[currentStepIndex] || 300)) * 100}%`
+                    width: `${(timeLeft / (currentRecipe.durations?.[currentStepIndex] || 300)) * 100}%`
                   }} />
                 </div>
 
@@ -791,7 +832,7 @@ export default function TonightApp() {
                     className="tn-focus"
                     style={styles.timerControlBtn} 
                     onClick={() => {
-                      const duration = RECIPES[current.id].durations?.[currentStepIndex] || 300;
+                      const duration = currentRecipe.durations?.[currentStepIndex] || 300;
                       setTimeLeft(duration);
                       setIsTimerActive(true);
                       setIsRinging(false);
@@ -843,7 +884,7 @@ export default function TonightApp() {
                     </ChipRow>
                   </Section>
 
-                  <button className="tn-btn-primary tn-focus" style={styles.decideBtn} onClick={() => setStage("ask")}>
+                  <button className="tn-btn-primary tn-focus" style={styles.decideBtn} onClick={completeHealthSetup}>
                     Continue
                   </button>
                 </div>
@@ -851,6 +892,21 @@ export default function TonightApp() {
 
               {stage === "ask" && (
                 <div style={styles.askPanel}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+                    <span className="tn-mono" style={{ fontSize: 11, color: "#6B8F82", letterSpacing: "0.08em" }}>
+                      {(selectedAllergies.length > 0 || selectedHealth.length > 0)
+                        ? `${selectedAllergies.length + selectedHealth.length} FILTER(S) ACTIVE`
+                        : "ALL DIETARY FILTERS OFF"}
+                    </span>
+                    <button 
+                      type="button" 
+                      onClick={() => setStage("health")}
+                      style={{ background: "none", border: "none", color: "#045137", fontSize: 12, fontWeight: 600, cursor: "pointer", padding: 0, textDecoration: "underline", fontFamily: "'Inter', sans-serif" }}
+                    >
+                      Edit preferences
+                    </button>
+                  </div>
+
                   <Section title="What's around">
                     <ChipRow>
                       {PANTRY.map((p) => (
@@ -932,18 +988,18 @@ export default function TonightApp() {
                   )}
                   <p style={styles.doneSub}>One less thing tonight.</p>
 
-                  {!showRecipe && (
+                  {!showRecipe && currentRecipe && (
                     <button className="tn-focus" style={styles.recipeBtn} onClick={() => setShowRecipe(true)}>
                       <Utensils size={14} style={{ marginRight: 7, verticalAlign: "-2px" }} />
                       How do I make it
                     </button>
                   )}
 
-                  {showRecipe && RECIPES[current.id] && (
+                  {showRecipe && currentRecipe && (
                     <div style={styles.recipeBox} className="tn-card-enter">
                       <div className="tn-mono" style={styles.recipeTime}>
                         <Clock size={12} style={{ marginRight: 5, verticalAlign: "-2px" }} />
-                        {RECIPES[current.id].time} · serves 2
+                        {currentRecipe.time} · serves 2
                       </div>
 
                       <div style={{ marginBottom: 20 }}>
@@ -955,14 +1011,14 @@ export default function TonightApp() {
 
                       <div className="tn-mono" style={styles.recipeLabel}>INGREDIENTS</div>
                       <ul style={styles.ingList}>
-                        {RECIPES[current.id].ingredients.map((ing, i) => (
+                        {currentRecipe.ingredients.map((ing, i) => (
                           <li key={i} style={styles.ingItem}>{ing}</li>
                         ))}
                       </ul>
 
                       <div className="tn-mono" style={styles.recipeLabel}>STEPS</div>
                       <ol style={styles.stepList}>
-                        {RECIPES[current.id].steps.map((step, i) => (
+                        {currentRecipe.steps.map((step, i) => (
                           <li key={i} style={styles.stepItem}>
                             <span className="tn-mono" style={styles.stepNum}>{String(i + 1).padStart(2, "0")}</span>
                             <span style={styles.stepText}>{step}</span>
