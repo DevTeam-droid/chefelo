@@ -1003,7 +1003,7 @@ export default function TonightApp() {
                       </div>
 
                       <div style={{ marginBottom: 20 }}>
-                        <button className="tn-btn-primary tn-focus" style={{ ...styles.decideBtn, marginTop: 0, padding: "12px 18px", fontSize: "14px" }} onClick={startCooking}>
+                        <button className="tn-focus" style={{ ...styles.decideBtn, marginTop: 0, padding: "12px 18px", fontSize: "14px", boxShadow: "none" }} onClick={startCooking}>
                           <ChefHat size={16} style={{ marginRight: 8, verticalAlign: "-3px" }} />
                           Cook Step-by-Step
                         </button>
