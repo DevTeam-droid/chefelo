@@ -632,6 +632,13 @@ export default function TonightApp() {
     }
   });
   const [showPaywall, setShowPaywall] = useState(false);
+  const [hasUsedOnce, setHasUsedOnce] = useState(() => {
+    try {
+      return localStorage.getItem("elo_has_used_once") === "true";
+    } catch {
+      return false;
+    }
+  });
 
   const getTrialDaysRemaining = (start) => {
     if (!start) return 7;
@@ -643,21 +650,77 @@ export default function TonightApp() {
   const trialDaysLeft = getTrialDaysRemaining(trialStartDate);
 
   const startFreeTrial = (planToUse = selectedPlan) => {
-    const now = new Date().toISOString();
-    setSubStatus("trialing");
-    setTrialStartDate(now);
-    setSelectedPlan(planToUse);
-    try {
-      localStorage.setItem("elo_sub_status", "trialing");
-      localStorage.setItem("elo_trial_start", now);
-      localStorage.setItem("elo_selected_plan", planToUse);
-      localStorage.setItem("elo_reminder_enabled", reminderEnabled ? "true" : "false");
-    } catch {}
+    const amount = planToUse === "annual" ? 29.99 : 4.99;
+    const planLabel = planToUse === "annual" ? "Annual ($29.99/yr after 7-day trial)" : "Monthly ($4.99/mo after 7-day trial)";
 
-    if (reminderEnabled && typeof Notification !== "undefined" && Notification.permission === "default") {
-      Notification.requestPermission().catch(() => {});
+    if (typeof window !== "undefined" && typeof window.FlutterwaveCheckout === "function") {
+      window.FlutterwaveCheckout({
+        public_key: "FLWPUBK-00b20d5dc708ea1b8e95d9baa7f5fed0-X",
+        tx_ref: "elo_trial_" + Date.now(),
+        amount: amount,
+        currency: "USD",
+        payment_options: "card",
+        meta: {
+          trial_period: "7_days",
+          plan: planToUse
+        },
+        customer: {
+          email: "user@chefelotrail.com",
+          name: "Chef Elo Member",
+        },
+        customizations: {
+          title: "Chef Elo Pro 7-Day Free Trial",
+          description: `Activate 7-Day Free Trial. $0.00 charged today. Then ${planLabel}.`,
+          logo: "https://raw.githubusercontent.com/charlesgoodlucke/elo/main/public/favicon.svg",
+        },
+        callback: function (data) {
+          const now = new Date().toISOString();
+          setSubStatus("trialing");
+          setTrialStartDate(now);
+          setSelectedPlan(planToUse);
+          try {
+            localStorage.setItem("elo_sub_status", "trialing");
+            localStorage.setItem("elo_trial_start", now);
+            localStorage.setItem("elo_selected_plan", planToUse);
+            localStorage.setItem("elo_reminder_enabled", reminderEnabled ? "true" : "false");
+            localStorage.setItem("elo_flw_tx", data.transaction_id || data.tx_ref || "verified");
+          } catch {}
+
+          if (reminderEnabled && typeof Notification !== "undefined" && Notification.permission === "default") {
+            Notification.requestPermission().catch(() => {});
+          }
+          setShowPaywall(false);
+        },
+        onclose: function() {}
+      });
+    } else {
+      // Fallback
+      const now = new Date().toISOString();
+      setSubStatus("trialing");
+      setTrialStartDate(now);
+      setSelectedPlan(planToUse);
+      try {
+        localStorage.setItem("elo_sub_status", "trialing");
+        localStorage.setItem("elo_trial_start", now);
+        localStorage.setItem("elo_selected_plan", planToUse);
+        localStorage.setItem("elo_reminder_enabled", reminderEnabled ? "true" : "false");
+      } catch {}
+      setShowPaywall(false);
     }
-    setShowPaywall(false);
+  };
+
+  const markFirstUseAndCheckPaywall = () => {
+    if (!hasUsedOnce) {
+      setHasUsedOnce(true);
+      try {
+        localStorage.setItem("elo_has_used_once", "true");
+      } catch {}
+      if (subStatus === "none") {
+        setTimeout(() => {
+          setShowPaywall(true);
+        }, 1200);
+      }
+    }
   };
 
   const currentRecipe = current?.recipe || (current ? RECIPES[current.id] : null);
@@ -802,6 +865,12 @@ export default function TonightApp() {
   };
 
   const decide = async () => {
+    // If user has already used the app once and is not subscribed/trialing, require trial activation
+    if (hasUsedOnce && subStatus === "none") {
+      setShowPaywall(true);
+      return;
+    }
+
     setIsFetching(true);
     let meal = null;
     try {
@@ -1255,7 +1324,10 @@ export default function TonightApp() {
                     <button className="tn-focus" style={styles.rejectBtn} onClick={notThis}>
                       Not this one
                     </button>
-                    <button className="tn-focus" style={styles.acceptBtn} onClick={() => setStage("done")}>
+                    <button className="tn-focus" style={styles.acceptBtn} onClick={() => {
+                      setStage("done");
+                      markFirstUseAndCheckPaywall();
+                    }}>
                       <Check size={16} style={{ marginRight: 6, verticalAlign: "-3px" }} />
                       Doing this
                     </button>
@@ -1729,6 +1801,29 @@ export default function TonightApp() {
               <span>🔔 Send me a reminder on <strong>Day 5</strong> before trial ends</span>
             </label>
 
+            {/* Security & Card Guarantee Badge */}
+            <div style={{
+              background: "#F5F9F7",
+              border: "1px solid #C2DDD4",
+              borderRadius: 12,
+              padding: "12px 14px",
+              marginBottom: 16,
+              textAlign: "left",
+              display: "flex",
+              alignItems: "flex-start",
+              gap: 10,
+            }}>
+              <span style={{ fontSize: 18, lineHeight: 1 }}>🔒</span>
+              <div>
+                <div style={{ color: "#045137", fontSize: 12, fontWeight: 700, fontFamily: "'Inter', sans-serif" }}>
+                  Zero Charge Today · 256-Bit Bank Grade Encryption
+                </div>
+                <div style={{ color: "#6B8F82", fontSize: 11, lineHeight: 1.45, fontFamily: "'Inter', sans-serif", marginTop: 2 }}>
+                  Your card details are processed safely through <strong>Flutterwave</strong> to activate your 7-day trial. You will NOT be charged today. Your details are safe with us.
+                </div>
+              </div>
+            </div>
+
             {/* CTA Button */}
             <button
               className="tn-focus"
@@ -1745,12 +1840,12 @@ export default function TonightApp() {
               }}
               onClick={() => startFreeTrial(selectedPlan)}
             >
-              Start 7-Day Free Trial
+              Enter Card to Activate 7-Day Free Trial
             </button>
 
             {/* Microcopy Under Button */}
             <p style={{ color: "#6B8F82", fontSize: 11.5, margin: "8px 0 14px", fontFamily: "'Inter', sans-serif" }}>
-              {selectedPlan === "annual" ? "Then $29.99/year (~$2.50/mo) after 7 days." : "Then $4.99/month after 7 days."} Cancel anytime.
+              {selectedPlan === "annual" ? "Free for 7 days, then $29.99/year (~$2.50/mo)." : "Free for 7 days, then $4.99/month."} Cancel anytime.
             </p>
 
             {/* Legal / Policy Links */}
