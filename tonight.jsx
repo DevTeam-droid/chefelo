@@ -100,6 +100,52 @@ const HEALTH_CONDITIONS = [
   { id: "low-sodium", label: "Low-sodium" },
 ];
 
+// ---------- Reusable Chef Bot Head (with soft shadow) ----------
+function ChefBotHead({ style, isScouting = false }) {
+  return (
+    <svg 
+      viewBox="0 0 100 100" 
+      style={{
+        width: "100%",
+        height: "100%",
+        filter: "drop-shadow(0 8px 20px rgba(0, 0, 0, 0.12))",
+        ...style
+      }}
+    >
+      {/* White Chef Hat */}
+      <path d="M 22 46 C 22 18, 78 18, 78 46 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.8" />
+      <circle cx="36" cy="27" r="14" fill="#FFFFFF" />
+      <circle cx="50" cy="20" r="16" fill="#FFFFFF" />
+      <circle cx="64" cy="27" r="14" fill="#FFFFFF" />
+      <rect x="26" y="40" width="48" height="10" rx="3" fill="#E2E8F0" />
+
+      {/* Head & Ear Bolts */}
+      <rect x="17" y="62" width="6" height="14" rx="2" fill="#045137" />
+      <rect x="77" y="62" width="6" height="14" rx="2" fill="#045137" />
+      <rect x="23" y="50" width="54" height="40" rx="14" fill="#CEE9DF" stroke="#045137" strokeWidth="1.2" />
+      
+      {/* Face Screen */}
+      <rect x="30" y="56" width="40" height="26" rx="7" fill="#23322D" />
+      
+      {/* Eyes */}
+      {isScouting ? (
+        <>
+          <circle cx="43" cy="67" r="3" fill="#0BE49B" />
+          <circle cx="57" cy="67" r="3" fill="#0BE49B" />
+        </>
+      ) : (
+        <>
+          <path d="M 36 67 Q 42 61 48 67" fill="none" stroke="#0BE49B" strokeWidth="3" strokeLinecap="round" />
+          <path d="M 52 67 Q 58 61 64 67" fill="none" stroke="#0BE49B" strokeWidth="3" strokeLinecap="round" />
+        </>
+      )}
+      
+      {/* Glowing Neon Mouth (Smile) */}
+      <path d="M 43 76 Q 50 82 57 76" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 // ---------- Reusable Chef Bot Avatar ----------
 function ChefBotAvatar({ style, isScouting = false }) {
   return (
@@ -910,7 +956,7 @@ export default function TonightApp() {
         <div style={styles.loaderPage} className="tn-card-enter">
           <div style={styles.loaderContent} className="tn-float">
             <div style={styles.loaderAvatar}>
-              <ChefBotAvatar />
+              <ChefBotHead />
             </div>
             <h2 style={styles.loaderTitle}>Hi, I'm Elo, your Chef!</h2>
             <div style={styles.loaderBarBg}>
@@ -922,7 +968,7 @@ export default function TonightApp() {
         <div style={styles.loaderPage} className="tn-card-enter">
           <div style={styles.loaderContent} className="tn-float">
             <div style={styles.loaderAvatar} className="tn-pulse-hat">
-              <ChefBotAvatar isScouting={true} />
+              <ChefBotHead isScouting={true} />
             </div>
             <h2 style={styles.loaderTitle}>Elo is scouting the web...</h2>
             <p style={{ color: "#6B8F82", fontSize: 14, fontFamily: "'Inter', sans-serif", margin: "-8px 0 10px", textAlign: "center" }}>
@@ -1845,9 +1891,11 @@ const styles = {
     gap: 16,
   },
   loaderAvatar: {
-    width: 140,
-    height: 140,
-    filter: "drop-shadow(0 4px 12px rgba(4,81,55,0.12))",
+    width: 130,
+    height: 130,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   loaderTitle: {
     color: "#23322D",
