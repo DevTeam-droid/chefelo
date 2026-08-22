@@ -145,6 +145,82 @@ function ChefBotAvatar({ style, isScouting = false }) {
   );
 }
 
+// ---------- Reusable Chef Bot at Dining Table ----------
+function ChefBotDiningTable({ style }) {
+  return (
+    <svg viewBox="0 0 240 200" style={style || { width: "100%", maxWidth: 260, height: "auto" }}>
+      {/* Background Soft Floor Shadow */}
+      <ellipse cx="120" cy="180" rx="95" ry="14" fill="#EBF4F0" />
+      
+      {/* Table Legs */}
+      <rect x="42" y="145" width="8" height="40" rx="3" fill="#23322D" />
+      <rect x="190" y="145" width="8" height="40" rx="3" fill="#23322D" />
+      
+      {/* Table Top Base */}
+      <ellipse cx="120" cy="146" rx="100" ry="20" fill="#23322D" />
+      {/* Tablecloth */}
+      <ellipse cx="120" cy="143" rx="96" ry="18" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
+      
+      {/* Plate */}
+      <ellipse cx="120" cy="141" rx="46" ry="11" fill="#FFFFFF" stroke="#C2DDD4" strokeWidth="1.5" />
+      <ellipse cx="120" cy="140" rx="32" ry="7" fill="#F5F9F7" />
+      
+      {/* Food on Plate */}
+      <ellipse cx="120" cy="138" rx="22" ry="5.5" fill="#D05F0D" />
+      <circle cx="112" cy="137" r="3" fill="#0BE49B" />
+      <circle cx="124" cy="136" r="2.5" fill="#F2A93B" />
+      <circle cx="118" cy="138" r="2" fill="#045137" />
+      
+      {/* Steaming Wisps */}
+      <path d="M 112 128 Q 109 119 114 112" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" opacity="0.75" />
+      <path d="M 120 126 Q 124 117 119 108" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" opacity="0.85" />
+      <path d="M 128 128 Q 132 119 127 111" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" opacity="0.75" />
+
+      {/* Fork on Left */}
+      <path d="M 58 133 L 58 147 M 55 133 L 55 139 Q 58 141 61 139 L 61 133" fill="none" stroke="#6B8F82" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+      
+      {/* Knife on Right */}
+      <path d="M 182 133 Q 185 138 185 147" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" />
+
+      {/* Chef Bot Elo sitting behind the table */}
+      <g transform="translate(70, 15)">
+        {/* White Chef Hat */}
+        <path d="M30 32 C30 15, 70 15, 70 32 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
+        <circle cx="40" cy="20" r="10" fill="#FFFFFF" />
+        <circle cx="50" cy="15" r="12" fill="#FFFFFF" />
+        <circle cx="60" cy="20" r="10" fill="#FFFFFF" />
+        <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
+        
+        {/* Body & Jacket */}
+        <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
+        <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
+        <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
+        <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
+        <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
+        <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
+        <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
+        
+        {/* Head */}
+        <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
+        <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
+        <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
+        <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
+        
+        {/* Eyes (Happy Closed Smiling LED Arches) */}
+        <path d="M 41 50 Q 45 45 49 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
+        <path d="M 51 50 Q 55 45 59 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
+        
+        {/* Mouth (Big Joyful Smile) */}
+        <path d="M 44 55 Q 50 63 56 55 Z" fill="#0BE49B" />
+        
+        {/* Cute Robot Hands resting on the table */}
+        <rect x="18" y="93" width="14" height="8" rx="4" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
+        <rect x="68" y="93" width="14" height="8" rx="4" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
+      </g>
+    </svg>
+  );
+}
+
 // ---------- Audio Synth (Reuses single AudioContext to prevent leak) ----------
 let sharedAudioCtx = null;
 function getSharedAudioContext() {
@@ -648,7 +724,7 @@ export default function TonightApp() {
       setIsTimerActive(true);
     } else {
       setIsCooking(false);
-      setStage("done");
+      setStage("ready");
     }
   };
 
@@ -671,6 +747,7 @@ export default function TonightApp() {
   };
 
   const timeInfo = getTimeOfDayInfo();
+  const isFinalStep = currentRecipe ? currentStepIndex === currentRecipe.steps.length - 1 : false;
 
   return (
     <div style={styles.page}>
@@ -683,8 +760,8 @@ export default function TonightApp() {
           transition: transform .15s ease, background .15s ease, border-color .15s ease;
         }
         .tn-chip:active { transform: scale(0.96); }
-        .tn-btn-primary { transition: transform .12s ease, box-shadow .12s ease; }
-        .tn-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(208,95,13,0.35); }
+        .tn-btn-primary { transition: transform .12s ease, opacity .12s ease; }
+        .tn-btn-primary:hover { transform: translateY(-1px); opacity: 0.95; }
         .tn-btn-primary:active { transform: translateY(0); }
         .tn-card-enter {
           animation: tnCardIn .4s cubic-bezier(.25, 1, .5, 1) both;
@@ -852,12 +929,40 @@ export default function TonightApp() {
 
               {/* Complete or Back actions */}
               <div style={styles.cookingActions}>
-                <button className="tn-focus" style={styles.quitBtn} onClick={() => {
-                  setIsCooking(false);
-                  setIsRinging(false);
-                }}>
-                  Quit cooking
-                </button>
+                {isFinalStep && timeLeft === 0 ? (
+                  <button 
+                    className="tn-focus" 
+                    style={{
+                      background: "#045137",
+                      color: "#FFFFFF",
+                      border: "none",
+                      borderRadius: 8,
+                      padding: "14px 28px",
+                      fontSize: 15,
+                      fontWeight: 700,
+                      fontFamily: "'Inter', sans-serif",
+                      cursor: "pointer",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      boxShadow: "none"
+                    }} 
+                    onClick={() => {
+                      setIsCooking(false);
+                      setIsRinging(false);
+                      setStage("ready");
+                    }}
+                  >
+                    <Check size={18} style={{ marginRight: 8, verticalAlign: "-3px" }} />
+                    Done
+                  </button>
+                ) : (
+                  <button className="tn-focus" style={styles.quitBtn} onClick={() => {
+                    setIsCooking(false);
+                    setIsRinging(false);
+                  }}>
+                    Quit cooking
+                  </button>
+                )}
               </div>
             </div>
           ) : (
@@ -1034,6 +1139,51 @@ export default function TonightApp() {
                   </button>
                 </div>
               )}
+
+              {stage === "ready" && (
+                <div style={styles.donePanel} className="tn-card-enter">
+                  <div className="tn-mono" style={styles.eyebrow}>
+                    <ChefHat size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
+                    BON APPÉTIT
+                  </div>
+                  <h1 style={{ ...styles.h1, fontSize: 28, marginBottom: 8, textAlign: "center" }}>
+                    Food is ready, please serve!
+                  </h1>
+                  {current && (
+                    <p style={{ color: "#6B8F82", fontSize: 15, margin: "0 0 16px", fontFamily: "'Inter', sans-serif" }}>
+                      {current.name}
+                    </p>
+                  )}
+
+                  <div style={{ display: "flex", justifyContent: "center", margin: "10px 0 24px" }}>
+                    <ChefBotDiningTable />
+                  </div>
+
+                  <button 
+                    className="tn-focus" 
+                    style={{
+                      ...styles.decideBtn, 
+                      marginTop: 10,
+                      boxShadow: "none",
+                      width: "100%",
+                      maxWidth: 320,
+                      margin: "0 auto",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }} 
+                    onClick={() => {
+                      setIsCooking(false);
+                      setIsRinging(false);
+                      setCurrent(null);
+                      setShowRecipe(false);
+                      setStage("health");
+                    }}
+                  >
+                    Thanks Chef
+                  </button>
+                </div>
+              )}
             </>
           )}
         </div>
@@ -1142,8 +1292,8 @@ const styles = {
     fontWeight: 700,
     fontFamily: "'Inter', sans-serif",
     cursor: "pointer",
-    boxShadow: "0 6px 22px rgba(208, 95, 13, 0.35)",
-    transition: "transform 0.1s ease, box-shadow 0.1s ease",
+    boxShadow: "none",
+    transition: "transform 0.1s ease, opacity 0.1s ease",
   },
   revealPanel: { display: "flex", flexDirection: "column", alignItems: "center" },
   cardShell: {
