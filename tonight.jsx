@@ -596,8 +596,66 @@ export default function TonightApp() {
   });
   const [isRinging, setIsRinging] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallModal, setShowInstallModal] = useState(false);
+  const [isIOS, setIsIOS] = useState(false);
+  const [isStandalone, setIsStandalone] = useState(false);
 
   const currentRecipe = current?.recipe || (current ? RECIPES[current.id] : null);
+
+  useEffect(() => {
+    // Check if running in standalone PWA mode
+    const standalone = (typeof window !== "undefined") && (
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true
+    );
+    setIsStandalone(standalone);
+
+    // Detect iOS devices
+    const isIosDevice = typeof navigator !== "undefined" && /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    setIsIOS(isIosDevice);
+
+    if (standalone) return;
+
+    // Listen for browser install prompt
+    const handleBeforeInstall = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallModal(true);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstall);
+
+    // Immediately trigger install prompt dialog on launch if not installed
+    const timer = setTimeout(() => {
+      if (!standalone) {
+        setShowInstallModal(true);
+      }
+    }, 800);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      try {
+        const choice = await deferredPrompt.userChoice;
+        if (choice.outcome === "accepted") {
+          setShowInstallModal(false);
+        }
+      } catch {}
+      setDeferredPrompt(null);
+    } else {
+      // If iOS or native prompt already completed, close modal
+      if (!isIOS) {
+        setShowInstallModal(false);
+      }
+    }
+  };
 
   useEffect(() => {
     // Attempt fullscreen immediately
@@ -1224,6 +1282,108 @@ export default function TonightApp() {
               )}
             </>
           )}
+        </div>
+      )}
+
+      {/* Immediate App Install Prompt Modal */}
+      {showInstallModal && !isStandalone && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(35, 50, 45, 0.65)",
+          backdropFilter: "blur(6px)",
+          WebkitBackdropFilter: "blur(6px)",
+          zIndex: 99999,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 20,
+        }} className="tn-card-enter">
+          <div style={{
+            background: "#FFFFFF",
+            borderRadius: 20,
+            border: "1px solid #C2DDD4",
+            padding: "30px 24px 26px",
+            maxWidth: 360,
+            width: "100%",
+            textAlign: "center",
+            boxShadow: "none",
+            position: "relative",
+          }}>
+            {/* Chef Bot Head Icon Badge */}
+            <div style={{
+              width: 72,
+              height: 72,
+              borderRadius: 18,
+              background: "#23322D",
+              margin: "0 auto 16px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden",
+              padding: 6,
+            }}>
+              <img src="/favicon.svg" alt="Chef Elo" style={{ width: "100%", height: "100%" }} />
+            </div>
+
+            <div className="tn-mono" style={{ fontSize: 11, color: "#045137", letterSpacing: "0.1em", fontWeight: 700, marginBottom: 6 }}>
+              APP INSTALLATION
+            </div>
+            <h2 style={{ color: "#23322D", fontSize: 22, fontWeight: 700, margin: "0 0 10px", fontFamily: "'DM Sans', sans-serif" }}>
+              Install Chef Elo
+            </h2>
+
+            {isIOS ? (
+              <div style={{ background: "#F3FAF7", border: "1px solid #C2DDD4", borderRadius: 12, padding: "14px 16px", margin: "14px 0 20px", textAlign: "left" }}>
+                <p style={{ color: "#23322D", fontSize: 13.5, lineHeight: 1.5, margin: 0, fontFamily: "'Inter', sans-serif" }}>
+                  To add to your home screen:
+                </p>
+                <ol style={{ margin: "8px 0 0", paddingLeft: 20, color: "#23322D", fontSize: 13, lineHeight: 1.6, fontFamily: "'Inter', sans-serif" }}>
+                  <li>Tap the <strong>Share</strong> button in Safari</li>
+                  <li>Scroll down and tap <strong>Add to Home Screen</strong></li>
+                </ol>
+              </div>
+            ) : (
+              <p style={{ color: "#6B8F82", fontSize: 14, lineHeight: 1.5, margin: "0 0 22px", fontFamily: "'Inter', sans-serif" }}>
+                Add to your home screen for quick daily dinner decisions and instant full-screen cooking mode.
+              </p>
+            )}
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              <button
+                className="tn-focus"
+                style={{
+                  ...styles.decideBtn,
+                  marginTop: 0,
+                  boxShadow: "none",
+                  padding: "14px 20px",
+                  fontSize: 15,
+                }}
+                onClick={handleInstallClick}
+              >
+                {isIOS ? "Got it" : "Install App"}
+              </button>
+              <button
+                className="tn-focus"
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#6B8F82",
+                  fontSize: 13.5,
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  padding: "8px 12px",
+                  fontFamily: "'Inter', sans-serif",
+                }}
+                onClick={() => setShowInstallModal(false)}
+              >
+                Maybe later
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
