@@ -1348,7 +1348,7 @@ export default function TonightApp() {
               </div>
             ) : (
               <p style={{ color: "#6B8F82", fontSize: 14, lineHeight: 1.5, margin: "0 0 22px", fontFamily: "'Inter', sans-serif" }}>
-                Add to your home screen for quick daily dinner decisions and instant full-screen cooking mode.
+                Add to your home screen for quick daily meal decisions and instant full-screen cooking mode.
               </p>
             )}
 
