@@ -156,11 +156,11 @@ function ChefBotHead({ style, size = 68 }) {
       <circle cx="64" cy="27" r="14" fill="#FFFFFF" />
       <rect x="26" y="40" width="48" height="10" rx="3" fill="#E2E8F0" />
 
-      {/* Ear Bolts */}
-      <rect x="18" y="62" width="6" height="14" rx="2" fill="#045137" />
-      <rect x="76" y="62" width="6" height="14" rx="2" fill="#045137" />
+      {/* Ear Bolts (Charcoal) */}
+      <rect x="18" y="62" width="6" height="14" rx="2" fill="#23322D" />
+      <rect x="76" y="62" width="6" height="14" rx="2" fill="#23322D" />
 
-      {/* Head */}
+      {/* Head (Pure White, No Green) */}
       <rect x="23" y="50" width="54" height="40" rx="14" fill="#FFFFFF" />
       
       {/* Face Screen */}
@@ -1324,7 +1324,7 @@ export default function TonightApp() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: "rgba(35, 50, 45, 0.65)",
+          background: "rgba(0, 0, 0, 0.5)",
           backdropFilter: "blur(6px)",
           WebkitBackdropFilter: "blur(6px)",
           zIndex: 99999,
@@ -1344,7 +1344,7 @@ export default function TonightApp() {
             textAlign: "center",
             position: "relative",
           }}>
-            {/* Chef Bot Head with slight shadow instead of green border */}
+            {/* Chef Bot Head with slight shadow on clean white background */}
             <div style={{
               width: 80,
               height: 80,
@@ -1359,7 +1359,7 @@ export default function TonightApp() {
               <ChefBotHead size={66} />
             </div>
 
-            <div className="tn-mono" style={{ fontSize: 11, color: "#045137", letterSpacing: "0.1em", fontWeight: 700, marginBottom: 6 }}>
+            <div className="tn-mono" style={{ fontSize: 11, color: "#64748B", letterSpacing: "0.1em", fontWeight: 700, marginBottom: 6 }}>
               APP INSTALLATION
             </div>
             <h2 style={{ color: "#23322D", fontSize: 22, fontWeight: 700, margin: "0 0 10px", fontFamily: "'DM Sans', sans-serif" }}>
@@ -1367,7 +1367,7 @@ export default function TonightApp() {
             </h2>
 
             {isIOS ? (
-              <div style={{ background: "#F7FAF9", border: "none", boxShadow: "0 2px 8px rgba(0,0,0,0.04)", borderRadius: 12, padding: "14px 16px", margin: "14px 0 20px", textAlign: "left" }}>
+              <div style={{ background: "#F8FAFC", border: "none", boxShadow: "0 2px 8px rgba(0,0,0,0.04)", borderRadius: 12, padding: "14px 16px", margin: "14px 0 20px", textAlign: "left" }}>
                 <p style={{ color: "#23322D", fontSize: 13.5, lineHeight: 1.5, margin: 0, fontFamily: "'Inter', sans-serif" }}>
                   To add to your home screen:
                 </p>
