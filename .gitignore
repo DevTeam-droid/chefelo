@@ -4,3 +4,6 @@ dist
 *.log
 .agents
 .gemini
+.env
+.env.local
+.env*.local
