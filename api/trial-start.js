@@ -1,18 +1,17 @@
 // POST /api/trial-start
-// Body: { email, plan: 'monthly' | 'annual', cardDetails: {...} }
+// Body: { email, plan: 'monthly' | 'annual', cardDetails: { token, flw_ref, tx_ref } }
 //
 // No signup flow exists, so email IS the identity — it's already required
 // to process a Flutterwave charge, so it doubles as the account key.
 //
-// This does NOT charge the real subscription price. It runs a small
-// verification charge (e.g. $0.50), immediately refunds it, and keeps
-// the resulting card token so the real charge can happen on day 7.
-//
-// IMPORTANT: never do this card-details step directly from the browser to
-// your backend in plain JSON — use Flutterwave's client-side encryption
-// (their inline.js / v3 encryption helper) so raw PAN never touches your
-// server. This file assumes `cardDetails` already arrives pre-encrypted
-// per Flutterwave's charge-card documentation.
+// IMPORTANT: this does NOT run its own charge. The frontend already
+// charged $0.50 via Flutterwave's inline Checkout widget before calling
+// this endpoint — `cardDetails.token` here is that transaction's ID, not
+// raw card data. This endpoint's job is to VERIFY that transaction
+// actually succeeded, pull the reusable card token off of it, refund it,
+// and record the trial. Attempting a second charge here would either fail
+// outright (no real card fields were sent) or double-charge the user —
+// both were bugs in earlier versions of this file. Don't reintroduce them.
 
 import { db } from './db.js';
 
@@ -28,8 +27,9 @@ export default async function handler(req, res) {
   const rawEmail = req.body?.email;
   const plan = req.body?.plan;
   const cardDetails = req.body?.cardDetails;
+  const transactionId = cardDetails?.token; // the widget's transaction_id, despite the field name
 
-  if (!rawEmail || !PLAN_PRICES[plan] || !cardDetails) {
+  if (!rawEmail || !PLAN_PRICES[plan] || !transactionId) {
     return res.status(400).json({ error: "Missing required fields" });
   }
   const email = rawEmail.trim().toLowerCase();
@@ -42,36 +42,44 @@ export default async function handler(req, res) {
       return res.status(409).json({ error: "This email already has an active trial or subscription", status: existing.rows[0].status });
     }
 
-    // 1. Run a small verification charge to capture a reusable token.
-    const txRef = `elo_verify_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
-    const chargeRes = await fetch(`${FLW_BASE}/charges?type=card`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${FLW_SECRET_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...cardDetails, // pre-encrypted card fields per Flutterwave's spec
-        amount: VERIFICATION_AMOUNT,
-        currency: "USD",
-        email,
-        tx_ref: txRef,
-      }),
+    // 1. Verify the transaction the widget already ran. Never trust the
+    //    client's word that a charge succeeded — Flutterwave is the source
+    //    of truth for whether money actually moved.
+    const verifyRes = await fetch(`${FLW_BASE}/transactions/${transactionId}/verify`, {
+      headers: { Authorization: `Bearer ${FLW_SECRET_KEY}` },
     });
-    const chargeData = await chargeRes.json();
+    const verifyData = await verifyRes.json();
 
-    if (chargeData.status !== "success" || !chargeData.data) {
-      // Flow may require OTP/3DS — handle chargeData.meta.authorization
-      // per Flutterwave's card charge docs before treating this as a failure.
-      return res.status(402).json({ error: chargeData.message || "Card verification failed", detail: chargeData });
+    if (verifyData.status !== "success" || !verifyData.data) {
+      return res.status(402).json({ error: "Could not verify card check", detail: verifyData });
     }
 
-    const txId = chargeData.data.id;
-    const cardToken = chargeData.data.card?.token;
-    const card = chargeData.data.card || {};
+    const tx = verifyData.data;
+
+    if (tx.status !== "successful") {
+      return res.status(402).json({ error: "Card check was not successful", detail: tx.status });
+    }
+    if (tx.currency !== "USD" || Number(tx.amount) !== VERIFICATION_AMOUNT) {
+      // Guards against a stale or mismatched transaction ID being replayed.
+      return res.status(402).json({ error: "Verification amount mismatch" });
+    }
+    if (tx.customer?.email && tx.customer.email.trim().toLowerCase() !== email) {
+      return res.status(402).json({ error: "Verification email mismatch" });
+    }
+
+    const txId = tx.id;
+    const card = tx.card || {};
+    const cardToken = card.token;
 
     if (!cardToken) {
-      return res.status(500).json({ error: "No reusable token returned from verification charge" });
+      // Refund what we can even though we can't keep going — the user
+      // shouldn't be out $0.50 just because tokenization wasn't returned.
+      await fetch(`${FLW_BASE}/transactions/${txId}/refund`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${FLW_SECRET_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: VERIFICATION_AMOUNT }),
+      });
+      return res.status(500).json({ error: "No reusable token returned — card verification could not complete" });
     }
 
     // Build a fingerprint from whatever card metadata Flutterwave returns
@@ -86,8 +94,7 @@ export default async function handler(req, res) {
         [cardFingerprint]
       );
       if (cardUsed.rows.length > 0 && cardUsed.rows[0].email !== email) {
-        // Refund the verification charge before bailing — we're not keeping
-        // this $0.50 either way.
+        // Refund before bailing — we're not keeping this $0.50 either way.
         await fetch(`${FLW_BASE}/transactions/${txId}/refund`, {
           method: "POST",
           headers: { Authorization: `Bearer ${FLW_SECRET_KEY}`, "Content-Type": "application/json" },
@@ -97,9 +104,10 @@ export default async function handler(req, res) {
       }
     }
 
-    // 2. Refund the verification charge immediately — the user should never
-    //    actually keep this $0.50 taken from them.
-    await fetch(`${FLW_BASE}/transactions/${txId}/refund`, {
+    // 2. Refund the verification charge — this is the SAME transaction the
+    //    widget created, not a new one. The user should never actually
+    //    keep the $0.50 taken from them.
+    const refundRes = await fetch(`${FLW_BASE}/transactions/${txId}/refund`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${FLW_SECRET_KEY}`,
@@ -107,6 +115,13 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({ amount: VERIFICATION_AMOUNT }),
     });
+    const refundData = await refundRes.json();
+
+    if (refundData.status !== "success") {
+      // Don't silently swallow this — if the refund failed, the user is
+      // genuinely out $0.50 and support will need to know why.
+      console.error("Verification refund failed:", refundData);
+    }
 
     // 3. Record the trial in our own DB, keyed by email.
     const trialStart = new Date();
@@ -124,7 +139,7 @@ export default async function handler(req, res) {
       [email, plan, PLAN_PRICES[plan], cardToken, cardFingerprint, trialStart, trialEnd, txId]
     );
 
-    return res.status(200).json({ status: "trialing", trialEnd });
+    return res.status(200).json({ status: "trialing", trialEnd, refunded: refundData.status === "success" });
   } catch (err) {
     console.error("trial-start error:", err);
     return res.status(500).json({ error: "Internal error starting trial" });
