@@ -1032,12 +1032,20 @@ export default function TonightApp() {
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
 
-  // ---------- Paywall & Subscription State (TEST MODE: Trial Ended Today) ----------
+  // ---------- Paywall & Subscription State ----------
   const [subStatus, setSubStatus] = useState(() => {
-    return "trial_ended_pending_charge"; // Simulating trial ended today for local testing
+    try {
+      return localStorage.getItem("elo_sub_status") || "none";
+    } catch {
+      return "none";
+    }
   }); // "none" | "trialing" | "active" | "past_due" | "trial_ended_pending_charge"
   const [trialEndDate, setTrialEndDate] = useState(() => {
-    return new Date(Date.now() - 1000).toISOString(); // Ended today
+    try {
+      return localStorage.getItem("elo_trial_end") || null;
+    } catch {
+      return null;
+    }
   });
   const [selectedPlan, setSelectedPlan] = useState(() => {
     try {
@@ -1046,7 +1054,15 @@ export default function TonightApp() {
       return "annual";
     }
   }); // "annual" | "monthly"
-  const [showPaywall, setShowPaywall] = useState(true); // Open paywall immediately for testing
+  const [showPaywall, setShowPaywall] = useState(() => {
+    // Only show paywall immediately if subscription has expired or is past due
+    try {
+      const savedStatus = localStorage.getItem("elo_sub_status");
+      return savedStatus === "trial_ended_pending_charge" || savedStatus === "past_due";
+    } catch {
+      return false;
+    }
+  });
   const [userEmail, setUserEmail] = useState(() => {
     try {
       return localStorage.getItem("elo_user_email") || "";
@@ -1063,22 +1079,14 @@ export default function TonightApp() {
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
-  // 24-Hour Device Clock Tracker
-  const [firstOpenTime] = useState(() => {
+  // Decision Count Tracker: Gate on 2nd decision
+  const [decisionsCount, setDecisionsCount] = useState(() => {
     try {
-      let saved = localStorage.getItem("elo_first_open_time");
-      if (!saved) {
-        saved = Date.now().toString();
-        localStorage.setItem("elo_first_open_time", saved);
-      }
-      return parseInt(saved, 10);
+      return parseInt(localStorage.getItem("elo_decisions_count") || "0", 10);
     } catch {
-      return Date.now();
+      return 0;
     }
   });
-
-  const is24HoursPassed = true; // Simulated 24h passed / trial expired for testing
-  const isTrialEnded = true;
 
   // Verify real subscription status from server on load (skipped if testing or no server)
   useEffect(() => {
@@ -1102,10 +1110,10 @@ export default function TonightApp() {
 
   useEffect(() => {
     // If trial ended or past due, enforce mandatory paywall
-    if (isTrialEnded || is24HoursPassed || subStatus === "trial_ended_pending_charge" || subStatus === "past_due") {
+    if (subStatus === "trial_ended_pending_charge" || subStatus === "past_due") {
       setShowPaywall(true);
     }
-  }, [is24HoursPassed, subStatus, isTrialEnded]);
+  }, [subStatus]);
 
   const startFreeTrial = async (planToUse = selectedPlan) => {
     const trimmedEmail = (userEmail || "").trim().toLowerCase();
@@ -1381,13 +1389,55 @@ export default function TonightApp() {
   };
 
   const decide = async () => {
-    // If 24 hours have passed on device or trial expired, block app and enforce paywall
-    if (is24HoursPassed && subStatus === "none") {
+    const hasActiveSubscription = subStatus === "trialing" || subStatus === "active";
+
+    // 1. If account is expired / pending charge / past due, block with paywall
+    if (subStatus === "trial_ended_pending_charge" || subStatus === "past_due") {
       setShowPaywall(true);
       return;
     }
 
-    setIsFetching(true);
+    // 2. Client-side check: Gate on 2nd decision
+    if (!hasActiveSubscription && decisionsCount >= 1) {
+      setShowPaywall(true);
+      return;
+    }
+
+    // 3. Server-side check: Call POST /api/check-free-usage (IP-hash throttle)
+    if (!hasActiveSubscription) {
+      setIsFetching(true);
+      try {
+        const checkRes = await fetch("/api/check-free-usage", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        });
+        if (checkRes.ok) {
+          const checkData = await checkRes.json();
+          if (checkData && checkData.allowed === false) {
+            const nextCount = 1;
+            setDecisionsCount(nextCount);
+            try {
+              localStorage.setItem("elo_decisions_count", nextCount.toString());
+            } catch {}
+            setIsFetching(false);
+            setShowPaywall(true);
+            return;
+          }
+        }
+      } catch (checkErr) {
+        console.warn("check-free-usage network notice:", checkErr);
+      }
+
+      // Record 1st decision usage locally
+      const nextCount = 1;
+      setDecisionsCount(nextCount);
+      try {
+        localStorage.setItem("elo_decisions_count", nextCount.toString());
+      } catch {}
+    } else {
+      setIsFetching(true);
+    }
+
     let meal = null;
     try {
       meal = await fetchOutsourcedRecipe({
@@ -2092,8 +2142,8 @@ export default function TonightApp() {
             overflowY: "auto",
             boxShadow: "0 20px 40px -15px rgba(35, 50, 45, 0.25)",
           }}>
-            {/* Close Button - Only visible if 24 hours have not yet locked the app */}
-            {!is24HoursPassed && (
+            {/* Close Button - Visible unless trial ended / past due */}
+            {subStatus !== "trial_ended_pending_charge" && subStatus !== "past_due" && (
               <button
                 onClick={() => setShowPaywall(false)}
                 aria-label="Close"
@@ -2114,6 +2164,7 @@ export default function TonightApp() {
                   cursor: "pointer",
                   fontSize: 13,
                   fontWeight: 700,
+                  zIndex: 2,
                 }}
               >
                 ✕

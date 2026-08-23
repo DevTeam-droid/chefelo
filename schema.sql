@@ -46,3 +46,19 @@ CREATE TABLE IF NOT EXISTS device_seen (
   device_uuid   TEXT PRIMARY KEY,
   first_seen_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Add this to your existing schema.sql (or run directly against Neon's SQL
+-- editor as a standalone migration).
+--
+-- Server-side soft throttle on free decides, keyed by IP instead of
+-- localStorage — survives a cache/cookie clear, unlike the client-side
+-- free-use flag. This protects the free pre-paywall experience only; it
+-- has nothing to do with the real trial/subscription boundary, which is
+-- already anchored server-side via email + card fingerprint.
+
+CREATE TABLE free_usage (
+  ip_hash TEXT NOT NULL,
+  day     DATE NOT NULL,
+  count   INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (ip_hash, day)
+);
