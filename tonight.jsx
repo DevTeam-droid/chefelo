@@ -608,10 +608,10 @@ export default function TonightApp() {
     } catch {
       return "none";
     }
-  }); // "none" | "trialing" | "active"
-  const [trialStartDate, setTrialStartDate] = useState(() => {
+  }); // "none" | "trialing" | "active" | "past_due"
+  const [trialEndDate, setTrialEndDate] = useState(() => {
     try {
-      return localStorage.getItem("elo_trial_start") || null;
+      return localStorage.getItem("elo_trial_end") || null;
     } catch {
       return null;
     }
@@ -624,6 +624,19 @@ export default function TonightApp() {
     }
   }); // "annual" | "monthly"
   const [showPaywall, setShowPaywall] = useState(false);
+  const [userEmail, setUserEmail] = useState(() => {
+    try {
+      return localStorage.getItem("elo_user_email") || "";
+    } catch {
+      return "";
+    }
+  });
+  const [emailError, setEmailError] = useState("");
+  const [isVerifyingTrial, setIsVerifyingTrial] = useState(false);
+  const [showRestoreModal, setShowRestoreModal] = useState(false);
+  const [restoreEmail, setRestoreEmail] = useState("");
+  const [restoreLoading, setRestoreLoading] = useState(false);
+  const [restoreMessage, setRestoreMessage] = useState("");
 
   // 24-Hour Device Clock Tracker
   const [firstOpenTime] = useState(() => {
@@ -641,65 +654,141 @@ export default function TonightApp() {
 
   const is24HoursPassed = Date.now() - firstOpenTime >= 24 * 60 * 60 * 1000;
 
+  // Verify real subscription status from server on load
+  useEffect(() => {
+    const emailToVerify = userEmail || localStorage.getItem("elo_user_email");
+    if (emailToVerify && emailToVerify.includes("@")) {
+      fetch(`/api/subscription-status?email=${encodeURIComponent(emailToVerify.trim().toLowerCase())}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status) {
+            setSubStatus(data.status);
+            localStorage.setItem("elo_sub_status", data.status);
+            if (data.trialEnd) {
+              setTrialEndDate(data.trialEnd);
+              localStorage.setItem("elo_trial_end", data.trialEnd);
+            }
+          }
+        })
+        .catch((err) => console.warn("Subscription status verify error:", err));
+    }
+  }, []);
+
   useEffect(() => {
     // If 24 hours have passed on device and user hasn't activated trial, trigger mandatory paywall
-    if (is24HoursPassed && subStatus === "none") {
+    if (is24HoursPassed && (subStatus === "none" || subStatus === "past_due")) {
       setShowPaywall(true);
     }
   }, [is24HoursPassed, subStatus]);
 
-  const startFreeTrial = (planToUse = selectedPlan) => {
-    const amount = planToUse === "annual" ? 29.99 : 4.99;
+  const startFreeTrial = async (planToUse = selectedPlan) => {
+    const trimmedEmail = (userEmail || "").trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!trimmedEmail || !emailRegex.test(trimmedEmail)) {
+      setEmailError("Please enter a valid email address.");
+      return;
+    }
+    setEmailError("");
+
     const planLabel = planToUse === "annual" ? "Annual ($29.99/yr after 7-day trial)" : "Monthly ($4.99/mo after 7-day trial)";
 
     if (typeof window !== "undefined" && typeof window.FlutterwaveCheckout === "function") {
       window.FlutterwaveCheckout({
         public_key: "FLWPUBK-00b20d5dc708ea1b8e95d9baa7f5fed0-X",
-        tx_ref: "elo_trial_" + Date.now(),
-        amount: amount,
+        tx_ref: `elo_verify_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        amount: 0.5, // $0.50 verification charge, refunded immediately
         currency: "USD",
         payment_options: "card",
-        meta: {
-          trial_period: "7_days",
-          plan: planToUse
-        },
         customer: {
-          email: "user@chefelotrail.com",
+          email: trimmedEmail,
           name: "Chef Elo Member",
         },
         customizations: {
-          title: "Chef Elo Pro 7-Day Free Trial",
-          description: `Activate 7-Day Free Trial. $0.00 charged today. Then ${planLabel}.`,
+          title: "Chef Elo Card Verification",
+          description: `Temporary $0.50 card check, refunded immediately ($0.00 total). Then ${planLabel}.`,
           logo: "https://raw.githubusercontent.com/charlesgoodlucke/elo/main/public/favicon.svg",
         },
-        callback: function (data) {
-          const now = new Date().toISOString();
-          setSubStatus("trialing");
-          setTrialStartDate(now);
-          setSelectedPlan(planToUse);
+        callback: async function (data) {
+          setIsVerifyingTrial(true);
           try {
-            localStorage.setItem("elo_sub_status", "trialing");
-            localStorage.setItem("elo_trial_start", now);
-            localStorage.setItem("elo_selected_plan", planToUse);
-            localStorage.setItem("elo_flw_tx", data.transaction_id || data.tx_ref || "verified");
-          } catch {}
+            const res = await fetch("/api/trial-start", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: trimmedEmail,
+                plan: planToUse,
+                cardDetails: {
+                  token: data.transaction_id || data.id,
+                  flw_ref: data.flw_ref,
+                  tx_ref: data.tx_ref,
+                },
+              }),
+            });
+            const result = await res.json();
 
-          setShowPaywall(false);
+            if (res.ok && result.status === "trialing") {
+              setSubStatus("trialing");
+              if (result.trialEnd) {
+                setTrialEndDate(result.trialEnd);
+                localStorage.setItem("elo_trial_end", result.trialEnd);
+              }
+              localStorage.setItem("elo_sub_status", "trialing");
+              localStorage.setItem("elo_selected_plan", planToUse);
+              localStorage.setItem("elo_user_email", trimmedEmail);
+              setShowPaywall(false);
+            } else {
+              setEmailError(result.error || "Card verification failed. Please try another card.");
+            }
+          } catch (err) {
+            console.error("Trial start API error:", err);
+            setEmailError("Connection error while activating trial. Please try again.");
+          } finally {
+            setIsVerifyingTrial(false);
+          }
         },
-        onclose: function() {}
+        onclose: function () {},
       });
     } else {
-      // Fallback
-      const now = new Date().toISOString();
-      setSubStatus("trialing");
-      setTrialStartDate(now);
-      setSelectedPlan(planToUse);
-      try {
-        localStorage.setItem("elo_sub_status", "trialing");
-        localStorage.setItem("elo_trial_start", now);
-        localStorage.setItem("elo_selected_plan", planToUse);
-      } catch {}
-      setShowPaywall(false);
+      setEmailError("Payment gateway is initializing. Please try again in a moment.");
+    }
+  };
+
+  const handleRestorePurchases = async () => {
+    const emailToRestore = (restoreEmail || "").trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailToRestore || !emailRegex.test(emailToRestore)) {
+      setRestoreMessage("Please enter a valid email address.");
+      return;
+    }
+
+    setRestoreLoading(true);
+    setRestoreMessage("");
+    try {
+      const res = await fetch(`/api/subscription-status?email=${encodeURIComponent(emailToRestore)}`);
+      const data = await res.json();
+
+      if (res.ok && (data.status === "active" || data.status === "trialing")) {
+        setSubStatus(data.status);
+        setUserEmail(emailToRestore);
+        localStorage.setItem("elo_sub_status", data.status);
+        localStorage.setItem("elo_user_email", emailToRestore);
+        if (data.trialEnd) {
+          setTrialEndDate(data.trialEnd);
+          localStorage.setItem("elo_trial_end", data.trialEnd);
+        }
+        setShowRestoreModal(false);
+        setShowPaywall(false);
+        alert(`Subscription restored! Status: ${data.status.toUpperCase()}`);
+      } else if (data.status === "none" || !data.status) {
+        setRestoreMessage("No active subscription found for this email address.");
+      } else {
+        setRestoreMessage(`Account status: ${data.status}. Please enter card details to continue.`);
+      }
+    } catch (err) {
+      console.error("Restore error:", err);
+      setRestoreMessage("Error connecting to server. Please try again.");
+    } finally {
+      setRestoreLoading(false);
     }
   };
 
@@ -1735,6 +1824,39 @@ export default function TonightApp() {
               </div>
             </div>
 
+            {/* Email Input Field */}
+            <div style={{ marginBottom: 14, textAlign: "left" }}>
+              <label style={{ display: "block", fontSize: 11, fontWeight: 700, color: "#045137", letterSpacing: "0.08em", marginBottom: 6, fontFamily: "'IBM Plex Mono', monospace" }}>
+                YOUR EMAIL ADDRESS
+              </label>
+              <input
+                type="email"
+                value={userEmail}
+                onChange={(e) => {
+                  setUserEmail(e.target.value);
+                  setEmailError("");
+                }}
+                placeholder="alex@example.com"
+                style={{
+                  width: "100%",
+                  padding: "12px 14px",
+                  border: emailError ? "1.5px solid #D05F0D" : "1px solid #C2DDD4",
+                  borderRadius: 10,
+                  fontSize: 14,
+                  color: "#23322D",
+                  background: "#F5F9F7",
+                  fontFamily: "'Inter', sans-serif",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+              />
+              {emailError && (
+                <div style={{ color: "#D05F0D", fontSize: 11.5, marginTop: 4, fontFamily: "'Inter', sans-serif" }}>
+                  {emailError}
+                </div>
+              )}
+            </div>
+
             {/* Security & Card Guarantee Badge */}
             <div style={{
               background: "#F5F9F7",
@@ -1753,7 +1875,7 @@ export default function TonightApp() {
                   Zero Charge Today · 256-Bit Bank Grade Encryption
                 </div>
                 <div style={{ color: "#6B8F82", fontSize: 11, lineHeight: 1.45, fontFamily: "'Inter', sans-serif", marginTop: 2 }}>
-                  Your card details are processed safely through <strong>Flutterwave</strong> to activate your 7-day trial. You will NOT be charged today.
+                  Your card details are verified safely through <strong>Flutterwave</strong>. You will NOT be charged today ($0.00).
                 </div>
               </div>
             </div>
@@ -1761,6 +1883,7 @@ export default function TonightApp() {
             {/* CTA Button */}
             <button
               className="tn-focus"
+              disabled={isVerifyingTrial}
               style={{
                 ...styles.decideBtn,
                 marginTop: 0,
@@ -1769,12 +1892,13 @@ export default function TonightApp() {
                 fontSize: 15.5,
                 fontWeight: 700,
                 width: "100%",
-                background: "#045137",
+                background: isVerifyingTrial ? "#6B8F82" : "#045137",
                 color: "#FFFFFF",
+                cursor: isVerifyingTrial ? "wait" : "pointer",
               }}
               onClick={() => startFreeTrial(selectedPlan)}
             >
-              Enter Card to Activate 7-Day Free Trial
+              {isVerifyingTrial ? "Verifying Card..." : "Enter Card to Activate 7-Day Free Trial"}
             </button>
 
             {/* Microcopy Under Button */}
@@ -1784,7 +1908,14 @@ export default function TonightApp() {
 
             {/* Legal / Policy Links */}
             <div style={{ display: "flex", justifyContent: "center", gap: 14, fontSize: 11, color: "#6B8F82", fontFamily: "'Inter', sans-serif" }}>
-              <span style={{ cursor: "pointer", textDecoration: "underline" }} onClick={() => alert("All purchases are up to date.")}>
+              <span
+                style={{ cursor: "pointer", textDecoration: "underline" }}
+                onClick={() => {
+                  setRestoreEmail(userEmail || "");
+                  setRestoreMessage("");
+                  setShowRestoreModal(true);
+                }}
+              >
                 Restore Purchases
               </span>
               <span>·</span>
@@ -1796,6 +1927,114 @@ export default function TonightApp() {
                 Privacy
               </span>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Restore Purchases Modal */}
+      {showRestoreModal && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(35, 50, 45, 0.8)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+          zIndex: 100000,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "16px 14px",
+        }} className="tn-card-enter">
+          <div style={{
+            background: "#FFFFFF",
+            borderRadius: 20,
+            border: "1px solid #C2DDD4",
+            padding: "24px 20px 20px",
+            maxWidth: 360,
+            width: "100%",
+            textAlign: "center",
+            position: "relative",
+          }}>
+            <button
+              onClick={() => setShowRestoreModal(false)}
+              aria-label="Close"
+              className="tn-focus"
+              style={{
+                position: "absolute",
+                top: 12,
+                right: 12,
+                background: "#F5F9F7",
+                border: "1px solid #C2DDD4",
+                borderRadius: "50%",
+                width: 28,
+                height: 28,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#6B8F82",
+                cursor: "pointer",
+                fontSize: 13,
+                fontWeight: 700,
+              }}
+            >
+              ✕
+            </button>
+
+            <h3 style={{ color: "#23322D", fontSize: 18, fontWeight: 700, margin: "0 0 8px", fontFamily: "'DM Sans', sans-serif" }}>
+              Restore Purchases
+            </h3>
+            <p style={{ color: "#6B8F82", fontSize: 13, lineHeight: 1.4, margin: "0 0 16px", fontFamily: "'Inter', sans-serif" }}>
+              Enter the email address you used when activating your 7-day free trial or subscription.
+            </p>
+
+            <input
+              type="email"
+              value={restoreEmail}
+              onChange={(e) => setRestoreEmail(e.target.value)}
+              placeholder="your-email@example.com"
+              style={{
+                width: "100%",
+                padding: "12px 14px",
+                border: "1px solid #C2DDD4",
+                borderRadius: 10,
+                fontSize: 14,
+                color: "#23322D",
+                background: "#F5F9F7",
+                fontFamily: "'Inter', sans-serif",
+                outline: "none",
+                boxSizing: "border-box",
+                marginBottom: 10,
+              }}
+            />
+
+            {restoreMessage && (
+              <div style={{ color: "#D05F0D", fontSize: 12, marginBottom: 12, fontFamily: "'Inter', sans-serif" }}>
+                {restoreMessage}
+              </div>
+            )}
+
+            <button
+              className="tn-focus"
+              disabled={restoreLoading}
+              style={{
+                ...styles.decideBtn,
+                marginTop: 0,
+                boxShadow: "none",
+                padding: "12px 20px",
+                fontSize: 14.5,
+                fontWeight: 700,
+                width: "100%",
+                background: restoreLoading ? "#6B8F82" : "#045137",
+                color: "#FFFFFF",
+                cursor: restoreLoading ? "wait" : "pointer",
+              }}
+              onClick={handleRestorePurchases}
+            >
+              {restoreLoading ? "Checking..." : "Look Up Account"}
+            </button>
           </div>
         </div>
       )}
