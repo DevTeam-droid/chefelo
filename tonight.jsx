@@ -1,5 +1,408 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack } from "lucide-react";
+import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack, Globe } from "lucide-react";
+
+// ---------- Internationalization & Multi-Language Support ----------
+const LANGUAGES = [
+  { code: "en", label: "English", flag: "🇺🇸" },
+  { code: "es", label: "Español", flag: "🇪🇸" },
+  { code: "fr", label: "Français", flag: "🇫🇷" },
+  { code: "de", label: "Deutsch", flag: "🇩🇪" },
+  { code: "it", label: "Italiano", flag: "🇮🇹" },
+  { code: "pt", label: "Português", flag: "🇵🇹" },
+  { code: "zh", label: "中文", flag: "🇨🇳" },
+  { code: "ja", label: "日本語", flag: "🇯🇵" },
+  { code: "ar", label: "العربية", flag: "🇸🇦" },
+];
+
+const TRANSLATIONS = {
+  en: {
+    morning_eyebrow: "MORNING'S DECISION",
+    morning_title: "What's for breakfast?",
+    afternoon_eyebrow: "AFTERNOON'S DECISION",
+    afternoon_title: "What's for lunch?",
+    tonight_eyebrow: "TONIGHT'S DECISION",
+    tonight_title: "What's for dinner?",
+    pantry_title: "WHAT'S IN THE PANTRY?",
+    time_title: "HOW MUCH TIME DO YOU HAVE?",
+    diet_title: "ANY DIETARY RESTRICTIONS?",
+    allergies_title: "ALLERGIES & RESTRICTIONS",
+    health_title: "HEALTH & DIET GOALS",
+    decide_btn: "Decide for me",
+    not_this: "Not this one",
+    doing_this: "Doing this",
+    cook_now: "Cook this now",
+    view_recipe: "View recipe",
+    ingredients: "INGREDIENTS",
+    steps: "PREPARATION STEPS",
+    step_of: "STEP",
+    of: "OF",
+    quit_cooking: "Quit cooking",
+    next_step: "Next step",
+    prev_step: "Previous step",
+    done: "Done",
+    thanks_chef: "Thanks Chef",
+    food_ready: "Food is ready, please serve!",
+    hi_elo: "Hi, I'm Elo, your Chef!",
+    scouting: "Elo is scouting the web...",
+    scouting_sub: "Finding the perfect recipe matching your pantry and filters.",
+    continue: "Continue",
+    skip: "Skip for now",
+    select_language: "Select Language",
+    paywall_title: "Decide & Cook Without Limits.",
+    paywall_sub: "Unlock daily AI meal decider, step-by-step cooking timers, and dietary safeguards.",
+    annual_plan: "Annual Plan",
+    monthly_plan: "Monthly Plan",
+    save_50: "SAVE 50%",
+    enter_card: "Enter Card to Activate 7-Day Free Trial",
+    restore_purchases: "Restore Purchases",
+    terms: "Terms",
+    privacy: "Privacy",
+  },
+  es: {
+    morning_eyebrow: "DECISIÓN DE LA MAÑANA",
+    morning_title: "¿Qué desayunamos hoy?",
+    afternoon_eyebrow: "DECISIÓN DEL MEDIODÍA",
+    afternoon_title: "¿Qué almorzamos hoy?",
+    tonight_eyebrow: "DECISIÓN DE LA NOCHE",
+    tonight_title: "¿Qué cenamos hoy?",
+    pantry_title: "¿QUÉ TIENES EN LA DESPENSA?",
+    time_title: "¿CUÁNTO TIEMPO TIENES?",
+    diet_title: "¿RESTRICCIONES DIETÉTICAS?",
+    allergies_title: "ALERGIAS Y RESTRICCIONES",
+    health_title: "OBJETIVOS DE SALUD Y DIETA",
+    decide_btn: "Decide por mí",
+    not_this: "Esta no",
+    doing_this: "Hagamos esta",
+    cook_now: "Cocinar ahora",
+    view_recipe: "Ver receta",
+    ingredients: "INGREDIENTES",
+    steps: "PASOS DE PREPARACIÓN",
+    step_of: "PASO",
+    of: "DE",
+    quit_cooking: "Salir",
+    next_step: "Siguiente paso",
+    prev_step: "Paso anterior",
+    done: "Listo",
+    thanks_chef: "¡Gracias Chef!",
+    food_ready: "¡La comida está lista, a servir!",
+    hi_elo: "¡Hola! Soy Elo, tu Chef.",
+    scouting: "Elo está explorando recetas...",
+    scouting_sub: "Buscando la receta perfecta para tus ingredientes y preferencias.",
+    continue: "Continuar",
+    skip: "Omitir por ahora",
+    select_language: "Seleccionar Idioma",
+    paywall_title: "Decide y Cocina Sin Límites.",
+    paywall_sub: "Desbloquea el recomendador diario de IA, temporizadores de cocina y filtros dietéticos.",
+    annual_plan: "Plan Anual",
+    monthly_plan: "Plan Mensual",
+    save_50: "AHORRA 50%",
+    enter_card: "Ingresar Tarjeta para Prueba de 7 Días",
+    restore_purchases: "Restaurar Compras",
+    terms: "Términos",
+    privacy: "Privacidad",
+  },
+  fr: {
+    morning_eyebrow: "DÉCISION DU MATIN",
+    morning_title: "Qu'est-ce qu'on mange ce matin ?",
+    afternoon_eyebrow: "DÉCISION DU MIDI",
+    afternoon_title: "Qu'est-ce qu'on mange ce midi ?",
+    tonight_eyebrow: "DÉCISION DU SOIR",
+    tonight_title: "Qu'est-ce qu'on mange ce soir ?",
+    pantry_title: "QU'Y A-T-IL DANS VOTRE GARDE-MANGER ?",
+    time_title: "COMBIEN DE TEMPS AVEZ-VOUS ?",
+    diet_title: "DES RESTRICTIONS ALIMENTAIRES ?",
+    allergies_title: "ALLERGIES ET RESTRICTIONS",
+    health_title: "OBJECTIFS NUTRITION ET SANTÉ",
+    decide_btn: "Décide pour moi",
+    not_this: "Pas celle-ci",
+    doing_this: "Je fais ça",
+    cook_now: "Cuisiner maintenant",
+    view_recipe: "Voir la recette",
+    ingredients: "INGRÉDIENTS",
+    steps: "ÉTAPES DE PRÉPARATION",
+    step_of: "ÉTAPE",
+    of: "SUR",
+    quit_cooking: "Quitter",
+    next_step: "Étape suivante",
+    prev_step: "Étape précédente",
+    done: "Terminé",
+    thanks_chef: "Merci Chef !",
+    food_ready: "Le repas est prêt, servez !",
+    hi_elo: "Salut ! Je suis Elo, votre Chef.",
+    scouting: "Elo cherche la meilleure recette...",
+    scouting_sub: "Recherche de la recette idéale selon vos ingrédients.",
+    continue: "Continuer",
+    skip: "Passer pour l'instant",
+    select_language: "Choisir la langue",
+    paywall_title: "Décidez et Cuisinez Sans Limites.",
+    paywall_sub: "Accédez au sélecteur intelligent, aux minuteurs et aux filtres personnalisés.",
+    annual_plan: "Plan Annuel",
+    monthly_plan: "Plan Mensual",
+    save_50: "ÉCONOMISEZ 50%",
+    enter_card: "Activer l'Essai Gratuit de 7 Jours",
+    restore_purchases: "Restaurer les achats",
+    terms: "Conditions",
+    privacy: "Confidentialité",
+  },
+  de: {
+    morning_eyebrow: "ENTSCHEIDUNG AM MORGEN",
+    morning_title: "Was gibt es zum Frühstück?",
+    afternoon_eyebrow: "ENTSCHEIDUNG AM MITTAG",
+    afternoon_title: "Was gibt es zum Mittagessen?",
+    tonight_eyebrow: "ENTSCHEIDUNG AM ABEND",
+    tonight_title: "Was gibt es heute Abend?",
+    pantry_title: "WAS IST IN DER VORRATSKAMMER?",
+    time_title: "WIE VIEL ZEIT HAST DU?",
+    diet_title: "DIÄTVORGABEN ODER ALLERGIEN?",
+    allergies_title: "ALLERGIEN & EINSCHRÄNKUNGEN",
+    health_title: "GESUNDHEITS- & ERNÄHRUNGSZIELE",
+    decide_btn: "Entscheide für mich",
+    not_this: "Nicht dieses",
+    doing_this: "Das mache ich",
+    cook_now: "Jetzt kochen",
+    view_recipe: "Rezept ansehen",
+    ingredients: "ZUTATEN",
+    steps: "ZUBEREITUNGSSCHRITTE",
+    step_of: "SCHRITT",
+    of: "VON",
+    quit_cooking: "Abbrechen",
+    next_step: "Nächster Schritt",
+    prev_step: "Vorheriger Schritt",
+    done: "Fertig",
+    thanks_chef: "Danke, Chef!",
+    food_ready: "Das Essen ist fertig, bitte servieren!",
+    hi_elo: "Hallo! Ich bin Elo, dein Küchenchef.",
+    scouting: "Elo sucht nach den besten Rezepten...",
+    scouting_sub: "Perfektes Rezept passend zu deinen Zutaten und Filtern wird gesucht.",
+    continue: "Weiter",
+    skip: "Vorläufig überspringen",
+    select_language: "Sprache wählen",
+    paywall_title: "Kochen & Entscheiden Ohne Limits.",
+    paywall_sub: "Unbegrenzte KI-Mahlzeiten-Entscheidungen, Schritt-für-Schritt-Timer & Schutzfilter.",
+    annual_plan: "Jahresplan",
+    monthly_plan: "Monatsplan",
+    save_50: "50% SPAREN",
+    enter_card: "Karte eingeben für 7-Tage-Testversion",
+    restore_purchases: "Käufe wiederherstellen",
+    terms: "AGB",
+    privacy: "Datenschutz",
+  },
+  it: {
+    morning_eyebrow: "DECISIONE DEL MATTINO",
+    morning_title: "Cosa mangiamo a colazione?",
+    afternoon_eyebrow: "DECISIONE DEL POMERIGGIO",
+    afternoon_title: "Cosa mangiamo a pranzo?",
+    tonight_eyebrow: "DECISIONE DI STASERA",
+    tonight_title: "Cosa mangiamo stasera?",
+    pantry_title: "COSA C'È IN DISPENSA?",
+    time_title: "QUANTO TEMPO HAI?",
+    diet_title: "RESTRIZIONI ALIMENTARI?",
+    allergies_title: "ALLERGIE E INTOLLERANZE",
+    health_title: "OBIETTIVI DI SALUTE E DIETA",
+    decide_btn: "Decidi per me",
+    not_this: "Non questo",
+    doing_this: "Faccio questo",
+    cook_now: "Cucina ora",
+    view_recipe: "Vedi ricetta",
+    ingredients: "INGREDIENTI",
+    steps: "PASSAGGI DI PREPARAZIONE",
+    step_of: "PASSO",
+    of: "DI",
+    quit_cooking: "Esci",
+    next_step: "Passo successivo",
+    prev_step: "Passo precedente",
+    done: "Fatto",
+    thanks_chef: "Grazie Chef!",
+    food_ready: "Il cibo è pronto, buon appetito!",
+    hi_elo: "Ciao! Sono Elo, il tuo Chef.",
+    scouting: "Elo sta cercando le ricette migliori...",
+    scouting_sub: "Ricerca della ricetta ideale per i tuoi ingredienti.",
+    continue: "Continua",
+    skip: "Salta per ora",
+    select_language: "Seleziona Lingua",
+    paywall_title: "Decidi e Cucina Senza Limiti.",
+    paywall_sub: "Consigli intelligenti ogni giorno, timer di cottura e sicurezza alimentare.",
+    annual_plan: "Piano Annuale",
+    monthly_plan: "Piano Mensile",
+    save_50: "RISPARMIA 50%",
+    enter_card: "Attiva la Prova Gratuita di 7 Giorni",
+    restore_purchases: "Ripristina acquisti",
+    terms: "Termini",
+    privacy: "Privacy",
+  },
+  pt: {
+    morning_eyebrow: "DECISÃO DA MANHÃ",
+    morning_title: "O que vamos tomar no café?",
+    afternoon_eyebrow: "DECISÃO DA TARDE",
+    afternoon_title: "O que vamos almoçar?",
+    tonight_eyebrow: "DECISÃO DA NOITE",
+    tonight_title: "O que vamos jantar?",
+    pantry_title: "O QUE VOCÊ TEM NA DESPENSA?",
+    time_title: "QUANTO TEMPO VOCÊ TEM?",
+    diet_title: "RESTRIÇÕES ALIMENTARES?",
+    allergies_title: "ALERGIAS E RESTRIÇÕES",
+    health_title: "OBJETIVOS DE SAÚDE E DIETA",
+    decide_btn: "Decida por mim",
+    not_this: "Esse não",
+    doing_this: "Vou fazer esse",
+    cook_now: "Cozinhar agora",
+    view_recipe: "Ver receita",
+    ingredients: "INGREDIENTES",
+    steps: "MODO DE PREPARO",
+    step_of: "PASSO",
+    of: "DE",
+    quit_cooking: "Sair",
+    next_step: "Próximo passo",
+    prev_step: "Passo anterior",
+    done: "Pronto",
+    thanks_chef: "Obrigado Chef!",
+    food_ready: "A refeição está pronta, pode servir!",
+    hi_elo: "Olá! Eu sou o Elo, seu Chef.",
+    scouting: "Elo está procurando receitas...",
+    scouting_sub: "Encontrando a receita ideal para seus ingredientes.",
+    continue: "Continuar",
+    skip: "Pular por enquanto",
+    select_language: "Selecionar Idioma",
+    paywall_title: "Decida e Cozinhe Sem Limites.",
+    paywall_sub: "Decisões diárias com IA, temporizadores passo a passo e proteção alimentar.",
+    annual_plan: "Plano Anual",
+    monthly_plan: "Plano Mensal",
+    save_50: "ECONOMIZE 50%",
+    enter_card: "Ativar Teste Grátis de 7 Dias",
+    restore_purchases: "Restaurar Compras",
+    terms: "Termos",
+    privacy: "Privacidade",
+  },
+  zh: {
+    morning_eyebrow: "早晨的决定",
+    morning_title: "早餐吃什么？",
+    afternoon_eyebrow: "中午的决定",
+    afternoon_title: "午餐吃什么？",
+    tonight_eyebrow: "今晚的决定",
+    tonight_title: "晚餐吃什么？",
+    pantry_title: "厨房里有什么食材？",
+    time_title: "你有多少时间？",
+    diet_title: "饮食偏好或限制？",
+    allergies_title: "过敏与禁忌",
+    health_title: "健康与饮食目标",
+    decide_btn: "帮我决定",
+    not_this: "换一个",
+    doing_this: "就做这个",
+    cook_now: "立即烹饪",
+    view_recipe: "查看食谱",
+    ingredients: "所需食材",
+    steps: "烹饪步骤",
+    step_of: "第",
+    of: "步，共",
+    quit_cooking: "退出烹饪",
+    next_step: "下一步",
+    prev_step: "上一步",
+    done: "完成",
+    thanks_chef: "谢谢大厨！",
+    food_ready: "美食做好了，请享用！",
+    hi_elo: "你好！我是主厨 Elo。",
+    scouting: "Elo 正在搜索最佳食谱...",
+    scouting_sub: "正在根据您的食材和偏好匹配最佳做法。",
+    continue: "继续",
+    skip: "暂不设置",
+    select_language: "选择语言",
+    paywall_title: "无限开启智能烹饪灵感",
+    paywall_sub: "解锁每日 AI 膳食决策、精准烹饪计时与过敏保护。",
+    annual_plan: "包年计划",
+    monthly_plan: "按月订阅",
+    save_50: "立省 50%",
+    enter_card: "输入卡片开启 7 天免费试用",
+    restore_purchases: "恢复购买",
+    terms: "服务条款",
+    privacy: "隐私政策",
+  },
+  ja: {
+    morning_eyebrow: "朝のメニュー決定",
+    morning_title: "朝ごはんは何にする？",
+    afternoon_eyebrow: "昼のメニュー決定",
+    afternoon_title: "お昼ごはんは何にする？",
+    tonight_eyebrow: "今夜のメニュー決定",
+    tonight_title: "今夜は何を作ろう？",
+    pantry_title: "キッチンにある食材は？",
+    time_title: "調理時間はどれくらい？",
+    diet_title: "アレルギーや食事制限は？",
+    allergies_title: "アレルギーと制限",
+    health_title: "健康と食事の目標",
+    decide_btn: "決めてもらう",
+    not_this: "別のメニュー",
+    doing_this: "これを作る",
+    cook_now: "調理スタート",
+    view_recipe: "レシピを見る",
+    ingredients: "材料",
+    steps: "作り方",
+    step_of: "ステップ",
+    of: "/",
+    quit_cooking: "調理を終了",
+    next_step: "次へ",
+    prev_step: "戻る",
+    done: "完成！",
+    thanks_chef: "シェフありがとう！",
+    food_ready: "お料理が完成しました！どうぞお召し上がりください。",
+    hi_elo: "こんにちは！シェフのEloです。",
+    scouting: "Eloが最適なレシピを探しています...",
+    scouting_sub: "食材と好みに合わせてベストなレシピをマッチング中。",
+    continue: "次へ進む",
+    skip: "スキップ",
+    select_language: "言語を選択",
+    paywall_title: "無制限のスマート料理体験を解放",
+    paywall_sub: "AIメニュー提案、スマートタイマー、食事制限サポートをフル活用。",
+    annual_plan: "年額プラン",
+    monthly_plan: "月額プラン",
+    save_50: "50% お得",
+    enter_card: "カードを登録して7日間無料体験を開始",
+    restore_purchases: "購入を復元",
+    terms: "利用規約",
+    privacy: "プライバシーポリシー",
+  },
+  ar: {
+    morning_eyebrow: "قرار الصباح",
+    morning_title: "ماذا سنأكل على الإفطار؟",
+    afternoon_eyebrow: "قرار الظهيرة",
+    afternoon_title: "ماذا سنأكل على الغداء؟",
+    tonight_eyebrow: "قرار الليلة",
+    tonight_title: "ماذا سنطبخ الليلة؟",
+    pantry_title: "ما هي المكونات المتوفرة لديك؟",
+    time_title: "كم من الوقت لديك؟",
+    diet_title: "أي قيود غذائية؟",
+    allergies_title: "الحساسية والقيود",
+    health_title: "أهداف الصحة والتغذية",
+    decide_btn: "اختر لي",
+    not_this: "غير هذه",
+    doing_this: "سأطبخ هذه",
+    cook_now: "ابدأ الطبخ الآن",
+    view_recipe: "عرض الوصفة",
+    ingredients: "المكونات",
+    steps: "خطوات التحضير",
+    step_of: "خطوة",
+    of: "من",
+    quit_cooking: "إنهاء الطبخ",
+    next_step: "الخطوة التالية",
+    prev_step: "الخطوة السابقة",
+    done: "تم",
+    thanks_chef: "شكراً شيف!",
+    food_ready: "الطعام جاهز، بالهناء والشفاء!",
+    hi_elo: "مرحباً! أنا إيلو، طاهيك الذكي.",
+    scouting: "إيلو يبحث عن أفضل وصفة...",
+    scouting_sub: "جاري البحث عن أنسب وصفة حسب مكوناتك وتفضيلاتك.",
+    continue: "متابعة",
+    skip: "تخطي الآن",
+    select_language: "اختر اللغة",
+    paywall_title: "اطبخ وقرر بلا حدود.",
+    paywall_sub: "احصل على مقترحات الوجبات الذكية ومؤقتات الطبخ المباشرة وفلاتر الحساسية.",
+    annual_plan: "الخطة السنوية",
+    monthly_plan: "الخطة الشهرية",
+    save_50: "وفر 50%",
+    enter_card: "أدخل البطاقة لتفعيل التجربة المجانية 7 أيام",
+    restore_purchases: "استعادة المشتريات",
+    terms: "الشروط",
+    privacy: "الخصوصية",
+  },
+};
 
 // ---------- Data ----------
 const MEALS = [
@@ -552,6 +955,34 @@ function requestAppFullscreen() {
 
 // ---------- Component ----------
 export default function TonightApp() {
+  // ---------- Internationalization State ----------
+  const [lang, setLang] = useState(() => {
+    try {
+      return localStorage.getItem("elo_lang") || "en";
+    } catch {
+      return "en";
+    }
+  });
+  const [showLangModal, setShowLangModal] = useState(false);
+
+  const t = (key, fallback = "") => {
+    if (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
+      return TRANSLATIONS[lang][key];
+    }
+    if (TRANSLATIONS.en && TRANSLATIONS.en[key]) {
+      return TRANSLATIONS.en[key];
+    }
+    return fallback || key;
+  };
+
+  const handleLanguageChange = (newLang) => {
+    setLang(newLang);
+    try {
+      localStorage.setItem("elo_lang", newLang);
+    } catch {}
+    setShowLangModal(false);
+  };
+
   const [stage, setStage] = useState(() => {
     try {
       return localStorage.getItem("elo_preferences_set") ? "ask" : "health";
@@ -1150,11 +1581,41 @@ export default function TonightApp() {
         <div className="tn-root" style={styles.wrap}>
           {!isCooking && (
             <header style={styles.header}>
-              <div className="tn-mono" style={styles.eyebrow}>
-                <ChefHat size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
-                {timeInfo.eyebrow}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                <div className="tn-mono" style={{ ...styles.eyebrow, marginBottom: 0 }}>
+                  <ChefHat size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
+                  {timeInfo.mealType === "breakfast" ? t("morning_eyebrow", timeInfo.eyebrow) : timeInfo.mealType === "lunch" ? t("afternoon_eyebrow", timeInfo.eyebrow) : t("tonight_eyebrow", timeInfo.eyebrow)}
+                </div>
+                {/* Language Switcher Pill */}
+                <button
+                  type="button"
+                  onClick={() => setShowLangModal(true)}
+                  className="tn-focus"
+                  aria-label="Change Language"
+                  style={{
+                    background: "#F5F9F7",
+                    border: "1px solid #C2DDD4",
+                    borderRadius: 999,
+                    padding: "4px 10px",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: "#045137",
+                    cursor: "pointer",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 5,
+                    fontFamily: "'IBM Plex Mono', monospace",
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  <Globe size={13} style={{ verticalAlign: "-1px" }} />
+                  <span>{LANGUAGES.find(l => l.code === lang)?.label || "English"}</span>
+                  <span style={{ fontSize: 9, opacity: 0.7 }}>▾</span>
+                </button>
               </div>
-              <h1 style={styles.h1}>{timeInfo.title}</h1>
+              <h1 style={styles.h1}>
+                {timeInfo.mealType === "breakfast" ? t("morning_title", timeInfo.title) : timeInfo.mealType === "lunch" ? t("afternoon_title", timeInfo.title) : t("tonight_title", timeInfo.title)}
+              </h1>
             </header>
           )}
 
@@ -1659,19 +2120,45 @@ export default function TonightApp() {
               </button>
             )}
 
-            {/* Anchor-Style Pill Badge */}
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#CEE9DF", border: "1px solid #A8D5C5", padding: "4px 12px", borderRadius: 999, marginBottom: 12 }}>
-              <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#045137" }} />
-              <span className="tn-mono" style={{ fontSize: 10.5, color: "#045137", fontWeight: 700, letterSpacing: "0.06em" }}>
-                CHEF ELO PRO · 7-DAY FREE TRIAL
-              </span>
+            {/* Top Row: Pill Badge & Language Switcher */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#CEE9DF", border: "1px solid #A8D5C5", padding: "4px 12px", borderRadius: 999 }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#045137" }} />
+                <span className="tn-mono" style={{ fontSize: 10.5, color: "#045137", fontWeight: 700, letterSpacing: "0.06em" }}>
+                  CHEF ELO PRO · 7-DAY FREE TRIAL
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowLangModal(true)}
+                className="tn-focus"
+                aria-label="Change Language"
+                style={{
+                  background: "#F5F9F7",
+                  border: "1px solid #C2DDD4",
+                  borderRadius: 999,
+                  padding: "4px 10px",
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: "#045137",
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 5,
+                  fontFamily: "'IBM Plex Mono', monospace",
+                }}
+              >
+                <Globe size={13} />
+                <span>{LANGUAGES.find(l => l.code === lang)?.label || "English"}</span>
+                <span style={{ fontSize: 9, opacity: 0.7 }}>▾</span>
+              </button>
             </div>
 
             <h2 style={{ color: "#23322D", fontSize: 24, fontWeight: 800, margin: "0 0 8px", fontFamily: "'DM Sans', sans-serif", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
-              Decide & Cook Without Limits.
+              {t("paywall_title", "Decide & Cook Without Limits.")}
             </h2>
             <p style={{ color: "#6B8F82", fontSize: 13.5, margin: "0 0 18px", lineHeight: 1.45, fontFamily: "'Inter', sans-serif" }}>
-              Unlock daily AI meal decider, step-by-step cooking timers, and dietary safeguards.
+              {t("paywall_sub", "Unlock daily AI meal decider, step-by-step cooking timers, and dietary safeguards.")}
             </p>
 
             {/* Anchor-Style Feature Checklist */}
@@ -2228,6 +2715,105 @@ export default function TonightApp() {
             >
               Close Privacy Policy
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Language Selection Modal */}
+      {showLangModal && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(35, 50, 45, 0.8)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+          zIndex: 100000,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "16px 14px",
+        }} className="tn-card-enter">
+          <div style={{
+            background: "#FFFFFF",
+            borderRadius: 22,
+            border: "1px solid #C2DDD4",
+            padding: "24px 20px 20px",
+            maxWidth: 360,
+            width: "100%",
+            textAlign: "center",
+            position: "relative",
+          }}>
+            <button
+              onClick={() => setShowLangModal(false)}
+              aria-label="Close"
+              className="tn-focus"
+              style={{
+                position: "absolute",
+                top: 14,
+                right: 14,
+                background: "#F5F9F7",
+                border: "1px solid #C2DDD4",
+                borderRadius: "50%",
+                width: 28,
+                height: 28,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#6B8F82",
+                cursor: "pointer",
+                fontSize: 13,
+                fontWeight: 700,
+              }}
+            >
+              ✕
+            </button>
+
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#CEE9DF", border: "1px solid #A8D5C5", padding: "3px 10px", borderRadius: 999, marginBottom: 8 }}>
+              <Globe size={12} color="#045137" />
+              <span className="tn-mono" style={{ fontSize: 10, color: "#045137", fontWeight: 700, letterSpacing: "0.06em" }}>
+                LANGUAGE / IDIOMA / 语言
+              </span>
+            </div>
+
+            <h3 style={{ color: "#23322D", fontSize: 19, fontWeight: 700, margin: "0 0 14px", fontFamily: "'DM Sans', sans-serif" }}>
+              {t("select_language", "Select Language")}
+            </h3>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, maxHeight: "55vh", overflowY: "auto" }}>
+              {LANGUAGES.map((l) => {
+                const isActive = lang === l.code;
+                return (
+                  <button
+                    key={l.code}
+                    onClick={() => handleLanguageChange(l.code)}
+                    className="tn-focus"
+                    style={{
+                      background: isActive ? "#045137" : "#F8FAF9",
+                      color: isActive ? "#FFFFFF" : "#23322D",
+                      border: isActive ? "1px solid #045137" : "1px solid #E2EBE7",
+                      borderRadius: 12,
+                      padding: "10px 12px",
+                      fontSize: 13,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      textAlign: "left",
+                      transition: "all 0.12s ease",
+                      fontFamily: "'Inter', sans-serif",
+                    }}
+                  >
+                    <span style={{ fontSize: 16 }}>{l.flag}</span>
+                    <span style={{ flex: 1 }}>{l.label}</span>
+                    {isActive && <Check size={14} color="#0BE49B" />}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
