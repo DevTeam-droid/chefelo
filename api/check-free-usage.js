@@ -17,8 +17,8 @@
 import crypto from 'crypto';
 import { db } from './db.js';
 
-const FREE_DECIDES_PER_DAY = 2; // tune this — how many free "decide"s per IP/day before nudging toward the paywall
-const IP_HASH_SALT = process.env.IP_HASH_SALT; // any random string, set once in env vars
+const FREE_DECIDES_PER_DAY = 1; // 1 free decision allowed before paywall triggers on 2nd decision
+const IP_HASH_SALT = process.env.IP_HASH_SALT || "elo_secure_ip_salt_2026_x8f";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
@@ -32,17 +32,20 @@ export default async function handler(req, res) {
 
   console.log(`[check-free-usage] Client IP detected: ${ip}`);
 
-  if (!IP_HASH_SALT) {
-    // Fail open rather than block real users if this is misconfigured —
-    // worst case someone gets an extra free decide, not a broken app.
-    console.warn("IP_HASH_SALT not set — skipping free-usage throttle");
-    return res.status(200).json({ allowed: true, remaining: null });
-  }
-
   const ipHash = crypto.createHash('sha256').update(ip + IP_HASH_SALT).digest('hex');
   const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
   try {
+    // Ensure table exists defensively
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS free_usage (
+        ip_hash TEXT NOT NULL,
+        day     DATE NOT NULL,
+        count   INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY (ip_hash, day)
+      )
+    `);
+
     const result = await db.query(
       `INSERT INTO free_usage (ip_hash, day, count)
        VALUES ($1, $2, 1)
@@ -54,14 +57,16 @@ export default async function handler(req, res) {
     const count = result.rows[0].count;
     const allowed = count <= FREE_DECIDES_PER_DAY;
 
+    console.log(`[check-free-usage] IP: ${ip}, count: ${count}, allowed: ${allowed}`);
+
     return res.status(200).json({
       allowed,
+      count,
       remaining: Math.max(0, FREE_DECIDES_PER_DAY - count),
     });
   } catch (err) {
-    console.error("check-free-usage error:", err);
-    // Same fail-open reasoning as above — a DB hiccup shouldn't block
-    // someone from using the free product.
-    return res.status(200).json({ allowed: true, remaining: null });
+    console.error("check-free-usage database error:", err);
+    // Fail open if database is down so users aren't completely crashed
+    return res.status(200).json({ allowed: true, remaining: null, error: err.message });
   }
 }

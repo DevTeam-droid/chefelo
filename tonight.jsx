@@ -1399,10 +1399,29 @@ export default function TonightApp() {
     }
 
     // 2. Client-side check: Gate on 2nd decision (intra-session reroll is allowed)
-    if (!isReroll && !hasActiveSubscription && decisionsCount >= 1) {
+    const localDecisions = (() => {
+      try {
+        return parseInt(localStorage.getItem("elo_decisions_count") || "0", 10);
+      } catch {
+        return 0;
+      }
+    })();
+
+    if (!isReroll && !hasActiveSubscription && (decisionsCount >= 1 || localDecisions >= 1)) {
       console.log("[decide] Blocked: client decisionsCount >= 1");
       setShowPaywall(true);
       return;
+    }
+
+    // Immediately record that the first free decision has started
+    if (!hasActiveSubscription && !isReroll) {
+      setDecisionsCount(1);
+      try {
+        localStorage.setItem("elo_decisions_count", "1");
+        console.log("[decide] elo_decisions_count set to 1");
+      } catch (e) {
+        console.error("Failed to write elo_decisions_count:", e);
+      }
     }
 
     // 3. Server-side check: Call POST /api/check-free-usage (IP-hash throttle)
@@ -1417,10 +1436,6 @@ export default function TonightApp() {
           const checkData = await checkRes.json();
           if (checkData && checkData.allowed === false) {
             console.log("[decide] Blocked by server-side IP throttle:", checkData);
-            setDecisionsCount(1);
-            try {
-              localStorage.setItem("elo_decisions_count", "1");
-            } catch {}
             setIsFetching(false);
             setShowPaywall(true);
             return;
@@ -1449,17 +1464,6 @@ export default function TonightApp() {
 
     if (!meal) {
       meal = pickMeal({ effort, pantry, diet, rejectedIds: rejected, lastId: current?.id, selectedAllergies, selectedHealth });
-    }
-
-    // After successfully resolving a new meal decision, record decisionsCount = 1
-    if (!hasActiveSubscription && !isReroll) {
-      setDecisionsCount(1);
-      try {
-        localStorage.setItem("elo_decisions_count", "1");
-        console.log("[decide] elo_decisions_count set to 1");
-      } catch (e) {
-        console.error("Failed to write elo_decisions_count:", e);
-      }
     }
 
     setCurrent(meal);
