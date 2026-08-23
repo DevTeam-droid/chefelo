@@ -1388,23 +1388,25 @@ export default function TonightApp() {
     setStage("ask");
   };
 
-  const decide = async () => {
+  const decide = async (isReroll = false) => {
     const hasActiveSubscription = subStatus === "trialing" || subStatus === "active";
 
     // 1. If account is expired / pending charge / past due, block with paywall
     if (subStatus === "trial_ended_pending_charge" || subStatus === "past_due") {
+      console.log("[decide] Blocked: subscription expired / past due");
       setShowPaywall(true);
       return;
     }
 
-    // 2. Client-side check: Gate on 2nd decision
-    if (!hasActiveSubscription && decisionsCount >= 1) {
+    // 2. Client-side check: Gate on 2nd decision (intra-session reroll is allowed)
+    if (!isReroll && !hasActiveSubscription && decisionsCount >= 1) {
+      console.log("[decide] Blocked: client decisionsCount >= 1");
       setShowPaywall(true);
       return;
     }
 
     // 3. Server-side check: Call POST /api/check-free-usage (IP-hash throttle)
-    if (!hasActiveSubscription) {
+    if (!isReroll && !hasActiveSubscription) {
       setIsFetching(true);
       try {
         const checkRes = await fetch("/api/check-free-usage", {
@@ -1414,10 +1416,10 @@ export default function TonightApp() {
         if (checkRes.ok) {
           const checkData = await checkRes.json();
           if (checkData && checkData.allowed === false) {
-            const nextCount = 1;
-            setDecisionsCount(nextCount);
+            console.log("[decide] Blocked by server-side IP throttle:", checkData);
+            setDecisionsCount(1);
             try {
-              localStorage.setItem("elo_decisions_count", nextCount.toString());
+              localStorage.setItem("elo_decisions_count", "1");
             } catch {}
             setIsFetching(false);
             setShowPaywall(true);
@@ -1427,13 +1429,6 @@ export default function TonightApp() {
       } catch (checkErr) {
         console.warn("check-free-usage network notice:", checkErr);
       }
-
-      // Record 1st decision usage locally
-      const nextCount = 1;
-      setDecisionsCount(nextCount);
-      try {
-        localStorage.setItem("elo_decisions_count", nextCount.toString());
-      } catch {}
     } else {
       setIsFetching(true);
     }
@@ -1456,6 +1451,17 @@ export default function TonightApp() {
       meal = pickMeal({ effort, pantry, diet, rejectedIds: rejected, lastId: current?.id, selectedAllergies, selectedHealth });
     }
 
+    // After successfully resolving a new meal decision, record decisionsCount = 1
+    if (!hasActiveSubscription && !isReroll) {
+      setDecisionsCount(1);
+      try {
+        localStorage.setItem("elo_decisions_count", "1");
+        console.log("[decide] elo_decisions_count set to 1");
+      } catch (e) {
+        console.error("Failed to write elo_decisions_count:", e);
+      }
+    }
+
     setCurrent(meal);
     setStage("reveal");
     setFlip(false);
@@ -1469,13 +1475,13 @@ export default function TonightApp() {
       // force acceptance path after one reroll — no infinite scrolling
       setRejectCount(0);
       setRejected([]);
-      decide();
+      decide(true);
       return;
     }
     setRejected((r) => [...r, current.id]);
     setRejectCount((c) => c + 1);
     setShowRecipe(false);
-    decide();
+    decide(true);
   };
 
   const startOver = () => {

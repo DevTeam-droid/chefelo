@@ -24,9 +24,13 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).end();
 
   const forwardedFor = req.headers['x-forwarded-for'];
+  const realIp = req.headers['x-real-ip'];
   const ip = (Array.isArray(forwardedFor) ? forwardedFor[0] : forwardedFor)?.split(',')[0]?.trim()
+    || (Array.isArray(realIp) ? realIp[0] : realIp)?.trim()
     || req.socket?.remoteAddress
     || 'unknown';
+
+  console.log(`[check-free-usage] Client IP detected: ${ip}`);
 
   if (!IP_HASH_SALT) {
     // Fail open rather than block real users if this is misconfigured —
