@@ -1079,14 +1079,8 @@ export default function TonightApp() {
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
-  // Decision Count Tracker: Gate on 2nd decision
-  const [decisionsCount, setDecisionsCount] = useState(() => {
-    try {
-      return parseInt(localStorage.getItem("elo_decisions_count") || "0", 10);
-    } catch {
-      return 0;
-    }
-  });
+  // NOTE: Decision count is now tracked server-side in Supabase (free_usage table).
+  // localStorage is no longer the source of truth — do not re-add client-side counters.
 
   // Verify real subscription status from server on load (skipped if testing or no server)
   useEffect(() => {
@@ -1389,44 +1383,20 @@ export default function TonightApp() {
   };
 
   const decide = async (isReroll = false) => {
-    // Coerce isReroll strictly to boolean true so React SyntheticEvent on button click is not mistaken for a reroll!
+    // Coerce isReroll strictly to boolean true so React SyntheticEvent is not mistaken for a reroll.
     const realIsReroll = isReroll === true;
     const hasActiveSubscription = subStatus === "trialing" || subStatus === "active";
 
-    // 1. If account is expired / pending charge / past due, block with paywall
+    // 1. Expired / past-due accounts → paywall immediately.
     if (subStatus === "trial_ended_pending_charge" || subStatus === "past_due") {
       console.log("[decide] Blocked: subscription expired / past due");
       setShowPaywall(true);
       return;
     }
 
-    // 2. Client-side check: Gate on 2nd decision (intra-session reroll is allowed)
-    const localDecisions = (() => {
-      try {
-        return parseInt(localStorage.getItem("elo_decisions_count") || "0", 10);
-      } catch {
-        return 0;
-      }
-    })();
-
-    if (!realIsReroll && !hasActiveSubscription && (decisionsCount >= 1 || localDecisions >= 1)) {
-      console.log("[decide] Blocked: client decisionsCount >= 1");
-      setShowPaywall(true);
-      return;
-    }
-
-    // Immediately record that the first free decision has started
-    if (!hasActiveSubscription && !realIsReroll) {
-      setDecisionsCount(1);
-      try {
-        localStorage.setItem("elo_decisions_count", "1");
-        console.log("[decide] elo_decisions_count set to 1");
-      } catch (e) {
-        console.error("Failed to write elo_decisions_count:", e);
-      }
-    }
-
-    // 3. Server-side check: Call POST /api/check-free-usage (IP-hash throttle)
+    // 2. For free users making a real (non-reroll) decision, ask Supabase whether
+    //    this IP is allowed another free decide. Supabase is the ONLY source of truth
+    //    — no localStorage counters involved.
     if (!realIsReroll && !hasActiveSubscription) {
       setIsFetching(true);
       try {
@@ -1436,15 +1406,20 @@ export default function TonightApp() {
         });
         if (checkRes.ok) {
           const checkData = await checkRes.json();
+          console.log("[decide] check-free-usage response:", checkData);
           if (checkData && checkData.allowed === false) {
-            console.log("[decide] Blocked by server-side IP throttle:", checkData);
+            console.log("[decide] Blocked: Supabase free_usage limit reached");
             setIsFetching(false);
             setShowPaywall(true);
             return;
           }
+        } else {
+          // Non-OK response: fail open so a server hiccup doesn't block real users.
+          console.warn("[decide] check-free-usage returned non-OK:", checkRes.status);
         }
       } catch (checkErr) {
-        console.warn("check-free-usage network notice:", checkErr);
+        // Network error: fail open.
+        console.warn("[decide] check-free-usage network error:", checkErr);
       }
     } else {
       setIsFetching(true);
