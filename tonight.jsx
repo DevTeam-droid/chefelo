@@ -1407,8 +1407,8 @@ export default function TonightApp() {
         if (checkRes.ok) {
           const checkData = await checkRes.json();
           console.log("[decide] check-free-usage response:", checkData);
-          if (checkData && checkData.allowed === false) {
-            console.log("[decide] Blocked: Supabase free_usage limit reached");
+          if (checkData && (checkData.allowed === false || (checkData.count && checkData.count > 1))) {
+            console.log("[decide] Blocked: Supabase free_usage limit reached", checkData);
             setIsFetching(false);
             setShowPaywall(true);
             return;
