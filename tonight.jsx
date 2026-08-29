@@ -433,8 +433,32 @@ const MEALS = [
   { id: "m25", name: "Quick beef tacos", reason: "Warm tortillas, seasoned beef, and fresh toppings.", effort: "10", pantry: ["beef"], diet: ["kid-friendly"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80" },
   { id: "m26", name: "Savory lentil stew", reason: "Warm, earthy lentils packed with vegetables and flavor.", effort: "30", pantry: ["staples", "veg"], diet: ["vegetarian", "dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" },
   { id: "m27", name: "Spicy peanut sesame noodles", reason: "Creamy, savory peanut sauce tossed with warm noodles and scallions.", effort: "10", pantry: ["pasta"], diet: ["vegetarian"], allergies: ["nuts", "gluten"], health: [], image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80" },
-  { id: "m28", name: "Walnut & spinach pesto pasta", reason: "Rich, vibrant nutty pesto ready in fifteen minutes.", effort: "10", pantry: ["pasta", "veg"], diet: ["vegetarian"], allergies: ["nuts", "dairy", "gluten"], health: [], image: "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=600&q=80" }
+  { id: "m28", name: "Walnut & spinach pesto pasta", reason: "Rich, vibrant nutty pesto ready in fifteen minutes.", effort: "10", pantry: ["pasta", "veg"], diet: ["vegetarian"], allergies: ["nuts", "dairy", "gluten"], health: [], image: "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=600&q=80" },
+  // --- Extended Meal Library ---
+  { id: "m29", name: "Slow-roasted lamb shoulder", reason: "Fork-tender lamb that practically shreds itself.", effort: "cook", pantry: ["beef"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" },
+  { id: "m30", name: "Turkish lamb kofta", reason: "Spiced minced lamb patties, perfect over flatbread.", effort: "30", pantry: ["beef"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=600&q=80" },
+  { id: "m31", name: "Scrambled eggs & avocado", reason: "Creamy eggs, buttery avo — breakfast any time.", effort: "10", pantry: ["empty", "veg"], diet: ["vegetarian", "dairy-free", "kid-friendly"], allergies: ["eggs"], health: ["diabetic-friendly", "low-sodium"], image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80" },
+  { id: "m32", name: "Shakshuka", reason: "Poached eggs in spiced tomato sauce — one pan wonder.", effort: "30", pantry: ["veg", "empty"], diet: ["vegetarian", "dairy-free"], allergies: ["eggs"], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80" },
+  { id: "m33", name: "Fluffy pancakes", reason: "Weekend mood? Stack them high.", effort: "30", pantry: ["empty", "staples"], diet: ["vegetarian", "kid-friendly"], allergies: ["gluten", "eggs", "dairy"], health: [], image: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=600&q=80" },
+  { id: "m34", name: "Chicken tikka masala", reason: "Rich, fragrant curry that warms every corner.", effort: "cook", pantry: ["chicken"], diet: ["kid-friendly"], allergies: ["dairy"], health: [], image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80" },
+  { id: "m35", name: "Prawn pad Thai", reason: "Sweet, tangy, nutty — the classic Thai street dish.", effort: "30", pantry: ["seafood", "pasta"], diet: ["dairy-free"], allergies: ["nuts", "gluten", "eggs"], health: [], image: "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=600&q=80" },
+  { id: "m36", name: "Slow cooker beef stew", reason: "Set it in the morning, eat like a king at dinner.", effort: "cook", pantry: ["beef", "veg"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?auto=format&fit=crop&w=600&q=80" },
+  { id: "m37", name: "Pork pulled buns", reason: "Sweet slow-cooked pork piled into soft buns.", effort: "cook", pantry: ["pork"], diet: ["kid-friendly"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" },
+  { id: "m38", name: "Smoked sausage & bean casserole", reason: "Hearty, smoky, satisfying — done in 30.", effort: "30", pantry: ["pork", "staples"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" },
+  { id: "m39", name: "Tuna pasta bake", reason: "Store cupboard staples, creamy oven finish.", effort: "30", pantry: ["seafood", "pasta"], diet: ["kid-friendly"], allergies: ["dairy", "gluten"], health: [], image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80" },
+  { id: "m40", name: "Thai green chicken curry", reason: "Fragrant coconut broth, crisp veg, aromatic herbs.", effort: "30", pantry: ["chicken", "veg"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?auto=format&fit=crop&w=600&q=80" },
+  { id: "m41", name: "Mushroom risotto", reason: "Silky, earthy, properly comforting.", effort: "cook", pantry: ["veg", "staples"], diet: ["vegetarian"], allergies: ["dairy"], health: [], image: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&w=600&q=80" },
+  { id: "m42", name: "Teriyaki salmon bowls", reason: "Sweet-glazed salmon over steaming rice — 20 minutes.", effort: "30", pantry: ["seafood"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly", "low-sodium"], image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80" },
+  { id: "m43", name: "Mexican black bean quesadillas", reason: "Crispy, melty, no meat needed.", effort: "10", pantry: ["staples", "veg"], diet: ["vegetarian", "kid-friendly"], allergies: ["dairy", "gluten"], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?auto=format&fit=crop&w=600&q=80" },
+  { id: "m44", name: "Honey garlic chicken drumsticks", reason: "Sticky, sweet-savory glaze that everyone fights over.", effort: "30", pantry: ["chicken"], diet: ["dairy-free", "kid-friendly"], allergies: [], health: [], image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80" },
+  { id: "m45", name: "Beef burger from scratch", reason: "Juicy patty, your toppings, your rules.", effort: "30", pantry: ["beef"], diet: ["kid-friendly"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" },
+  { id: "m46", name: "Vietnamese pho broth", reason: "Deeply aromatic, restorative, surprisingly simple.", effort: "cook", pantry: ["beef", "veg"], diet: ["dairy-free"], allergies: ["gluten"], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" },
+  { id: "m47", name: "Caprese stuffed chicken breast", reason: "Mozzarella, basil, tomato — baked to perfection.", effort: "30", pantry: ["chicken", "veg"], diet: ["kid-friendly"], allergies: ["dairy"], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1518492104633-130d0cc84637?auto=format&fit=crop&w=600&q=80" },
+  { id: "m48", name: "Japanese gyudon (beef rice bowl)", reason: "Soy-simmered beef slices over fluffy rice — umami heaven.", effort: "30", pantry: ["beef", "staples"], diet: ["dairy-free"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80" },
+  { id: "m49", name: "Egg fried rice with ham", reason: "The ultimate fridge-clearout meal in 15 minutes.", effort: "10", pantry: ["pork", "leftovers", "staples"], diet: ["dairy-free", "kid-friendly"], allergies: ["eggs"], health: [], image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80" },
+  { id: "m50", name: "Minestrone soup", reason: "Hearty Italian vegetable soup — better the next day.", effort: "30", pantry: ["veg", "staples", "leftovers"], diet: ["vegetarian", "dairy-free"], allergies: ["gluten"], health: ["low-sodium", "diabetic-friendly"], image: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?auto=format&fit=crop&w=600&q=80" }
 ];
+
 
 const RECIPES = {
   m1: { time: "25 min", ingredients: ["4 chicken thighs", "3 garlic cloves, minced", "2 tbsp butter", "Salt & pepper"], steps: ["Season thighs with salt and pepper.", "Sear skin-side down in a hot pan, 6–7 min, until golden.", "Flip, add butter and garlic, spoon over for 2 min.", "Move to 400°F oven for 12–15 min until cooked through."], durations: [120, 420, 120, 900] },
@@ -464,7 +488,29 @@ const RECIPES = {
   m25: { time: "15 min", ingredients: ["300g ground beef", "1 tbsp taco seasoning", "8 taco shells", "Shredded lettuce & cheese"], steps: ["Brown ground beef in a skillet over medium-high heat, draining excess fat.", "Stir in taco seasoning and 1/4 cup water; simmer for 5 minutes.", "Warm taco shells in the oven or microwave.", "Assemble tacos with beef, lettuce, cheese, and your favorite salsa."], durations: [300, 300, 120, 180] },
   m26: { time: "35 min", ingredients: ["1 cup brown lentils", "1 onion, diced", "2 carrots, sliced", "4 cups vegetable stock", "1 can diced tomatoes"], steps: ["Sauté onion and carrots in a pot with olive oil for 5 minutes.", "Add rinsed lentils, diced tomatoes, and vegetable stock to the pot.", "Bring to a boil, then reduce heat and simmer covered for 25 minutes.", "Season to taste with salt, pepper, and fresh spinach if available."], durations: [300, 120, 1500, 60] },
   m27: { time: "10 min", ingredients: ["200g ramen or egg noodles", "3 tbsp smooth peanut butter", "1 tbsp soy sauce", "1 tbsp sesame oil", "1 tsp chili crisp", "2 scallions, sliced"], steps: ["Cook noodles in boiling water according to package instructions, reserving 1/4 cup pasta water.", "Whisk peanut butter, soy sauce, sesame oil, chili crisp, and warm pasta water into a smooth creamy sauce.", "Toss drained noodles with sauce until completely coated.", "Garnish with sliced scallions and toasted sesame seeds."], durations: [300, 120, 120, 60] },
-  m28: { time: "15 min", ingredients: ["250g pasta", "1/2 cup walnuts, toasted", "2 cups baby spinach", "1/3 cup grated parmesan", "1/3 cup olive oil", "1 clove garlic"], steps: ["Boil pasta in salted water until al dente.", "Pulse toasted walnuts, spinach, garlic, parmesan, and olive oil in a food processor until smooth.", "Drain pasta, reserving 2 tbsp cooking water.", "Toss hot pasta with walnut pesto and reserved water until glossy."], durations: [480, 180, 60, 120] }
+  m28: { time: "15 min", ingredients: ["250g pasta", "1/2 cup walnuts, toasted", "2 cups baby spinach", "1/3 cup grated parmesan", "1/3 cup olive oil", "1 clove garlic"], steps: ["Boil pasta in salted water until al dente.", "Pulse toasted walnuts, spinach, garlic, parmesan, and olive oil in a food processor until smooth.", "Drain pasta, reserving 2 tbsp cooking water.", "Toss hot pasta with walnut pesto and reserved water until glossy."], durations: [480, 180, 60, 120] },
+  m29: { time: "3 hr 30 min", ingredients: ["1.5kg lamb shoulder", "4 garlic cloves, slivered", "2 tbsp olive oil", "1 tbsp rosemary, chopped", "Salt & pepper"], steps: ["Heat oven to 325°F. Score lamb all over and insert garlic slivers.", "Rub with olive oil, rosemary, salt and pepper.", "Place on a rack in a roasting tin, cover tightly with foil.", "Roast 3–3.5 hrs until meat falls from the bone; rest 20 min before shredding."], durations: [600, 300, 60, 10800] },
+  m30: { time: "25 min", ingredients: ["500g ground lamb", "1 tsp cumin", "1 tsp coriander", "1/2 tsp paprika", "Salt & pepper", "4 flatbreads"], steps: ["Mix lamb with spices, salt and pepper; shape into 8 oval patties.", "Grill or fry on medium-high heat 4 min per side.", "Warm flatbreads alongside.", "Serve kofta on flatbreads with yogurt and fresh salad."], durations: [300, 480, 180, 60] },
+  m31: { time: "8 min", ingredients: ["3 eggs", "1 ripe avocado", "1 tbsp butter", "Salt, pepper & chili flakes"], steps: ["Halve and scoop avocado; season with salt and a squeeze of lemon.", "Melt butter in a non-stick pan over low heat.", "Add eggs and scramble slowly, pulling curds with a spatula.", "Pile onto toast, top with avocado and chili flakes."], durations: [120, 60, 300, 60] },
+  m32: { time: "25 min", ingredients: ["1 can crushed tomatoes", "1 onion, diced", "2 garlic cloves", "1 tsp cumin & paprika", "4 eggs", "Feta to crumble"], steps: ["Sauté onion and garlic in olive oil 5 min until soft.", "Add spices, cook 1 min, then add crushed tomatoes; simmer 10 min.", "Make 4 wells in the sauce and crack in the eggs.", "Cover and cook 5–6 min until whites are set; top with feta and fresh herbs."], durations: [300, 660, 60, 360] },
+  m33: { time: "20 min", ingredients: ["1½ cups flour", "1 tbsp baking powder", "1 tbsp sugar", "1 egg, 1 cup milk, 2 tbsp butter"], steps: ["Whisk flour, baking powder, sugar and a pinch of salt together.", "Beat egg with milk and melted butter; fold into dry ingredients until just combined — lumps are fine.", "Heat a buttered non-stick pan over medium heat.", "Cook pancakes 2–3 min per side until bubbles form on top; serve stacked with syrup."], durations: [120, 120, 60, 600] },
+  m34: { time: "45 min", ingredients: ["600g chicken thighs, cubed", "1 can crushed tomatoes", "150ml heavy cream", "2 tbsp tikka spice paste", "1 onion, garlic, ginger"], steps: ["Marinate chicken in half the tikka paste 10 min.", "Sear chicken in a hot pan until charred, set aside.", "Sauté onion, garlic and ginger; add remaining paste and tomatoes.", "Return chicken, pour in cream, simmer 20 min until rich and thick."], durations: [600, 300, 300, 1200] },
+  m35: { time: "25 min", ingredients: ["250g rice noodles", "300g prawns, peeled", "3 tbsp tamarind paste", "2 tbsp fish sauce", "2 eggs, 100g beansprouts", "Lime, peanuts, chili"], steps: ["Soak noodles in warm water 10 min, drain.", "Stir-fry prawns in a hot wok 2 min, push aside.", "Crack in eggs, scramble lightly, then toss with noodles.", "Add tamarind, fish sauce and beansprouts; toss 2 min on high heat; top with peanuts and lime."], durations: [600, 120, 120, 120] },
+  m36: { time: "3 hr", ingredients: ["800g beef chuck, cubed", "3 carrots, 3 potatoes, chopped", "1 onion, 3 garlic cloves", "2 cups beef stock", "2 tbsp tomato paste"], steps: ["Brown beef in batches in oil; transfer to slow cooker.", "Sauté onion and garlic, add tomato paste, cook 1 min.", "Add all veg, stock and the beef; stir to combine.", "Cook on high 3 hrs or low 6 hrs until beef is fork-tender."], durations: [300, 180, 60, 10800] },
+  m37: { time: "4 hr", ingredients: ["1.2kg pork shoulder", "3 tbsp BBQ sauce", "1 tsp smoked paprika", "Salt & pepper", "8 soft buns, coleslaw"], steps: ["Rub pork all over with paprika, salt and pepper.", "Slow-cook at 300°F in a covered dish with 1/2 cup water for 4 hrs.", "Shred pork with two forks; mix in BBQ sauce.", "Pile into buns and top with coleslaw."], durations: [300, 60, 14400, 120] },
+  m38: { time: "30 min", ingredients: ["400g smoked sausage, sliced", "2 cans cannellini beans", "1 can chopped tomatoes", "1 tsp smoked paprika", "2 garlic cloves"], steps: ["Brown sausage slices in a casserole dish over medium heat.", "Add garlic and paprika; cook 1 min.", "Pour in tomatoes and beans; stir to combine.", "Simmer 20 min until thick and bubbling; season and serve with crusty bread."], durations: [180, 60, 120, 1200] },
+  m39: { time: "30 min", ingredients: ["250g pasta", "2 cans tuna, drained", "1 can cream of mushroom soup", "100g frozen peas", "1 cup grated cheddar"], steps: ["Cook pasta 2 min under package time; drain.", "Mix pasta, tuna, soup and peas in a baking dish.", "Top generously with grated cheddar.", "Bake at 375°F for 20 min until golden and bubbling."], durations: [480, 120, 60, 1200] },
+  m40: { time: "30 min", ingredients: ["4 chicken thighs, boneless", "1 can coconut milk", "2 tbsp green curry paste", "1 cup green beans", "1 lime, fish sauce, basil"], steps: ["Fry green curry paste in a pan for 1 min.", "Add coconut milk and bring to a gentle simmer.", "Add chicken and green beans; cook 15 min until chicken is cooked through.", "Finish with lime juice, fish sauce and fresh Thai basil; serve with jasmine rice."], durations: [60, 120, 900, 60] },
+  m41: { time: "50 min", ingredients: ["350g arborio rice", "250g mushrooms, sliced", "1 onion, 2 garlic cloves", "1L warm vegetable stock", "60g parmesan, 50g butter"], steps: ["Sauté onion and garlic in butter; add mushrooms and cook until golden.", "Add rice and toast 2 min, then add a ladle of warm stock.", "Keep adding stock ladle by ladle, stirring constantly, 20–25 min.", "Off heat, stir in parmesan and remaining butter; rest 2 min before serving."], durations: [300, 120, 1500, 120] },
+  m42: { time: "20 min", ingredients: ["2 salmon fillets", "3 tbsp soy sauce", "2 tbsp mirin", "1 tbsp honey", "Steamed rice, sesame seeds"], steps: ["Whisk soy, mirin and honey into a teriyaki glaze.", "Sear salmon in a lightly oiled pan 3 min per side.", "Pour glaze over and cook 1 min more, spooning over the fish.", "Serve over rice with a sprinkle of sesame seeds."], durations: [60, 360, 60, 60] },
+  m43: { time: "15 min", ingredients: ["1 can black beans, drained", "4 large tortillas", "1 cup shredded cheese", "1 tsp cumin & smoked paprika", "Salsa and sour cream"], steps: ["Mash half the beans; stir in spices and whole beans.", "Spread bean mix over half of each tortilla; top with cheese and fold.", "Cook in a dry pan 2–3 min per side until crispy and golden.", "Serve with salsa and sour cream."], durations: [120, 120, 300, 60] },
+  m44: { time: "40 min", ingredients: ["8 chicken drumsticks", "3 tbsp honey", "3 garlic cloves, minced", "2 tbsp soy sauce", "1 tbsp olive oil"], steps: ["Mix honey, garlic, soy sauce and oil into a glaze.", "Toss drumsticks in glaze; marinate 10 min.", "Roast at 425°F for 30 min, turning and basting halfway.", "Rest 5 min; serve with the pan juices drizzled over."], durations: [600, 60, 1800, 300] },
+  m45: { time: "20 min", ingredients: ["500g ground beef (80% lean)", "4 burger buns", "Salt & pepper", "Cheese, lettuce, tomato, onion"], steps: ["Divide beef into 4 patties; press a thumb indent in the center.", "Season both sides generously with salt and pepper.", "Cook on a hot griddle or pan 3–4 min per side for medium.", "Rest 2 min; build burgers with cheese and your favorite toppings."], durations: [120, 60, 420, 120] },
+  m46: { time: "3 hr 30 min", ingredients: ["1kg beef bones", "1 onion & 4 garlic cloves, charred", "2 star anise, 3 cloves, 1 cinnamon stick", "Fish sauce & sugar to season", "250g rice noodles, beef slices, herbs"], steps: ["Char onion and garlic directly over flame or under broiler.", "Simmer bones 3 hrs with star anise, cloves, cinnamon and charred aromatics.", "Strain broth; season with fish sauce, sugar and salt.", "Soak noodles, divide into bowls; ladle hot broth over thin beef slices and top with bean sprouts, basil and lime."], durations: [300, 10800, 300, 120] },
+  m47: { time: "35 min", ingredients: ["4 chicken breasts", "100g mozzarella, sliced", "8 cherry tomatoes, halved", "Fresh basil", "Salt, pepper, olive oil"], steps: ["Cut a deep pocket into each chicken breast.", "Stuff with mozzarella, tomatoes and basil; secure with a toothpick.", "Sear in an oven-safe pan 3 min per side until golden.", "Transfer to 400°F oven; bake 18–20 min until cooked through."], durations: [180, 120, 180, 1200] },
+  m48: { time: "20 min", ingredients: ["300g thinly sliced beef (rib-eye or sirloin)", "1 onion, thinly sliced", "3 tbsp soy sauce", "1 tbsp sugar, 1 tbsp mirin", "Steamed rice, pickled ginger"], steps: ["Combine soy sauce, sugar, mirin and 1/4 cup water in a pan.", "Add onion and simmer 5 min until softened.", "Add beef slices and cook 3–4 min, turning once.", "Serve over steamed rice; top with pickled ginger."], durations: [60, 300, 240, 60] },
+  m49: { time: "15 min", ingredients: ["2 cups cold cooked rice", "100g cooked ham, diced", "3 eggs", "2 tbsp soy sauce", "1 tbsp sesame oil, scallions"], steps: ["Beat eggs and pour into a hot oiled wok; scramble lightly and push to the side.", "Add diced ham, stir-fry 1 min.", "Add cold rice, breaking clumps, and fry on high heat 3 min.", "Add soy sauce and sesame oil; toss everything together; top with scallions."], durations: [60, 60, 180, 60] },
+  m50: { time: "35 min", ingredients: ["1 can cannellini beans", "2 carrots, 2 celery stalks, 1 zucchini, diced", "1 can diced tomatoes", "1L vegetable stock", "100g small pasta, parmesan rind"], steps: ["Sauté carrot and celery in olive oil 5 min.", "Add zucchini, tomatoes and stock; bring to a boil.", "Add beans, pasta and parmesan rind; simmer 12 min.", "Remove rind, season well; serve with grated parmesan and crusty bread."], durations: [300, 120, 720, 60] }
 };
 
 const EFFORT = [
@@ -694,20 +740,56 @@ const fetchOutsourcedRecipe = async (filters) => {
     category = cats[Math.floor(Math.random() * cats.length)];
   }
 
+  // Expanded: search 2 primary categories + 1 cuisine area in parallel for more variety
+  const primaryCategories = [category];
+
+  // Add a cuisine-area parallel search based on pantry
+  let areaSearch = null;
+  if (pantry === "chicken") areaSearch = "Indian";
+  else if (pantry === "beef") areaSearch = "Mexican";
+  else if (pantry === "seafood") areaSearch = "Japanese";
+  else if (pantry === "pork") areaSearch = "Chinese";
+  else if (pantry === "pasta" || pantry === "veg") areaSearch = "Italian";
+  else if (pantry === "staples") areaSearch = "Turkish";
+  else {
+    const areas = ["Indian", "Mexican", "Thai", "Japanese", "Italian", "British", "American", "Chinese", "French", "Moroccan", "Turkish", "Greek", "Spanish", "Vietnamese"];
+    areaSearch = areas[Math.floor(Math.random() * areas.length)];
+  }
+
   try {
-    const listRes = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
-    if (!listRes.ok) return null;
-    const listData = await listRes.json();
-    if (!listData.meals || listData.meals.length === 0) return null;
+    // Fetch from category AND cuisine area in parallel
+    const [listRes, areaRes] = await Promise.all([
+      fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`),
+      fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${areaSearch}`),
+    ]);
+
+    const listData = listRes.ok ? await listRes.json() : null;
+    const areaData = areaRes.ok ? await areaRes.json() : null;
+
+    // Merge results, deduplicate by ID
+    const seen = new Set();
+    const allMeals = [];
+    for (const src of [listData?.meals, areaData?.meals]) {
+      if (src) {
+        for (const m of src) {
+          if (!seen.has(m.idMeal)) {
+            seen.add(m.idMeal);
+            allMeals.push(m);
+          }
+        }
+      }
+    }
+
+    if (allMeals.length === 0) return null;
 
     // Filter out rejected IDs
-    const filteredStubs = listData.meals.filter(
+    const filteredStubs = allMeals.filter(
       m => !rejectedIds.includes("db_" + m.idMeal)
     );
 
-    // Shuffle stubs and take top 4 candidates for fast parallel lookup
+    // Shuffle stubs and take top 8 candidates for parallel lookup (wider net)
     const shuffledStubs = [...filteredStubs].sort(() => Math.random() - 0.5);
-    const candidateStubs = shuffledStubs.slice(0, 4);
+    const candidateStubs = shuffledStubs.slice(0, 8);
 
     const lookupPromises = candidateStubs.map(stub =>
       fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${stub.idMeal}`)
