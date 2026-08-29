@@ -2404,7 +2404,7 @@ export default function TonightApp() {
                 fontSize: 15.5,
                 fontWeight: 700,
                 width: "100%",
-                background: isVerifyingTrial ? "#6B8F82" : "#045137",
+                background: isVerifyingTrial ? "#B34E09" : "#D05F0D",
                 color: "#FFFFFF",
                 cursor: isVerifyingTrial ? "wait" : "pointer",
                 borderRadius: 14,
