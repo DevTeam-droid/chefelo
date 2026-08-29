@@ -1134,7 +1134,7 @@ export default function TonightApp() {
         customizations: {
           title: "Chef Elo",
           description: `7-Day Free Trial Card Check ($0.00). Then ${planLabel}.`,
-          logo: "https://raw.githubusercontent.com/charlesgoodlucke/elo/main/public/favicon.svg",
+          logo: "",
         },
         callback: async function (data) {
           setIsVerifyingTrial(true);
