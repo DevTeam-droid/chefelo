@@ -57,7 +57,7 @@ export default async function handler(req, res) {
     if (tx.status !== "successful") {
       return res.status(402).json({ error: "Card tokenization was not successful", detail: tx.status });
     }
-    if (tx.currency !== "USD" || (Number(tx.amount) !== 0 && Number(tx.amount) !== 0.5)) {
+    if (tx.currency !== "USD" || Number(tx.amount) < 0) {
       return res.status(402).json({ error: "Verification amount mismatch" });
     }
     if (tx.customer?.email && tx.customer.email.trim().toLowerCase() !== email) {
