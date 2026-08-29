@@ -1122,7 +1122,7 @@ export default function TonightApp() {
 
     if (typeof window !== "undefined" && typeof window.FlutterwaveCheckout === "function") {
       window.FlutterwaveCheckout({
-        public_key: "FLWPUBK_TEST-568a81ac7b0bafb92d9a925e09d30536-X",
+        public_key: import.meta.env.VITE_FLW_PUBLIC_KEY || "FLWPUBK-00b20d5dc708ea1b8e95d9baa7f5fed0-X",
         tx_ref: `elo_verify_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
         amount: 1, // $1 USD card verification check (instantly auto-refunded)
         currency: "USD",
