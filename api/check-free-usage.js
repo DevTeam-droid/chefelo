@@ -15,7 +15,7 @@
 // only protecting the free pre-paywall experience.
 
 import crypto from 'crypto';
-import { db } from './db.js';
+import { supabaseAdmin, db } from './db.js';
 
 const FREE_DECIDES_PER_DAY = 1; // 1 free decision allowed before paywall triggers on 2nd decision
 const IP_HASH_SALT = process.env.IP_HASH_SALT || "elo_secure_ip_salt_2026_x8f";
@@ -36,28 +36,38 @@ export default async function handler(req, res) {
   const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
   try {
-    // Ensure table exists defensively
-    await db.query(`
-      CREATE TABLE IF NOT EXISTS free_usage (
-        ip_hash TEXT NOT NULL,
-        day     DATE NOT NULL,
-        count   INTEGER NOT NULL DEFAULT 0,
-        PRIMARY KEY (ip_hash, day)
-      )
-    `);
+    let count = 1;
 
-    const result = await db.query(
-      `INSERT INTO free_usage (ip_hash, day, count)
-       VALUES ($1, $2, 1)
-       ON CONFLICT (ip_hash, day) DO UPDATE SET count = free_usage.count + 1
-       RETURNING count`,
-      [ipHash, today]
-    );
+    if (supabaseAdmin) {
+      // 1. Query Supabase REST API for current count
+      const { data: existingRows } = await supabaseAdmin
+        .from('free_usage')
+        .select('count')
+        .eq('ip_hash', ipHash)
+        .eq('day', today);
 
-    const count = result.rows[0].count;
+      if (existingRows && existingRows.length > 0) {
+        count = (existingRows[0].count || 0) + 1;
+      }
+
+      // 2. Upsert count into Supabase free_usage table
+      await supabaseAdmin
+        .from('free_usage')
+        .upsert({ ip_hash: ipHash, day: today, count: count }, { onConflict: 'ip_hash,day' });
+    } else {
+      // Direct Postgres fallback
+      const result = await db.query(
+        `INSERT INTO free_usage (ip_hash, day, count)
+         VALUES ($1, $2, 1)
+         ON CONFLICT (ip_hash, day) DO UPDATE SET count = free_usage.count + 1
+         RETURNING count`,
+        [ipHash, today]
+      );
+      count = result.rows[0].count;
+    }
+
     const allowed = count <= FREE_DECIDES_PER_DAY;
-
-    console.log(`[check-free-usage] IP: ${ip}, count: ${count}, allowed: ${allowed}`);
+    console.log(`[check-free-usage] IP: ${ip}, count in Supabase: ${count}, allowed: ${allowed}`);
 
     return res.status(200).json({
       allowed,
@@ -65,8 +75,7 @@ export default async function handler(req, res) {
       remaining: Math.max(0, FREE_DECIDES_PER_DAY - count),
     });
   } catch (err) {
-    console.error("check-free-usage database error:", err);
-    // Fail open if database is down so users aren't completely crashed
+    console.error("check-free-usage error:", err);
     return res.status(200).json({ allowed: true, remaining: null, error: err.message });
   }
 }
