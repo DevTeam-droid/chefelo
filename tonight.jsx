@@ -1389,6 +1389,8 @@ export default function TonightApp() {
   };
 
   const decide = async (isReroll = false) => {
+    // Coerce isReroll strictly to boolean true so React SyntheticEvent on button click is not mistaken for a reroll!
+    const realIsReroll = isReroll === true;
     const hasActiveSubscription = subStatus === "trialing" || subStatus === "active";
 
     // 1. If account is expired / pending charge / past due, block with paywall
@@ -1407,14 +1409,14 @@ export default function TonightApp() {
       }
     })();
 
-    if (!isReroll && !hasActiveSubscription && (decisionsCount >= 1 || localDecisions >= 1)) {
+    if (!realIsReroll && !hasActiveSubscription && (decisionsCount >= 1 || localDecisions >= 1)) {
       console.log("[decide] Blocked: client decisionsCount >= 1");
       setShowPaywall(true);
       return;
     }
 
     // Immediately record that the first free decision has started
-    if (!hasActiveSubscription && !isReroll) {
+    if (!hasActiveSubscription && !realIsReroll) {
       setDecisionsCount(1);
       try {
         localStorage.setItem("elo_decisions_count", "1");
@@ -1425,7 +1427,7 @@ export default function TonightApp() {
     }
 
     // 3. Server-side check: Call POST /api/check-free-usage (IP-hash throttle)
-    if (!isReroll && !hasActiveSubscription) {
+    if (!realIsReroll && !hasActiveSubscription) {
       setIsFetching(true);
       try {
         const checkRes = await fetch("/api/check-free-usage", {
@@ -1873,7 +1875,7 @@ export default function TonightApp() {
                     </ChipRow>
                   </Section>
 
-                  <button className="tn-btn-primary tn-focus" style={styles.decideBtn} onClick={decide}>
+                  <button className="tn-btn-primary tn-focus" style={styles.decideBtn} onClick={() => decide(false)}>
                     Decide for me
                   </button>
                 </div>
