@@ -1124,7 +1124,7 @@ export default function TonightApp() {
       window.FlutterwaveCheckout({
         public_key: "FLWPUBK_TEST-568a81ac7b0bafb92d9a925e09d30536-X",
         tx_ref: `elo_verify_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-        amount: 0.5, // $0.50 verification check
+        amount: 0, // $0.00 upfront card tokenization
         currency: "USD",
         payment_options: "card",
         customer: {
@@ -1133,7 +1133,7 @@ export default function TonightApp() {
         },
         customizations: {
           title: "Chef Elo",
-          description: `7-Day Free Trial Card Check ($0.00). Then ${planLabel}.`,
+          description: `7-Day Free Trial ($0.00 today). Then ${planLabel}.`,
           logo: "",
         },
         callback: async function (data) {
