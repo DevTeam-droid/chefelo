@@ -1221,6 +1221,11 @@ export default function TonightApp() {
   const [isInstalling, setIsInstalling] = useState(false);
   const [installProgress, setInstallProgress] = useState(0);
   const [installStepText, setInstallStepText] = useState("Preparing installation...");
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [waitingWorker, setWaitingWorker] = useState(null);
+  const [isApplyingUpdate, setIsApplyingUpdate] = useState(false);
+  const [updateProgress, setUpdateProgress] = useState(0);
+  const [updateStepText, setUpdateStepText] = useState("Downloading latest version...");
 
   useEffect(() => {
     if (isLoading) {
@@ -1541,6 +1546,79 @@ export default function TonightApp() {
         }, 600);
       }, 1200);
     }
+  };
+
+  // Service Worker Mandatory Update Detector
+  useEffect(() => {
+    if (typeof window === "undefined" || !('serviceWorker' in navigator)) return;
+
+    let refreshing = false;
+    const handleControllerChange = () => {
+      if (!refreshing) {
+        refreshing = true;
+        window.location.reload();
+      }
+    };
+    navigator.serviceWorker.addEventListener("controllerchange", handleControllerChange);
+
+    navigator.serviceWorker.getRegistration().then((reg) => {
+      if (!reg) return;
+
+      if (reg.waiting) {
+        setWaitingWorker(reg.waiting);
+        setShowUpdateModal(true);
+      }
+
+      reg.addEventListener("updatefound", () => {
+        const newWorker = reg.installing;
+        if (!newWorker) return;
+        newWorker.addEventListener("statechange", () => {
+          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+            setWaitingWorker(newWorker);
+            setShowUpdateModal(true);
+          }
+        });
+      });
+    }).catch(() => {});
+
+    return () => {
+      navigator.serviceWorker.removeEventListener("controllerchange", handleControllerChange);
+    };
+  }, []);
+
+  const handleApplyUpdate = () => {
+    setIsApplyingUpdate(true);
+    setUpdateProgress(15);
+    setUpdateStepText("Downloading latest version...");
+
+    let prog = 15;
+    const interval = setInterval(() => {
+      prog += Math.floor(Math.random() * 20) + 15;
+      if (prog >= 98) {
+        prog = 98;
+        clearInterval(interval);
+      }
+      setUpdateProgress(prog);
+      if (prog > 70) {
+        setUpdateStepText("Applying new version...");
+      } else if (prog > 40) {
+        setUpdateStepText("Updating offline cache assets...");
+      } else {
+        setUpdateStepText("Verifying update integrity...");
+      }
+    }, 180);
+
+    setTimeout(() => {
+      clearInterval(interval);
+      setUpdateProgress(100);
+      setUpdateStepText("Reloading Chef Elo...");
+      if (waitingWorker) {
+        waitingWorker.postMessage({ type: "SKIP_WAITING" });
+      }
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }, 1200);
   };
 
   useEffect(() => {
@@ -3302,6 +3380,120 @@ export default function TonightApp() {
                 }}
               >
                 Got It
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Mandatory PWA Update Modal */}
+      {showUpdateModal && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(35, 50, 45, 0.95)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
+          zIndex: 999999,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 20,
+        }} className="tn-card-enter">
+          <div style={{
+            background: "#FFFFFF",
+            borderRadius: 24,
+            border: "1px solid #C2DDD4",
+            padding: "32px 24px 28px",
+            maxWidth: 365,
+            width: "100%",
+            textAlign: "center",
+            boxShadow: "0 24px 60px rgba(0,0,0,0.5)",
+            position: "relative",
+          }}>
+            {/* Colorful Avatar Badge - No solid white box */}
+            <div style={{
+              width: 70,
+              height: 70,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 12px",
+              background: "transparent",
+            }}>
+              <ChefBotAvatar style={{ width: 64, height: 64 }} />
+            </div>
+
+            <div className="tn-mono" style={{ fontSize: 11, color: "#D05F0D", letterSpacing: "0.12em", fontWeight: 700, marginBottom: 6 }}>
+              UPDATE REQUIRED
+            </div>
+
+            <h3 style={{ color: "#23322D", fontSize: 22, fontWeight: 800, margin: "0 0 8px", fontFamily: "'DM Sans', sans-serif" }}>
+              App Update Available
+            </h3>
+            <p style={{ color: "#6B8F82", fontSize: 13.5, lineHeight: 1.5, margin: "0 0 22px", fontFamily: "'Inter', sans-serif" }}>
+              A new version of Chef Elo with fresh recipes, features, and performance enhancements is ready. Please tap <strong>Update Now</strong> to continue using the app.
+            </p>
+
+            {isApplyingUpdate ? (
+              <div style={{
+                background: "#F8FAF9",
+                border: "1px solid #C2DDD4",
+                borderRadius: 14,
+                padding: "16px",
+                textAlign: "center"
+              }}>
+                <div style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  fontSize: 11.5,
+                  fontWeight: 700,
+                  color: "#045137",
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  marginBottom: 8
+                }}>
+                  <span style={{ fontSize: 11 }}>{updateStepText}</span>
+                  <span>{updateProgress}%</span>
+                </div>
+                <div style={{
+                  width: "100%",
+                  height: 8,
+                  background: "#E0EDE8",
+                  borderRadius: 999,
+                  overflow: "hidden"
+                }}>
+                  <div style={{
+                    height: "100%",
+                    width: `${updateProgress}%`,
+                    background: "linear-gradient(90deg, #D05F0D 0%, #0BE49B 100%)",
+                    borderRadius: 999,
+                    transition: "width 0.15s ease-out"
+                  }} />
+                </div>
+              </div>
+            ) : (
+              <button
+                className="tn-focus"
+                style={{
+                  ...styles.decideBtn,
+                  marginTop: 0,
+                  boxShadow: "0 4px 14px rgba(208,95,13,0.35)",
+                  padding: "15px 20px",
+                  fontSize: 16,
+                  fontWeight: 700,
+                  width: "100%",
+                  background: "#D05F0D",
+                  color: "#FFFFFF",
+                  borderRadius: 14,
+                  cursor: "pointer",
+                  border: "none",
+                }}
+                onClick={handleApplyUpdate}
+              >
+                Update Now
               </button>
             )}
           </div>

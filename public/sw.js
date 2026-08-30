@@ -1,4 +1,4 @@
-const CACHE_NAME = 'chef-elo-v3';
+const CACHE_NAME = 'chef-elo-v4';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -14,7 +14,6 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
   );
-  self.skipWaiting();
 });
 
 // Activate: purge old caches
@@ -25,6 +24,13 @@ self.addEventListener('activate', (event) => {
     )
   );
   self.clients.claim();
+});
+
+// Handle skip waiting message from app client
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 // Fetch: network-first for API/external, cache-first for assets
