@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack, Globe } from "lucide-react";
+import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack, Globe, Smartphone, Download } from "lucide-react";
 
 // ---------- Internationalization & Multi-Language Support ----------
 const LANGUAGES = [
@@ -1718,18 +1718,19 @@ export default function TonightApp() {
                         borderRadius: 999,
                         padding: "4px 10px",
                         fontSize: 11,
-                        fontWeight: 700,
+                        fontWeight: 600,
                         color: "#FFFFFF",
                         cursor: "pointer",
                         display: "inline-flex",
                         alignItems: "center",
-                        gap: 4,
+                        gap: 5,
                         fontFamily: "'IBM Plex Mono', monospace",
                         letterSpacing: "0.02em",
                         boxShadow: "0 2px 6px rgba(208,95,13,0.25)",
                       }}
                     >
-                      <span>📱 Install App</span>
+                      <Smartphone size={13} style={{ verticalAlign: "-1px" }} />
+                      <span>Install App</span>
                     </button>
                   )}
                   {/* Language Switcher Pill */}
