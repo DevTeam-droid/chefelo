@@ -1339,21 +1339,24 @@ export default function TonightApp() {
 
     if (standalone) return;
 
-    // Listen for browser install prompt
+    // Listen for browser beforeinstallprompt event (Android / Chrome / Edge)
     const handleBeforeInstall = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
+      // Auto show install modal when browser fires beforeinstallprompt
       setShowInstallModal(true);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstall);
 
-    // Immediately trigger install prompt dialog on launch if not installed
+    // Auto-show install prompt for iOS/browsers on launch if not dismissed before
     const timer = setTimeout(() => {
-      if (!standalone) {
-        setShowInstallModal(true);
-      }
-    }, 800);
+      try {
+        if (!standalone && !sessionStorage.getItem("elo_install_dismissed")) {
+          setShowInstallModal(true);
+        }
+      } catch {}
+    }, 1200);
 
     return () => {
       window.removeEventListener("beforeinstallprompt", handleBeforeInstall);
@@ -1372,10 +1375,7 @@ export default function TonightApp() {
       } catch {}
       setDeferredPrompt(null);
     } else {
-      // If iOS or native prompt already completed, close modal
-      if (!isIOS) {
-        setShowInstallModal(false);
-      }
+      setShowInstallModal(true);
     }
   };
 
@@ -1705,32 +1705,60 @@ export default function TonightApp() {
                   <ChefHat size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
                   {timeInfo.mealType === "breakfast" ? t("morning_eyebrow", timeInfo.eyebrow) : timeInfo.mealType === "lunch" ? t("afternoon_eyebrow", timeInfo.eyebrow) : t("tonight_eyebrow", timeInfo.eyebrow)}
                 </div>
-                {/* Language Switcher Pill */}
-                <button
-                  type="button"
-                  onClick={() => setShowLangModal(true)}
-                  className="tn-focus"
-                  aria-label="Change Language"
-                  style={{
-                    background: "#F5F9F7",
-                    border: "1px solid #C2DDD4",
-                    borderRadius: 999,
-                    padding: "4px 10px",
-                    fontSize: 11,
-                    fontWeight: 600,
-                    color: "#045137",
-                    cursor: "pointer",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 5,
-                    fontFamily: "'IBM Plex Mono', monospace",
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  <Globe size={13} style={{ verticalAlign: "-1px" }} />
-                  <span>{LANGUAGES.find(l => l.code === lang)?.label || "English"}</span>
-                  <span style={{ fontSize: 9, opacity: 0.7 }}>▾</span>
-                </button>
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  {!isStandalone && (
+                    <button
+                      type="button"
+                      onClick={handleInstallClick}
+                      className="tn-focus"
+                      aria-label="Install Chef Elo"
+                      style={{
+                        background: "#D05F0D",
+                        border: "1px solid #D05F0D",
+                        borderRadius: 999,
+                        padding: "4px 10px",
+                        fontSize: 11,
+                        fontWeight: 700,
+                        color: "#FFFFFF",
+                        cursor: "pointer",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 4,
+                        fontFamily: "'IBM Plex Mono', monospace",
+                        letterSpacing: "0.02em",
+                        boxShadow: "0 2px 6px rgba(208,95,13,0.25)",
+                      }}
+                    >
+                      <span>📱 Install App</span>
+                    </button>
+                  )}
+                  {/* Language Switcher Pill */}
+                  <button
+                    type="button"
+                    onClick={() => setShowLangModal(true)}
+                    className="tn-focus"
+                    aria-label="Change Language"
+                    style={{
+                      background: "#F5F9F7",
+                      border: "1px solid #C2DDD4",
+                      borderRadius: 999,
+                      padding: "4px 10px",
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: "#045137",
+                      cursor: "pointer",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 5,
+                      fontFamily: "'IBM Plex Mono', monospace",
+                      letterSpacing: "0.02em",
+                    }}
+                  >
+                    <Globe size={13} style={{ verticalAlign: "-1px" }} />
+                    <span>{LANGUAGES.find(l => l.code === lang)?.label || "English"}</span>
+                    <span style={{ fontSize: 9, opacity: 0.7 }}>▾</span>
+                  </button>
+                </div>
               </div>
               <h1 style={styles.h1}>
                 {timeInfo.mealType === "breakfast" ? t("morning_title", timeInfo.title) : timeInfo.mealType === "lunch" ? t("afternoon_title", timeInfo.title) : t("tonight_title", timeInfo.title)}
@@ -2934,6 +2962,192 @@ export default function TonightApp() {
                 );
               })}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* PWA Install Modal */}
+      {showInstallModal && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(35, 50, 45, 0.8)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+          zIndex: 100000,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "16px 14px",
+        }} className="tn-card-enter">
+          <div style={{
+            background: "#FFFFFF",
+            borderRadius: 22,
+            border: "1px solid #C2DDD4",
+            padding: "24px 20px 20px",
+            maxWidth: 370,
+            width: "100%",
+            textAlign: "center",
+            position: "relative",
+          }}>
+            <button
+              onClick={() => {
+                setShowInstallModal(false);
+                try { sessionStorage.setItem("elo_install_dismissed", "true"); } catch {}
+              }}
+              aria-label="Close"
+              className="tn-focus"
+              style={{
+                position: "absolute",
+                top: 14,
+                right: 14,
+                background: "#F5F9F7",
+                border: "1px solid #C2DDD4",
+                borderRadius: "50%",
+                width: 28,
+                height: 28,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#6B8F82",
+                cursor: "pointer",
+                fontSize: 13,
+                fontWeight: 700,
+              }}
+            >
+              ✕
+            </button>
+
+            <div style={{
+              width: 52,
+              height: 52,
+              borderRadius: 16,
+              background: "#045137",
+              color: "#FFFFFF",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 12px",
+              boxShadow: "0 4px 14px rgba(4,81,55,0.22)",
+            }}>
+              <ChefHat size={28} />
+            </div>
+
+            <h3 style={{ color: "#23322D", fontSize: 20, fontWeight: 700, margin: "0 0 6px", fontFamily: "'DM Sans', sans-serif" }}>
+              Install Chef Elo
+            </h3>
+            <p style={{ color: "#6B8F82", fontSize: 13, lineHeight: 1.45, margin: "0 0 16px", fontFamily: "'Inter', sans-serif" }}>
+              Add Chef Elo to your Home Screen for 1-tap access, offline cooking, and a full-screen experience.
+            </p>
+
+            {deferredPrompt ? (
+              <button
+                className="tn-focus"
+                style={{
+                  ...styles.decideBtn,
+                  marginTop: 0,
+                  boxShadow: "none",
+                  padding: "14px 20px",
+                  fontSize: 15,
+                  fontWeight: 700,
+                  width: "100%",
+                  background: "#D05F0D",
+                  color: "#FFFFFF",
+                  borderRadius: 14,
+                  cursor: "pointer",
+                }}
+                onClick={handleInstallClick}
+              >
+                Install App Now
+              </button>
+            ) : isIOS ? (
+              <div style={{
+                background: "#F8FAF9",
+                border: "1px solid #E2EBE7",
+                borderRadius: 14,
+                padding: "14px",
+                textAlign: "left",
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+                marginBottom: 16,
+                fontSize: 12.5,
+                color: "#23322D",
+                fontFamily: "'Inter', sans-serif",
+              }}>
+                <div style={{ fontWeight: 700, color: "#045137", fontSize: 13 }}>
+                  📱 How to Install on iOS (Safari):
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ fontSize: 18, lineHeight: 1 }}>1️⃣</span>
+                  <span>Tap the <strong>Share button</strong> 📤 in Safari's bottom toolbar.</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ fontSize: 18, lineHeight: 1 }}>2️⃣</span>
+                  <span>Scroll down & tap <strong>'Add to Home Screen'</strong> ➕.</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ fontSize: 18, lineHeight: 1 }}>3️⃣</span>
+                  <span>Tap <strong>'Add'</strong> in the top-right corner.</span>
+                </div>
+              </div>
+            ) : (
+              <div style={{
+                background: "#F8FAF9",
+                border: "1px solid #E2EBE7",
+                borderRadius: 14,
+                padding: "14px",
+                textAlign: "left",
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+                marginBottom: 16,
+                fontSize: 12.5,
+                color: "#23322D",
+                fontFamily: "'Inter', sans-serif",
+              }}>
+                <div style={{ fontWeight: 700, color: "#045137", fontSize: 13 }}>
+                  📱 How to Install:
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ fontSize: 18, lineHeight: 1 }}>1️⃣</span>
+                  <span>Tap your browser menu (⋮ or ⠇).</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ fontSize: 18, lineHeight: 1 }}>2️⃣</span>
+                  <span>Select <strong>'Add to Home Screen'</strong> or <strong>'Install App'</strong>.</span>
+                </div>
+              </div>
+            )}
+
+            {!deferredPrompt && (
+              <button
+                className="tn-focus"
+                style={{
+                  ...styles.decideBtn,
+                  marginTop: 0,
+                  boxShadow: "none",
+                  padding: "12px 20px",
+                  fontSize: 14,
+                  fontWeight: 700,
+                  width: "100%",
+                  background: "#D05F0D",
+                  color: "#FFFFFF",
+                  borderRadius: 12,
+                  cursor: "pointer",
+                  border: "none",
+                }}
+                onClick={() => {
+                  setShowInstallModal(false);
+                  try { sessionStorage.setItem("elo_install_dismissed", "true"); } catch {}
+                }}
+              >
+                Got It
+              </button>
+            )}
           </div>
         </div>
       )}
