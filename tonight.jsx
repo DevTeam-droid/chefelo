@@ -57,6 +57,19 @@ const TRANSLATIONS = {
     restore_purchases: "Restore Purchases",
     terms: "Terms",
     privacy: "Privacy",
+    install_app: "Install App",
+    edit_preferences: "Edit preferences",
+    filters_active: "FILTER(S) ACTIVE",
+    filters_off: "ALL DIETARY FILTERS OFF",
+    decided_eyebrow: "DECIDED",
+    decide_again_tomorrow: "Decide again tomorrow",
+    how_do_i_make_it: "How do I make it",
+    cook_step_by_step: "Cook Step-by-Step",
+    pantry_chicken: "Chicken", pantry_beef: "Beef", pantry_pork: "Pork", pantry_seafood: "Seafood", pantry_pasta: "Pasta", pantry_veg: "Mostly veg", pantry_staples: "Beans & Grains", pantry_leftovers: "Leftovers", pantry_empty: "Basically nothing",
+    effort_10: "10 min", effort_30: "30 min", effort_cook: "I'll cook",
+    diet_vegetarian: "Veggie", diet_dairy_free: "No dairy", diet_kid_friendly: "Kid-friendly",
+    allergy_gluten: "Gluten-free", allergy_dairy: "Dairy-free", allergy_eggs: "Egg-free", allergy_nuts: "Nut-free",
+    health_diabetic_friendly: "Diabetic-friendly", health_low_sodium: "Low-sodium"
   },
   es: {
     morning_eyebrow: "DECISIÓN DE LA MAÑANA",
@@ -100,6 +113,19 @@ const TRANSLATIONS = {
     restore_purchases: "Restaurar Compras",
     terms: "Términos",
     privacy: "Privacidad",
+    install_app: "Instalar App",
+    edit_preferences: "Editar preferencias",
+    filters_active: "FILTRO(S) ACTIVO(S)",
+    filters_off: "SIN FILTROS ACTIVO(S)",
+    decided_eyebrow: "DECIDIDO",
+    decide_again_tomorrow: "Decidir de nuevo mañana",
+    how_do_i_make_it: "Cómo prepararlo",
+    cook_step_by_step: "Cocinar paso a paso",
+    pantry_chicken: "Pollo", pantry_beef: "Carne de res", pantry_pork: "Cerdo", pantry_seafood: "Mariscos", pantry_pasta: "Pasta", pantry_veg: "Verduras", pantry_staples: "Legumbres y granos", pantry_leftovers: "Sobras", pantry_empty: "Casi nada",
+    effort_10: "10 min", effort_30: "30 min", effort_cook: "Voy a cocinar",
+    diet_vegetarian: "Vegetariano", diet_dairy_free: "Sin lácteos", diet_kid_friendly: "Para niños",
+    allergy_gluten: "Sin gluten", allergy_dairy: "Sin lácteos", allergy_eggs: "Sin huevo", allergy_nuts: "Sin frutos secos",
+    health_diabetic_friendly: "Apto para diabéticos", health_low_sodium: "Bajo en sodio"
   },
   fr: {
     morning_eyebrow: "DÉCISION DU MATIN",
@@ -143,6 +169,19 @@ const TRANSLATIONS = {
     restore_purchases: "Restaurer les achats",
     terms: "Conditions",
     privacy: "Confidentialité",
+    install_app: "Installer l'app",
+    edit_preferences: "Modifier les préférences",
+    filters_active: "FILTRE(S) ACTIF(S)",
+    filters_off: "AUCUN FILTRE",
+    decided_eyebrow: "DÉCIDÉ",
+    decide_again_tomorrow: "Décider à nouveau demain",
+    how_do_i_make_it: "Comment le préparer",
+    cook_step_by_step: "Cuisiner étape par étape",
+    pantry_chicken: "Poulet", pantry_beef: "Bœuf", pantry_pork: "Porc", pantry_seafood: "Fruits de mer", pantry_pasta: "Pâtes", pantry_veg: "Légumes", pantry_staples: "Légumineuses & céréales", pantry_leftovers: "Restes", pantry_empty: "Presque rien",
+    effort_10: "10 min", effort_30: "30 min", effort_cook: "Je cuisine",
+    diet_vegetarian: "Végétarien", diet_dairy_free: "Sans laitage", diet_kid_friendly: "Pour enfants",
+    allergy_gluten: "Sans gluten", allergy_dairy: "Sans laitage", allergy_eggs: "Sans œufs", allergy_nuts: "Sans fruits à coque",
+    health_diabetic_friendly: "Adapté aux diabétiques", health_low_sodium: "Faible en sodium"
   },
   de: {
     morning_eyebrow: "ENTSCHEIDUNG AM MORGEN",
@@ -186,6 +225,19 @@ const TRANSLATIONS = {
     restore_purchases: "Käufe wiederherstellen",
     terms: "AGB",
     privacy: "Datenschutz",
+    install_app: "App installieren",
+    edit_preferences: "Einstellungen bearbeiten",
+    filters_active: "FILTER AKTIV",
+    filters_off: "ALLE FILTER AUS",
+    decided_eyebrow: "ENTSCHIEDEN",
+    decide_again_tomorrow: "Morgen erneut entscheiden",
+    how_do_i_make_it: "Wie bereite ich es zu",
+    cook_step_by_step: "Schritt für Schritt kochen",
+    pantry_chicken: "Hähnchen", pantry_beef: "Rindfleisch", pantry_pork: "Schweinefleisch", pantry_seafood: "Meeresfrüchte", pantry_pasta: "Nudeln", pantry_veg: "Gemüse", pantry_staples: "Bohnen & Getreide", pantry_leftovers: "Reste", pantry_empty: "Fast nichts",
+    effort_10: "10 Min", effort_30: "30 Min", effort_cook: "Ich koche",
+    diet_vegetarian: "Vegetarisch", diet_dairy_free: "Ohne Milch", diet_kid_friendly: "Kinderfreundlich",
+    allergy_gluten: "Glutenfrei", allergy_dairy: "Laktosefrei", allergy_eggs: "Eifrei", allergy_nuts: "Nussfrei",
+    health_diabetic_friendly: "Diabetikerfreundlich", health_low_sodium: "Natriumarm"
   },
   it: {
     morning_eyebrow: "DECISIONE DEL MATTINO",
@@ -229,6 +281,19 @@ const TRANSLATIONS = {
     restore_purchases: "Ripristina acquisti",
     terms: "Termini",
     privacy: "Privacy",
+    install_app: "Installa App",
+    edit_preferences: "Modifica preferenze",
+    filters_active: "FILTRO/I ATTIVI",
+    filters_off: "NESSUN FILTRO",
+    decided_eyebrow: "DECISO",
+    decide_again_tomorrow: "Decidi di nuovo domani",
+    how_do_i_make_it: "Come si prepara",
+    cook_step_by_step: "Cucina passo dopo passo",
+    pantry_chicken: "Pollo", pantry_beef: "Manzo", pantry_pork: "Maiale", pantry_seafood: "Frutti di mare", pantry_pasta: "Pasta", pantry_veg: "Verdure", pantry_staples: "Legumi e cereali", pantry_leftovers: "Avanzi", pantry_empty: "Praticamente nulla",
+    effort_10: "10 min", effort_30: "30 min", effort_cook: "Cucino io",
+    diet_vegetarian: "Vegetariano", diet_dairy_free: "Senza lattosio", diet_kid_friendly: "Per bambini",
+    allergy_gluten: "Senza glutine", allergy_dairy: "Senza lattosio", allergy_eggs: "Senza uova", allergy_nuts: "Senza frutta a guscio",
+    health_diabetic_friendly: "Adatto ai diabetici", health_low_sodium: "A basso contenuto di sodio"
   },
   pt: {
     morning_eyebrow: "DECISÃO DA MANHÃ",
@@ -272,6 +337,19 @@ const TRANSLATIONS = {
     restore_purchases: "Restaurar Compras",
     terms: "Termos",
     privacy: "Privacidade",
+    install_app: "Instalar App",
+    edit_preferences: "Editar preferências",
+    filters_active: "FILTRO(S) ATIVO(S)",
+    filters_off: "SEM FILTROS",
+    decided_eyebrow: "DECIDIDO",
+    decide_again_tomorrow: "Decidir novamente amanhã",
+    how_do_i_make_it: "Como preparar",
+    cook_step_by_step: "Cozinhar passo a passo",
+    pantry_chicken: "Frango", pantry_beef: "Carne bovina", pantry_pork: "Carne de porco", pantry_seafood: "Frutos do mar", pantry_pasta: "Massa", pantry_veg: "Vegetais", pantry_staples: "Feijão e grãos", pantry_leftovers: "Sobras", pantry_empty: "Quase nada",
+    effort_10: "10 min", effort_30: "30 min", effort_cook: "Vou cozinhar",
+    diet_vegetarian: "Vegetariano", diet_dairy_free: "Sem laticínios", diet_kid_friendly: "Para crianças",
+    allergy_gluten: "Sem glúten", allergy_dairy: "Sem laticínios", allergy_eggs: "Sem ovo", allergy_nuts: "Sem nozes",
+    health_diabetic_friendly: "Para diabéticos", health_low_sodium: "Baixo sódio"
   },
   zh: {
     morning_eyebrow: "早晨的决定",
@@ -315,6 +393,19 @@ const TRANSLATIONS = {
     restore_purchases: "恢复购买",
     terms: "服务条款",
     privacy: "隐私政策",
+    install_app: "安装应用",
+    edit_preferences: "修改偏好",
+    filters_active: "个筛选器已启用",
+    filters_off: "未启用任何筛选",
+    decided_eyebrow: "决定完成",
+    decide_again_tomorrow: "明天再决定",
+    how_do_i_make_it: "查看详细做法",
+    cook_step_by_step: "分步分时烹饪",
+    pantry_chicken: "鸡肉", pantry_beef: "牛肉", pantry_pork: "猪肉", pantry_seafood: "海鲜", pantry_pasta: "意面", pantry_veg: "蔬菜为主", pantry_staples: "豆类与谷物", pantry_leftovers: "剩菜剩饭", pantry_empty: "基本没有",
+    effort_10: "10分钟", effort_30: "30分钟", effort_cook: "精细烹饪",
+    diet_vegetarian: "素食", diet_dairy_free: "无乳制品", diet_kid_friendly: "适合儿童",
+    allergy_gluten: "无麸质", allergy_dairy: "无乳制品", allergy_eggs: "无鸡蛋", allergy_nuts: "无坚果",
+    health_diabetic_friendly: "适合糖尿病", health_low_sodium: "低钠"
   },
   ja: {
     morning_eyebrow: "朝のメニュー決定",
@@ -358,6 +449,19 @@ const TRANSLATIONS = {
     restore_purchases: "購入を復元",
     terms: "利用規約",
     privacy: "プライバシーポリシー",
+    install_app: "アプリをインストール",
+    edit_preferences: "設定を編集",
+    filters_active: "フィルター有効",
+    filters_off: "フィルターなし",
+    decided_eyebrow: "決定しました",
+    decide_again_tomorrow: "明日また決める",
+    how_do_i_make_it: "作り方を見る",
+    cook_step_by_step: "ステップ別調理",
+    pantry_chicken: "チキン", pantry_beef: "牛肉", pantry_pork: "豚肉", pantry_seafood: "シーフード", pantry_pasta: "パスタ", pantry_veg: "野菜中心", pantry_staples: "豆・穀物", pantry_leftovers: "残り物", pantry_empty: "ほぼ何もなし",
+    effort_10: "10分", effort_30: "30分", effort_cook: "じっくり料理",
+    diet_vegetarian: "ベジタリアン", diet_dairy_free: "乳製品なし", diet_kid_friendly: "子供向け",
+    allergy_gluten: "グルテンフリー", allergy_dairy: "乳製品フリー", allergy_eggs: "卵フリー", allergy_nuts: "ナッツフリー",
+    health_diabetic_friendly: "糖尿病対応", health_low_sodium: "減塩"
   },
   ar: {
     morning_eyebrow: "قرار الصباح",
@@ -1675,7 +1779,7 @@ export default function TonightApp() {
             <div style={styles.loaderAvatar}>
               <ChefBotAvatar />
             </div>
-            <h2 style={styles.loaderTitle}>Hi, I'm Elo, your Chef!</h2>
+            <h2 style={styles.loaderTitle}>{t("hi_elo", "Hi, I'm Elo, your Chef!")}</h2>
             <div style={styles.loaderBarBg}>
               <div style={styles.loaderBarFill} className="tn-loading-bar-fill" />
             </div>
@@ -1687,9 +1791,9 @@ export default function TonightApp() {
             <div style={styles.loaderAvatar} className="tn-pulse-hat">
               <ChefBotAvatar isScouting={true} />
             </div>
-            <h2 style={styles.loaderTitle}>Elo is scouting the web...</h2>
+            <h2 style={styles.loaderTitle}>{t("scouting", "Elo is scouting the web...")}</h2>
             <p style={{ color: "#6B8F82", fontSize: 14, fontFamily: "'Inter', sans-serif", margin: "-8px 0 10px", textAlign: "center" }}>
-              Finding the perfect recipe matching your pantry and filters.
+              {t("scouting_sub", "Finding the perfect recipe matching your pantry and filters.")}
             </p>
             <div style={styles.loaderBarBg}>
               <div style={{ ...styles.loaderBarFill, width: "100%", animation: "tnLoadingBar 2.5s infinite linear" }} />
@@ -1730,7 +1834,7 @@ export default function TonightApp() {
                       }}
                     >
                       <Smartphone size={13} style={{ verticalAlign: "-1px" }} />
-                      <span>Install App</span>
+                      <span>{t("install_app", "Install App")}</span>
                     </button>
                   )}
                   {/* Language Switcher Pill */}
@@ -1887,28 +1991,28 @@ export default function TonightApp() {
             <>
               {stage === "health" && (
                 <div style={styles.askPanel} className="tn-card-enter">
-                  <Section title="Any allergies?">
+                  <Section title={t("allergies_title", "ALLERGIES & RESTRICTIONS")}>
                     <ChipRow>
                       {ALLERGIES.map((a) => (
                         <Chip key={a.id} active={selectedAllergies.includes(a.id)} onClick={() => toggleAllergy(a.id)}>
-                          {a.label}
+                          {t("allergy_" + a.id, a.label)}
                         </Chip>
                       ))}
                     </ChipRow>
                   </Section>
 
-                  <Section title="Health considerations">
+                  <Section title={t("health_title", "HEALTH CONSIDERATIONS")}>
                     <ChipRow>
                       {HEALTH_CONDITIONS.map((hc) => (
                         <Chip key={hc.id} active={selectedHealth.includes(hc.id)} onClick={() => toggleHealth(hc.id)}>
-                          {hc.label}
+                          {t("health_" + hc.id.replace(/-/g, "_"), hc.label)}
                         </Chip>
                       ))}
                     </ChipRow>
                   </Section>
 
                   <button className="tn-btn-primary tn-focus" style={styles.decideBtn} onClick={completeHealthSetup}>
-                    Continue
+                    {t("continue", "Continue")}
                   </button>
                 </div>
               )}
@@ -1918,51 +2022,51 @@ export default function TonightApp() {
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
                     <span className="tn-mono" style={{ fontSize: 11, color: "#6B8F82", letterSpacing: "0.08em" }}>
                       {(selectedAllergies.length > 0 || selectedHealth.length > 0)
-                        ? `${selectedAllergies.length + selectedHealth.length} FILTER(S) ACTIVE`
-                        : "ALL DIETARY FILTERS OFF"}
+                        ? `${selectedAllergies.length + selectedHealth.length} ${t("filters_active", "FILTER(S) ACTIVE")}`
+                        : t("filters_off", "ALL DIETARY FILTERS OFF")}
                     </span>
                     <button 
                       type="button" 
                       onClick={() => setStage("health")}
                       style={{ background: "none", border: "none", color: "#045137", fontSize: 12, fontWeight: 600, cursor: "pointer", padding: 0, textDecoration: "underline", fontFamily: "'Inter', sans-serif" }}
                     >
-                      Edit preferences
+                      {t("edit_preferences", "Edit preferences")}
                     </button>
                   </div>
 
-                  <Section title="What's around">
+                  <Section title={t("pantry_title", "WHAT'S IN THE PANTRY?")}>
                     <ChipRow>
                       {PANTRY.map((p) => (
                         <Chip key={p.id} active={pantry === p.id} onClick={() => setPantry(pantry === p.id ? null : p.id)}>
-                          {p.label}
+                          {t("pantry_" + p.id, p.label)}
                         </Chip>
                       ))}
                     </ChipRow>
                   </Section>
 
-                  <Section title="How much effort">
+                  <Section title={t("time_title", "HOW MUCH TIME DO YOU HAVE?")}>
                     <ChipRow>
                       {EFFORT.map((e) => (
                         <Chip key={e.id} active={effort === e.id} onClick={() => setEffort(effort === e.id ? null : e.id)}>
                           <e.icon size={13} style={{ marginRight: 6, verticalAlign: "-2px" }} />
-                          {e.label}
+                          {t("effort_" + e.id, e.label)}
                         </Chip>
                       ))}
                     </ChipRow>
                   </Section>
 
-                  <Section title="Anything to avoid">
+                  <Section title={t("diet_title", "ANY DIETARY RESTRICTIONS?")}>
                     <ChipRow>
                       {DIET.map((d) => (
                         <Chip key={d.id} active={diet.includes(d.id)} onClick={() => toggleDiet(d.id)}>
-                          {d.label}
+                          {t("diet_" + d.id.replace(/-/g, "_"), d.label)}
                         </Chip>
                       ))}
                     </ChipRow>
                   </Section>
 
                   <button className="tn-btn-primary tn-focus" style={styles.decideBtn} onClick={() => decide(false)}>
-                    Decide for me
+                    {t("decide_btn", "Decide for me")}
                   </button>
                 </div>
               )}
@@ -1979,11 +2083,15 @@ export default function TonightApp() {
                       <div style={styles.cardName}>{current.name}</div>
                       <div style={styles.cardReason}>{current.reason}</div>
                       <div style={styles.cardTagRow}>
-                        {[current.effort === "10" ? "10 min" : current.effort === "30" ? "30 min" : "worth cooking", ...current.diet]
+                        {[current.effort === "10" ? t("effort_10", "10 min") : current.effort === "30" ? t("effort_30", "30 min") : t("effort_cook", "I'll cook"), ...current.diet]
                           .slice(0, 3)
-                          .map((t, i) => (
+                          .map((tagItem, i) => (
                             <span key={i} className="tn-mono" style={styles.cardTag}>
-                              {typeof t === "string" && (t === "vegetarian" ? "veggie" : t === "dairy-free" ? "no dairy" : t === "kid-friendly" ? "kid-friendly" : t)}
+                              {typeof tagItem === "string" && (
+                                tagItem === "vegetarian" ? t("diet_vegetarian", "veggie") :
+                                tagItem === "dairy-free" ? t("diet_dairy_free", "no dairy") :
+                                tagItem === "kid-friendly" ? t("diet_kid_friendly", "kid-friendly") : tagItem
+                              )}
                             </span>
                           ))}
                       </div>
@@ -1992,11 +2100,11 @@ export default function TonightApp() {
 
                   <div style={styles.actionRow}>
                     <button className="tn-focus" style={styles.rejectBtn} onClick={notThis}>
-                      Not this one
+                      {t("not_this", "Not this one")}
                     </button>
                     <button className="tn-focus" style={styles.acceptBtn} onClick={() => setStage("done")}>
                       <Check size={16} style={{ marginRight: 6, verticalAlign: "-3px" }} />
-                      Doing this
+                      {t("doing_this", "Doing this")}
                     </button>
                   </div>
                 </div>
@@ -2004,7 +2112,7 @@ export default function TonightApp() {
 
               {stage === "done" && current && (
                 <div style={styles.donePanel}>
-                  <div className="tn-mono" style={styles.eyebrow}>DECIDED</div>
+                  <div className="tn-mono" style={styles.eyebrow}>{t("decided_eyebrow", "DECIDED")}</div>
                   <div style={styles.doneName}>{current.name}</div>
                   {current.image && (
                     <img src={current.image} alt={current.name} style={styles.doneImage} />
@@ -2014,7 +2122,7 @@ export default function TonightApp() {
                   {!showRecipe && currentRecipe && (
                     <button className="tn-focus" style={styles.recipeBtn} onClick={() => setShowRecipe(true)}>
                       <Utensils size={14} style={{ marginRight: 7, verticalAlign: "-2px" }} />
-                      How do I make it
+                      {t("how_do_i_make_it", "How do I make it")}
                     </button>
                   )}
 
@@ -2028,18 +2136,18 @@ export default function TonightApp() {
                       <div style={{ marginBottom: 20 }}>
                         <button className="tn-focus" style={{ ...styles.decideBtn, marginTop: 0, padding: "12px 18px", fontSize: "14px", boxShadow: "none" }} onClick={startCooking}>
                           <ChefHat size={16} style={{ marginRight: 8, verticalAlign: "-3px" }} />
-                          Cook Step-by-Step
+                          {t("cook_step_by_step", "Cook Step-by-Step")}
                         </button>
                       </div>
 
-                      <div className="tn-mono" style={styles.recipeLabel}>INGREDIENTS</div>
+                      <div className="tn-mono" style={styles.recipeLabel}>{t("ingredients", "INGREDIENTS")}</div>
                       <ul style={styles.ingList}>
                         {currentRecipe.ingredients.map((ing, i) => (
                           <li key={i} style={styles.ingItem}>{ing}</li>
                         ))}
                       </ul>
 
-                      <div className="tn-mono" style={styles.recipeLabel}>STEPS</div>
+                      <div className="tn-mono" style={styles.recipeLabel}>{t("steps", "PREPARATION STEPS")}</div>
                       <ol style={styles.stepList}>
                         {currentRecipe.steps.map((step, i) => (
                           <li key={i} style={styles.stepItem}>
@@ -2053,7 +2161,7 @@ export default function TonightApp() {
 
                   <button className="tn-focus" style={styles.overBtn} onClick={startOver}>
                     <RotateCcw size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
-                    Decide again tomorrow
+                    {t("decide_again_tomorrow", "Decide again tomorrow")}
                   </button>
                 </div>
               )}
@@ -2065,7 +2173,7 @@ export default function TonightApp() {
                     BON APPÉTIT
                   </div>
                   <h1 style={{ ...styles.h1, fontSize: 28, marginBottom: 8, textAlign: "center" }}>
-                    Food is ready, please serve!
+                    {t("food_ready", "Food is ready, please serve!")}
                   </h1>
                   {current && (
                     <p style={{ color: "#6B8F82", fontSize: 15, margin: "0 0 16px", fontFamily: "'Inter', sans-serif" }}>
@@ -2098,114 +2206,12 @@ export default function TonightApp() {
                       setStage("health");
                     }}
                   >
-                    Thanks Chef
+                    {t("thanks_chef", "Thanks Chef")}
                   </button>
                 </div>
               )}
             </>
           )}
-        </div>
-      )}
-
-      {/* Immediate App Install Prompt Modal */}
-      {showInstallModal && !isStandalone && (
-        <div style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: "rgba(35, 50, 45, 0.65)",
-          backdropFilter: "blur(6px)",
-          WebkitBackdropFilter: "blur(6px)",
-          zIndex: 99999,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 20,
-        }} className="tn-card-enter">
-          <div style={{
-            background: "#FFFFFF",
-            borderRadius: 20,
-            border: "1px solid #C2DDD4",
-            padding: "30px 24px 26px",
-            maxWidth: 360,
-            width: "100%",
-            textAlign: "center",
-            boxShadow: "none",
-            position: "relative",
-          }}>
-            {/* Chef Bot Head Icon Badge */}
-            <div style={{
-              width: 72,
-              height: 72,
-              borderRadius: 18,
-              background: "#23322D",
-              margin: "0 auto 16px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              overflow: "hidden",
-              padding: 6,
-            }}>
-              <img src="/favicon.svg" alt="Chef Elo" style={{ width: "100%", height: "100%" }} />
-            </div>
-
-            <div className="tn-mono" style={{ fontSize: 11, color: "#045137", letterSpacing: "0.1em", fontWeight: 700, marginBottom: 6 }}>
-              APP INSTALLATION
-            </div>
-            <h2 style={{ color: "#23322D", fontSize: 22, fontWeight: 700, margin: "0 0 10px", fontFamily: "'DM Sans', sans-serif" }}>
-              Install Chef Elo
-            </h2>
-
-            {isIOS ? (
-              <div style={{ background: "#F3FAF7", border: "1px solid #C2DDD4", borderRadius: 12, padding: "14px 16px", margin: "14px 0 20px", textAlign: "left" }}>
-                <p style={{ color: "#23322D", fontSize: 13.5, lineHeight: 1.5, margin: 0, fontFamily: "'Inter', sans-serif" }}>
-                  To add to your home screen:
-                </p>
-                <ol style={{ margin: "8px 0 0", paddingLeft: 20, color: "#23322D", fontSize: 13, lineHeight: 1.6, fontFamily: "'Inter', sans-serif" }}>
-                  <li>Tap the <strong>Share</strong> button in Safari</li>
-                  <li>Scroll down and tap <strong>Add to Home Screen</strong></li>
-                </ol>
-              </div>
-            ) : (
-              <p style={{ color: "#6B8F82", fontSize: 14, lineHeight: 1.5, margin: "0 0 22px", fontFamily: "'Inter', sans-serif" }}>
-                Add to your home screen for quick daily meal decisions and instant full-screen cooking mode.
-              </p>
-            )}
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <button
-                className="tn-focus"
-                style={{
-                  ...styles.decideBtn,
-                  marginTop: 0,
-                  boxShadow: "none",
-                  padding: "14px 20px",
-                  fontSize: 15,
-                }}
-                onClick={handleInstallClick}
-              >
-                {isIOS ? "Got it" : "Install App"}
-              </button>
-              <button
-                className="tn-focus"
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  color: "#6B8F82",
-                  fontSize: 13.5,
-                  fontWeight: 500,
-                  cursor: "pointer",
-                  padding: "8px 12px",
-                  fontFamily: "'Inter', sans-serif",
-                }}
-                onClick={() => setShowInstallModal(false)}
-              >
-                Maybe later
-              </button>
-            </div>
-          </div>
         </div>
       )}
 
