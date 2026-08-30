@@ -1206,7 +1206,7 @@ export default function TonightApp() {
       window.FlutterwaveCheckout({
         public_key: import.meta.env.VITE_FLW_PUBLIC_KEY || "FLWPUBK-00b20d5dc708ea1b8e95d9baa7f5fed0-X",
         tx_ref: `elo_verify_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-        amount: 1, // $1 USD card verification check (instantly auto-refunded)
+        amount: 0.5, // $0.50 USD card verification check (instantly auto-refunded)
         currency: "USD",
         payment_options: "card",
         customer: {
@@ -1215,7 +1215,7 @@ export default function TonightApp() {
         },
         customizations: {
           title: "Chef Elo",
-          description: `7-Day Free Trial ($0 net cost, $1 check auto-refunded). Then ${planLabel}.`,
+          description: `7-Day Free Trial ($0 net cost, $0.50 check auto-refunded). Then ${planLabel}.`,
           logo: "",
         },
         callback: async function (data) {
