@@ -5,7 +5,7 @@
 // to process a Flutterwave charge, so it doubles as the account key.
 //
 // IMPORTANT: this does NOT run its own charge. The frontend already
-// charged $0.50 via Flutterwave's inline Checkout widget before calling
+// charged $1.00 via Flutterwave's inline Checkout widget before calling
 // this endpoint — `cardDetails.token` here is that transaction's ID, not
 // raw card data. This endpoint's job is to VERIFY that transaction
 // actually succeeded, pull the reusable card token off of it, refund it,

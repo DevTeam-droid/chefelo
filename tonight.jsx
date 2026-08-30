@@ -1206,7 +1206,7 @@ export default function TonightApp() {
       window.FlutterwaveCheckout({
         public_key: import.meta.env.VITE_FLW_PUBLIC_KEY || "FLWPUBK-00b20d5dc708ea1b8e95d9baa7f5fed0-X",
         tx_ref: `elo_verify_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
-        amount: 0.5, // $0.50 USD card verification check (instantly auto-refunded)
+        amount: 1, // $1 USD card verification check (instantly auto-refunded)
         currency: "USD",
         payment_options: "card",
         customer: {
@@ -1215,7 +1215,7 @@ export default function TonightApp() {
         },
         customizations: {
           title: "Chef Elo",
-          description: `7-Day Free Trial ($0 net cost, $0.50 check auto-refunded). Then ${planLabel}.`,
+          description: `7-Day Free Trial ($0 net cost, $1 check auto-refunded). Then ${planLabel}.`,
           logo: "",
         },
         callback: async function (data) {
@@ -2469,7 +2469,7 @@ export default function TonightApp() {
                   Day 0: $0.00 Charged Today · 7-Day Free Trial
                 </div>
                 <div style={{ color: "#6B8F82", fontSize: 11, lineHeight: 1.45, fontFamily: "'Inter', sans-serif", marginTop: 2 }}>
-                  Card verified with $0.50 check (refunded immediately). On Day 7, automatic billing begins at {selectedPlan === "annual" ? "$29.99/yr" : "$4.99/mo"}.
+                  Card verified with $1.00 check (refunded immediately). On Day 7, automatic billing begins at {selectedPlan === "annual" ? "$29.99/yr" : "$4.99/mo"}.
                 </div>
               </div>
             </div>
@@ -2628,7 +2628,7 @@ export default function TonightApp() {
                 fontSize: 14.5,
                 fontWeight: 700,
                 width: "100%",
-                background: restoreLoading ? "#6B8F82" : "#045137",
+                background: restoreLoading ? "#B34E09" : "#D05F0D",
                 color: "#FFFFFF",
                 cursor: restoreLoading ? "wait" : "pointer",
                 borderRadius: 12,
@@ -2707,7 +2707,7 @@ export default function TonightApp() {
                 <strong style={{ color: "#045137" }}>1. 7-Day Free Trial:</strong> Your subscription begins with a 7-day free trial granting full access to Chef Elo Pro. You will not be charged the subscription rate during your trial.
               </div>
               <div>
-                <strong style={{ color: "#045137" }}>2. Card Verification:</strong> A temporary $0.50 card verification authorization is processed and refunded immediately ($0.00 net cost) to validate payment method authenticity.
+                <strong style={{ color: "#045137" }}>2. Card Verification:</strong> A temporary $1.00 card verification authorization is processed and refunded immediately ($0.00 net cost) to validate payment method authenticity.
               </div>
               <div>
                 <strong style={{ color: "#045137" }}>3. Automatic Renewal:</strong> At the conclusion of your 7-day trial period, your payment method is automatically charged for your selected plan ($29.99/year or $4.99/month).
@@ -2726,7 +2726,7 @@ export default function TonightApp() {
                 fontSize: 14,
                 fontWeight: 700,
                 width: "100%",
-                background: "#045137",
+                background: "#D05F0D",
                 color: "#FFFFFF",
                 borderRadius: 12,
                 cursor: "pointer",
@@ -2825,7 +2825,7 @@ export default function TonightApp() {
                 fontSize: 14,
                 fontWeight: 700,
                 width: "100%",
-                background: "#045137",
+                background: "#D05F0D",
                 color: "#FFFFFF",
                 borderRadius: 12,
                 cursor: "pointer",
