@@ -2528,7 +2528,7 @@ export default function TonightApp() {
               }}
               onClick={() => startFreeTrial(selectedPlan)}
             >
-              {isVerifyingTrial ? "Verifying Card..." : "Enter Card to Activate 7-Day Free Trial"}
+              {isVerifyingTrial ? "Verifying Card..." : t("enter_card", "Enter Card to Activate 7-Day Free Trial")}
             </button>
 
             {/* Microcopy Under Button */}
@@ -2546,21 +2546,21 @@ export default function TonightApp() {
                   setShowRestoreModal(true);
                 }}
               >
-                Restore Purchases
+                {t("restore_purchases", "Restore Purchases")}
               </span>
               <span>·</span>
               <span
                 style={{ cursor: "pointer", textDecoration: "underline" }}
                 onClick={() => setShowTermsModal(true)}
               >
-                Terms
+                {t("terms", "Terms")}
               </span>
               <span>·</span>
               <span
                 style={{ cursor: "pointer", textDecoration: "underline" }}
                 onClick={() => setShowPrivacyModal(true)}
               >
-                Privacy
+                {t("privacy", "Privacy")}
               </span>
             </div>
           </div>
