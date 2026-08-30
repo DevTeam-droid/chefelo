@@ -1,29 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- Background Badge -->
-  <rect width="100" height="100" rx="24" fill="#23322D" />
+  <!-- White Chef Hat -->
+  <path d="M30 32 C30 15, 70 15, 70 32 Z" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="0.5" />
+  <circle cx="40" cy="20" r="10" fill="#FFFFFF" />
+  <circle cx="50" cy="15" r="12" fill="#FFFFFF" />
+  <circle cx="60" cy="20" r="10" fill="#FFFFFF" />
+  <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
   
-  <!-- Chef Bot Head & Hat -->
-  <g>
-    <!-- White Chef Hat -->
-    <path d="M 22 46 C 22 18, 78 18, 78 46 Z" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="0.8" />
-    <circle cx="36" cy="27" r="14" fill="#FFFFFF" />
-    <circle cx="50" cy="20" r="16" fill="#FFFFFF" />
-    <circle cx="64" cy="27" r="14" fill="#FFFFFF" />
-    <rect x="26" y="40" width="48" height="10" rx="3" fill="#E2E8F0" />
-
-    <!-- Head & Ear Bolts -->
-    <rect x="17" y="62" width="6" height="14" rx="2" fill="#045137" />
-    <rect x="77" y="62" width="6" height="14" rx="2" fill="#045137" />
-    <rect x="23" y="50" width="54" height="40" rx="14" fill="#CEE9DF" stroke="#045137" stroke-width="1.5" />
-    
-    <!-- Face Screen -->
-    <rect x="30" y="56" width="40" height="26" rx="7" fill="#23322D" />
-    
-    <!-- Glowing Neon Eyes (Smiling Arches) -->
-    <path d="M 36 67 Q 42 61 48 67" fill="none" stroke="#0BE49B" stroke-width="3" stroke-linecap="round" />
-    <path d="M 52 67 Q 58 61 64 67" fill="none" stroke="#0BE49B" stroke-width="3" stroke-linecap="round" />
-    
-    <!-- Glowing Neon Mouth (Smile) -->
-    <path d="M 43 76 Q 50 82 57 76" fill="none" stroke="#0BE49B" stroke-width="2.5" stroke-linecap="round" />
-  </g>
+  <!-- Body & Jacket -->
+  <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
+  <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="0.5" />
+  <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
+  <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
+  <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
+  <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
+  <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
+  
+  <!-- Head -->
+  <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" stroke-width="1" />
+  <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
+  <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
+  <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
+  
+  <!-- Eyes -->
+  <path d="M 41 50 Q 45 46 49 50" fill="none" stroke="#0BE49B" stroke-width="2.5" stroke-linecap="round" />
+  <path d="M 51 50 Q 55 46 59 50" fill="none" stroke="#0BE49B" stroke-width="2.5" stroke-linecap="round" />
+  
+  <!-- Mouth -->
+  <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#0BE49B" stroke-width="2" stroke-linecap="round" />
 </svg>

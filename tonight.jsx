@@ -1217,6 +1217,26 @@ export default function TonightApp() {
   const [showInstallModal, setShowInstallModal] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [isStandalone, setIsStandalone] = useState(false);
+  const [loadPercent, setLoadPercent] = useState(0);
+  const [isInstalling, setIsInstalling] = useState(false);
+  const [installProgress, setInstallProgress] = useState(0);
+  const [installStepText, setInstallStepText] = useState("Preparing installation...");
+
+  useEffect(() => {
+    if (isLoading) {
+      setLoadPercent(0);
+      const interval = setInterval(() => {
+        setLoadPercent((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prev + Math.floor(Math.random() * 15) + 12;
+        });
+      }, 160);
+      return () => clearInterval(interval);
+    }
+  }, [isLoading]);
 
   // ---------- Paywall & Subscription State ----------
   const [subStatus, setSubStatus] = useState(() => {
@@ -1469,17 +1489,57 @@ export default function TonightApp() {
   }, []);
 
   const handleInstallClick = async () => {
+    setIsInstalling(true);
+    setInstallProgress(12);
+    setInstallStepText("Connecting to browser service...");
+
+    let currentProg = 12;
+    const progressInterval = setInterval(() => {
+      currentProg += Math.floor(Math.random() * 16) + 14;
+      if (currentProg >= 95) {
+        currentProg = 95;
+        clearInterval(progressInterval);
+      }
+      setInstallProgress(currentProg);
+      if (currentProg > 70) {
+        setInstallStepText("Adding Chef Elo to your Home Screen...");
+      } else if (currentProg > 40) {
+        setInstallStepText("Caching recipes and timers for offline use...");
+      } else {
+        setInstallStepText("Configuring application manifest...");
+      }
+    }, 200);
+
     if (deferredPrompt) {
-      deferredPrompt.prompt();
       try {
+        deferredPrompt.prompt();
         const choice = await deferredPrompt.userChoice;
         if (choice.outcome === "accepted") {
-          setShowInstallModal(false);
+          clearInterval(progressInterval);
+          setInstallProgress(100);
+          setInstallStepText("Chef Elo successfully installed!");
+          setTimeout(() => {
+            setIsInstalling(false);
+            setShowInstallModal(false);
+          }, 900);
+        } else {
+          clearInterval(progressInterval);
+          setIsInstalling(false);
         }
-      } catch {}
+      } catch {
+        clearInterval(progressInterval);
+        setIsInstalling(false);
+      }
       setDeferredPrompt(null);
     } else {
-      setShowInstallModal(true);
+      setTimeout(() => {
+        clearInterval(progressInterval);
+        setInstallProgress(100);
+        setInstallStepText("Ready! Follow the instructions below.");
+        setTimeout(() => {
+          setIsInstalling(false);
+        }, 600);
+      }, 1200);
     }
   };
 
@@ -1776,12 +1836,66 @@ export default function TonightApp() {
       {isLoading ? (
         <div style={styles.loaderPage} className="tn-card-enter">
           <div style={styles.loaderContent} className="tn-float">
-            <div style={styles.loaderAvatar}>
-              <ChefBotAvatar />
+            {/* Colorful Chef Bot Logo - No white square background */}
+            <div style={{
+              width: 130,
+              height: 130,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "transparent",
+              margin: "0 auto",
+            }}>
+              <ChefBotAvatar style={{ width: 120, height: 120 }} />
             </div>
-            <h2 style={styles.loaderTitle}>{t("hi_elo", "Hi, I'm Elo, your Chef!")}</h2>
-            <div style={styles.loaderBarBg}>
-              <div style={styles.loaderBarFill} className="tn-loading-bar-fill" />
+
+            {/* Typography positioned below the logo */}
+            <div style={{ textAlign: "center", marginTop: 12 }}>
+              <h1 style={{
+                color: "#23322D",
+                fontSize: 28,
+                fontWeight: 800,
+                fontFamily: "'DM Sans', sans-serif",
+                letterSpacing: "-0.03em",
+                margin: "0 0 6px",
+                lineHeight: 1.15
+              }}>
+                Chef Elo — AI Meal Decider
+              </h1>
+              <p style={{
+                color: "#6B8F82",
+                fontSize: 14,
+                fontWeight: 600,
+                fontFamily: "'Inter', sans-serif",
+                letterSpacing: "0.01em",
+                margin: 0
+              }}>
+                Instant Meal Decisions & Step-by-Step Cooking Timers
+              </p>
+            </div>
+
+            {/* Live Loading Progress Bar & Percentage Counter */}
+            <div style={{ width: 220, marginTop: 22, textAlign: "center" }}>
+              <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 6,
+                fontSize: 11,
+                fontWeight: 700,
+                color: "#045137",
+                fontFamily: "'IBM Plex Mono', monospace"
+              }}>
+                <span>LOADING CHEF ELO</span>
+                <span>{Math.min(100, loadPercent)}%</span>
+              </div>
+              <div style={styles.loaderBarBg}>
+                <div style={{
+                  ...styles.loaderBarFill,
+                  width: `${Math.min(100, loadPercent)}%`,
+                  transition: "width 0.15s ease-out"
+                }} />
+              </div>
             </div>
           </div>
         </div>
@@ -3028,19 +3142,17 @@ export default function TonightApp() {
               ✕
             </button>
 
+            {/* Colorful Avatar Badge - No solid white box */}
             <div style={{
-              width: 52,
-              height: 52,
-              borderRadius: 16,
-              background: "#045137",
-              color: "#FFFFFF",
+              width: 64,
+              height: 64,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              margin: "0 auto 12px",
-              boxShadow: "0 4px 14px rgba(4,81,55,0.22)",
+              margin: "0 auto 10px",
+              background: "transparent",
             }}>
-              <ChefHat size={28} />
+              <ChefBotAvatar style={{ width: 60, height: 60 }} />
             </div>
 
             <h3 style={{ color: "#23322D", fontSize: 20, fontWeight: 700, margin: "0 0 6px", fontFamily: "'DM Sans', sans-serif" }}>
@@ -3050,7 +3162,44 @@ export default function TonightApp() {
               Add Chef Elo to your Home Screen for 1-tap access, offline cooking, and a full-screen experience.
             </p>
 
-            {deferredPrompt ? (
+            {isInstalling ? (
+              <div style={{
+                background: "#F8FAF9",
+                border: "1px solid #C2DDD4",
+                borderRadius: 14,
+                padding: "16px",
+                margin: "10px 0 16px",
+                textAlign: "center"
+              }}>
+                <div style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  fontSize: 11.5,
+                  fontWeight: 700,
+                  color: "#045137",
+                  fontFamily: "'IBM Plex Mono', monospace",
+                  marginBottom: 8
+                }}>
+                  <span style={{ fontSize: 11 }}>{installStepText}</span>
+                  <span>{installProgress}%</span>
+                </div>
+                <div style={{
+                  width: "100%",
+                  height: 8,
+                  background: "#E0EDE8",
+                  borderRadius: 999,
+                  overflow: "hidden"
+                }}>
+                  <div style={{
+                    height: "100%",
+                    width: `${installProgress}%`,
+                    background: "linear-gradient(90deg, #D05F0D 0%, #0BE49B 100%)",
+                    borderRadius: 999,
+                    transition: "width 0.2s ease-out"
+                  }} />
+                </div>
+              </div>
+            ) : deferredPrompt ? (
               <button
                 className="tn-focus"
                 style={{
