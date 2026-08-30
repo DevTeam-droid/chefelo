@@ -3,25 +3,145 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chef Elo</title>
+
+    <!-- ═══════════════════════════════════════════
+         PRIMARY META
+    ═══════════════════════════════════════════ -->
+    <title>Chef Elo – AI Meal Decider & Step-by-Step Cooking Assistant</title>
+    <meta name="description" content="Tired of the 'what's for dinner?' debate? Chef Elo is your personal AI chef — it decides your meal instantly based on what's in your pantry, then guides you through cooking it step by step. Free 7-day trial." />
+    <meta name="keywords" content="meal decider, AI chef, cooking assistant, what to cook tonight, recipe finder, meal planning, Chef Elo" />
+    <meta name="author" content="Chef Elo" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://chefelo.space/" />
+
+    <!-- ═══════════════════════════════════════════
+         OPEN GRAPH (Facebook, WhatsApp, iMessage, Discord, LinkedIn)
+    ═══════════════════════════════════════════ -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Chef Elo" />
+    <meta property="og:url" content="https://chefelo.space/" />
+    <meta property="og:title" content="Chef Elo – AI Meal Decider & Step-by-Step Cooking Assistant" />
+    <meta property="og:description" content="Tired of the 'what's for dinner?' debate? Chef Elo instantly decides your next meal based on your pantry, then walks you through cooking it step by step. Try it free for 7 days." />
+    <meta property="og:image" content="https://chefelo.space/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Chef Elo – your personal AI meal decider and cooking assistant" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- ═══════════════════════════════════════════
+         TWITTER / X CARD
+    ═══════════════════════════════════════════ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@chefelo" />
+    <meta name="twitter:creator" content="@chefelo" />
+    <meta name="twitter:title" content="Chef Elo – AI Meal Decider & Step-by-Step Cooking Assistant" />
+    <meta name="twitter:description" content="Tired of the 'what's for dinner?' debate? Chef Elo instantly decides your next meal based on your pantry, then walks you through cooking it step by step." />
+    <meta name="twitter:image" content="https://chefelo.space/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Chef Elo – AI Meal Decider" />
+
+    <!-- ═══════════════════════════════════════════
+         FAVICON & ICONS
+    ═══════════════════════════════════════════ -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="shortcut icon" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
-    <link rel="apple-touch-icon-precomposed" href="/favicon.svg" />
+
+    <!-- ═══════════════════════════════════════════
+         PWA MANIFEST & THEME
+    ═══════════════════════════════════════════ -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#23322D" />
+    <meta name="color-scheme" content="light" />
+    <meta name="application-name" content="Chef Elo" />
+
+    <!-- iOS PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Chef Elo" />
+
+    <!-- Microsoft -->
+    <meta name="msapplication-TileColor" content="#23322D" />
+    <meta name="msapplication-TileImage" content="/icon-192.png" />
+
+    <!-- ═══════════════════════════════════════════
+         SEO STRUCTURED DATA (JSON-LD)
+    ═══════════════════════════════════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Chef Elo",
+      "url": "https://chefelo.space/",
+      "description": "Chef Elo is an AI-powered meal decider and step-by-step cooking assistant. Tell it what's in your pantry and it instantly decides the perfect meal, then guides you through cooking it.",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Web, iOS, Android",
+      "offers": {
+        "@type": "Offer",
+        "price": "4.99",
+        "priceCurrency": "USD",
+        "priceValidUntil": "2026-12-31",
+        "description": "7-day free trial, then $4.99/month or $29.99/year"
+      },
+      "screenshot": "https://chefelo.space/og-image.jpg",
+      "featureList": [
+        "Instant AI meal decisions",
+        "Step-by-step cooking timers",
+        "Dietary restriction filters",
+        "Allergy safeguards",
+        "50+ recipes",
+        "9 language support"
+      ]
+    }
+    </script>
+
+    <!-- ═══════════════════════════════════════════
+         PRECONNECT / FONTS
+    ═══════════════════════════════════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Flutterwave Checkout -->
     <script src="https://checkout.flutterwave.com/v3.js"></script>
   </head>
   <body style="margin: 0; padding: 0; background-color: #FFFFFF; min-height: 100vh;">
+    <!-- ═══════════════════════════════════════════
+         NOSCRIPT FALLBACK (SEO crawlable content)
+    ═══════════════════════════════════════════ -->
+    <noscript>
+      <main style="font-family: sans-serif; max-width: 640px; margin: 60px auto; padding: 0 20px; color: #23322D;">
+        <h1>Chef Elo – AI Meal Decider</h1>
+        <p>Tired of answering "what's for dinner?" every single day?</p>
+        <p><strong>Chef Elo</strong> is your personal AI chef. It instantly decides your next meal based on what's in your pantry, your dietary needs, and how much time you have — then walks you through cooking it step by step with built-in timers.</p>
+        <h2>Features</h2>
+        <ul>
+          <li>Instant AI meal decisions for breakfast, lunch, and dinner</li>
+          <li>Step-by-step cooking mode with countdown timers per step</li>
+          <li>Dietary filters: gluten-free, dairy-free, vegetarian, diabetic-friendly, and more</li>
+          <li>50+ recipes, growing library</li>
+          <li>Available in 9 languages</li>
+          <li>Works offline as a Progressive Web App (PWA)</li>
+        </ul>
+        <p>Please enable JavaScript to use Chef Elo.</p>
+      </main>
+    </noscript>
+
     <div id="root"></div>
     <script type="module" src="/main.jsx"></script>
+
+    <!-- ═══════════════════════════════════════════
+         SERVICE WORKER REGISTRATION
+    ═══════════════════════════════════════════ -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch(() => {});
+          navigator.serviceWorker.register('/sw.js', { scope: '/' })
+            .then((reg) => {
+              // Check for updates every 60 seconds when app is open
+              setInterval(() => reg.update(), 60000);
+            })
+            .catch(() => {});
         });
       }
     </script>
