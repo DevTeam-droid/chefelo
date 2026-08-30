@@ -577,6 +577,32 @@ const MEALS = [
   { id: "m61", name: "Tomato & mozzarella flatbread", reason: "Pizza vibes, no oven needed.", effort: "10", pantry: ["empty", "veg"], diet: ["vegetarian", "kid-friendly"], allergies: ["gluten", "dairy"], health: [], mealType: ["lunch"], image: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=600&q=80" },
   { id: "m62", name: "Lemon herb chickpea wrap", reason: "Protein-packed, fresh, and ready in ten.", effort: "10", pantry: ["empty", "veg"], diet: ["vegetarian", "dairy-free"], allergies: ["gluten"], health: ["low-sodium"], mealType: ["lunch"], image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80" },
   { id: "m63", name: "Prawn & avocado salad", reason: "Light, fresh, and ready in minutes.", effort: "10", pantry: ["seafood", "veg"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly", "low-sodium"], mealType: ["lunch"], image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" },
+  // --- Global Culinary Library (West Africa, East Asia, Caribbean, Latin America, Mediterranean, Middle East) ---
+  { id: "m64", name: "Nigerian Jollof Rice", reason: "Rich, smoky, spicy long-grain rice — the pride of West African celebration.", effort: "30", pantry: ["staples", "veg"], diet: ["vegetarian", "dairy-free"], allergies: [], health: ["low-sodium"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" },
+  { id: "m65", name: "Moroccan Chicken Tagine", reason: "Fragrant slow-cooked chicken with preserved lemons and green olives.", effort: "cook", pantry: ["chicken", "veg"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1516685018646-549198525c1b?auto=format&fit=crop&w=600&q=80" },
+  { id: "m66", name: "Ethiopian Doro Wat", reason: "Spiced chicken leg stew slow-simmered in berbere and hard-boiled eggs.", effort: "cook", pantry: ["chicken"], diet: ["dairy-free"], allergies: ["eggs"], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80" },
+  { id: "m67", name: "South African Bobotie", reason: "Spiced minced beef baked with a golden custard topping and bay leaves.", effort: "30", pantry: ["beef"], diet: ["kid-friendly"], allergies: ["dairy", "eggs"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=600&q=80" },
+  { id: "m68", name: "Jamaican Jerk Chicken", reason: "Fiery, smoky marinated chicken with pimento, allspice and Scotch bonnet.", effort: "30", pantry: ["chicken"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1598103442097-8b743e2b90ce?auto=format&fit=crop&w=600&q=80" },
+  { id: "m69", name: "Mexican Birria Tacos", reason: "Slow-braised spiced beef stuffed into crisp tortillas dipped in consommé.", effort: "cook", pantry: ["beef"], diet: ["kid-friendly"], allergies: ["gluten"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80" },
+  { id: "m70", name: "Peruvian Lomo Saltado", reason: "High-heat stir-fried beef tenderloin with onions, tomatoes & crispy fries.", effort: "10", pantry: ["beef", "veg"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80" },
+  { id: "m71", name: "Brazilian Feijoada", reason: "Deep, rich black bean stew packed with smoked pork belly and garlic.", effort: "cook", pantry: ["pork", "staples"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" },
+  { id: "m72", name: "Argentinian Chimichurri Steak", reason: "Juicy seared steak slathered in fresh parsley, garlic & red wine vinegar.", effort: "10", pantry: ["beef"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly", "low-sodium"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" },
+  { id: "m73", name: "Indian Butter Chicken", reason: "Velvety, rich tomato & butter cream sauce over tender chicken morsels.", effort: "30", pantry: ["chicken"], diet: ["kid-friendly"], allergies: ["dairy"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80" },
+  { id: "m74", name: "Japanese Chicken Katsu Curry", reason: "Golden panko-crusted chicken cutlet served over rice with aromatic curry.", effort: "30", pantry: ["chicken", "staples"], diet: ["kid-friendly"], allergies: ["gluten", "eggs"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80" },
+  { id: "m75", name: "Korean Bibimbap", reason: "Vibrant rice bowl topped with seasoned vegetables, beef, fried egg & gochujang.", effort: "30", pantry: ["beef", "veg", "leftovers"], diet: ["dairy-free"], allergies: ["eggs"], health: ["diabetic-friendly"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80" },
+  { id: "m76", name: "Indonesian Nasi Goreng", reason: "Aromatic sweet soy & chili fried rice topped with a crispy sunny-side egg.", effort: "10", pantry: ["leftovers", "staples"], diet: ["dairy-free"], allergies: ["eggs"], health: [], mealType: ["breakfast", "lunch"], image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80" },
+  { id: "m77", name: "Filipino Chicken Adobo", reason: "Tender chicken braised in garlic, cane vinegar, soy sauce and peppercorns.", effort: "30", pantry: ["chicken"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1516685018646-549198525c1b?auto=format&fit=crop&w=600&q=80" },
+  { id: "m78", name: "Thai Tom Yum Goong", reason: "Tangy, spicy lemongrass broth loaded with juicy prawns & mushrooms.", effort: "10", pantry: ["seafood", "veg"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly", "low-sodium"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1559742811-82410b49c405?auto=format&fit=crop&w=600&q=80" },
+  { id: "m79", name: "Vietnamese Lemongrass Beef Bun", reason: "Cool rice noodles topped with warm lemongrass beef, fresh herbs & crushed peanuts.", effort: "30", pantry: ["beef", "pasta", "veg"], diet: ["dairy-free"], allergies: ["nuts"], health: ["diabetic-friendly"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80" },
+  { id: "m80", name: "Lebanese Falafel Wrap", reason: "Crispy herb chickpea patties wrapped in warm pita with tahini & tangy pickles.", effort: "10", pantry: ["staples", "veg"], diet: ["vegetarian", "dairy-free"], allergies: ["gluten"], health: ["low-sodium"], mealType: ["lunch"], image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80" },
+  { id: "m81", name: "Turkish Lamb Doner Bowl", reason: "Savoury spiced lamb slices served over garlic grain pilaf with sumac onions.", effort: "30", pantry: ["beef", "staples"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=600&q=80" },
+  { id: "m82", name: "Greek Moussaka", reason: "Comforting layers of roasted eggplant, spiced lamb sauce & rich creamy béchamel.", effort: "cook", pantry: ["beef", "veg"], diet: ["kid-friendly"], allergies: ["dairy", "gluten", "eggs"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" },
+  { id: "m83", name: "Spanish Seafood Paella", reason: "Golden saffron rice studded with prawns, squid, mussels & sweet bell peppers.", effort: "cook", pantry: ["seafood", "staples"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80" },
+  { id: "m84", name: "French Coq au Vin", reason: "Rustic French chicken braised in red wine, smoky bacon & mushrooms.", effort: "cook", pantry: ["chicken", "pork"], diet: ["dairy-free"], allergies: [], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1516685018646-549198525c1b?auto=format&fit=crop&w=600&q=80" },
+  { id: "m85", name: "Hungarian Beef Goulash", reason: "Rich, paprika-scented stew of tender beef onions and sweet bell peppers.", effort: "cook", pantry: ["beef", "veg"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?auto=format&fit=crop&w=600&q=80" },
+  { id: "m86", name: "Italian Pasta Carbonara", reason: "Silky sauce of fresh egg yolks, pecorino cheese & crispy guanciale over pasta.", effort: "10", pantry: ["pasta", "pork"], diet: ["kid-friendly"], allergies: ["dairy", "gluten", "eggs"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=600&q=80" },
+  { id: "m87", name: "Southern American Gumbo", reason: "Deep-flavored Cajun roux stew with smoked sausage, chicken & okra.", effort: "cook", pantry: ["chicken", "pork"], diet: ["dairy-free"], allergies: ["gluten"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" },
+  { id: "m88", name: "Mexican Chiles Rellenos", reason: "Fire-roasted poblano peppers filled with melty cheese in a light tomato broth.", effort: "30", pantry: ["veg"], diet: ["vegetarian", "kid-friendly"], allergies: ["dairy", "eggs"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80" },
 ];
 
 
@@ -872,7 +898,7 @@ const fetchOutsourcedRecipe = async (filters) => {
   else if (pantry === "pasta" || pantry === "veg") areaSearch = "Italian";
   else if (pantry === "staples") areaSearch = "Turkish";
   else {
-    const areas = ["Indian", "Mexican", "Thai", "Japanese", "Italian", "British", "American", "Chinese", "French", "Moroccan", "Turkish", "Greek", "Spanish", "Vietnamese"];
+    const areas = ["Indian", "Mexican", "Thai", "Japanese", "Italian", "British", "American", "Chinese", "French", "Moroccan", "Turkish", "Greek", "Spanish", "Vietnamese", "Jamaican", "Malaysian", "Egyptian", "Kenyan", "Tunisian", "Polish", "Portuguese", "Russian"];
     areaSearch = areas[Math.floor(Math.random() * areas.length)];
   }
 
@@ -1213,6 +1239,7 @@ export default function TonightApp() {
     }
   }); // health | ask | reveal | done
   const [showMenu, setShowMenu] = useState(false);
+  const [showSupportModal, setShowSupportModal] = useState(false);
   const [effort, setEffort] = useState(null);
   const [pantry, setPantry] = useState(null);
   const [diet, setDiet] = useState([]);
@@ -3030,11 +3057,7 @@ export default function TonightApp() {
               <button
                 onClick={() => {
                   setShowMenu(false);
-                  if (typeof window !== "undefined" && window.Tawk_API && typeof window.Tawk_API.maximize === "function") {
-                    window.Tawk_API.maximize();
-                  } else {
-                    alert(t("live_chat_connecting", "Connecting to Live Support agent... Please try again in a moment."));
-                  }
+                  setShowSupportModal(true);
                 }}
                 style={{
                   display: "flex",
@@ -3111,6 +3134,119 @@ export default function TonightApp() {
                 </div>
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Support Maintenance Modal */}
+      {showSupportModal && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(35, 50, 45, 0.72)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+          zIndex: 99999,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "16px",
+        }} className="tn-card-enter" onClick={() => setShowSupportModal(false)}>
+          <div style={{
+            background: "#FFFFFF",
+            borderRadius: 22,
+            border: "1px solid #C2DDD4",
+            padding: "28px 24px 24px",
+            maxWidth: 360,
+            width: "100%",
+            textAlign: "center",
+            boxShadow: "0 20px 40px -15px rgba(35, 50, 45, 0.25)",
+            position: "relative",
+          }} onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setShowSupportModal(false)}
+              className="tn-focus"
+              style={{
+                position: "absolute",
+                top: 16,
+                right: 16,
+                background: "#F5F9F7",
+                border: "1px solid #C2DDD4",
+                borderRadius: "50%",
+                width: 30,
+                height: 30,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#6B8F82",
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 700,
+              }}
+            >
+              âœ•
+            </button>
+
+            <div style={{
+              width: 48,
+              height: 48,
+              borderRadius: "50%",
+              background: "#FEE2E2",
+              border: "1px solid #FCA5A5",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 14px",
+              color: "#DC2626"
+            }}>
+              <MessageCircle size={24} />
+            </div>
+
+            <div className="tn-mono" style={{ fontSize: 11, color: "#DC2626", fontWeight: 700, letterSpacing: "0.08em", marginBottom: 6 }}>
+              LIVE SUPPORT
+            </div>
+
+            <h3 style={{
+              fontSize: 20,
+              fontWeight: 700,
+              color: "#23322D",
+              margin: "0 0 10px 0",
+              fontFamily: "'DM Sans', sans-serif"
+            }}>
+              Undergoing maintenance
+            </h3>
+
+            <p style={{
+              fontSize: 13.5,
+              color: "#6B8F82",
+              lineHeight: 1.5,
+              margin: "0 0 20px 0",
+              fontFamily: "'Inter', sans-serif"
+            }}>
+              Our live chat support system is currently undergoing scheduled maintenance. Please check back shortly or try again later.
+            </p>
+
+            <button
+              onClick={() => setShowSupportModal(false)}
+              className="tn-focus"
+              style={{
+                background: "#045137",
+                color: "#FFFFFF",
+                border: "none",
+                borderRadius: 12,
+                padding: "12px 24px",
+                fontSize: 14,
+                fontWeight: 700,
+                width: "100%",
+                cursor: "pointer",
+                fontFamily: "'DM Sans', sans-serif"
+              }}
+            >
+              Got it
+            </button>
           </div>
         </div>
       )}
