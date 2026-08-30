@@ -657,46 +657,43 @@ const HEALTH_CONDITIONS = [
 function ChefBotAvatar({ style, isScouting = false }) {
   return (
     <svg viewBox="0 0 100 100" style={style || styles.botSvg}>
-      {/* Fluffy Cloud Chef Hat */}
-      <circle cx="36" cy="25" r="13" fill="#FFFFFF" />
-      <circle cx="50" cy="18" r="16" fill="#FFFFFF" />
-      <circle cx="64" cy="25" r="13" fill="#FFFFFF" />
-      <path d="M 24 40 C 24 22, 76 22, 78 40 Z" fill="#FFFFFF" />
-      <rect x="27" y="36" width="46" height="9" rx="3" fill="#E2E8F0" />
+      {/* White Chef Hat */}
+      <path d="M30 32 C30 15, 70 15, 70 32 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
+      <circle cx="40" cy="20" r="10" fill="#FFFFFF" />
+      <circle cx="50" cy="15" r="12" fill="#FFFFFF" />
+      <circle cx="60" cy="20" r="10" fill="#FFFFFF" />
+      <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
       
-      {/* Side Drooping Arms */}
-      <path d="M 28 66 C 22 72, 24 82, 29 86 C 33 84, 34 76, 33 68 Z" fill="#FFFFFF" stroke="#CEE9DF" strokeWidth="1" />
-      <path d="M 72 66 C 78 72, 76 82, 71 86 C 67 84, 66 76, 67 68 Z" fill="#FFFFFF" stroke="#CEE9DF" strokeWidth="1" />
-
-      {/* Egg-Shaped Body & Jacket */}
-      <ellipse cx="50" cy="78" rx="17" ry="14" fill="#FFFFFF" stroke="#045137" strokeWidth="1.2" />
-      <path d="M 45 66 L 50 76 L 55 66 Z" fill="#D05F0D" />
-      <circle cx="47" cy="81" r="1.2" fill="#94A3B8" />
-      <circle cx="53" cy="81" r="1.2" fill="#94A3B8" />
-
-      {/* Head Contour with Ear Bolts */}
-      <rect x="20" y="50" width="6" height="10" rx="2" fill="#045137" />
-      <rect x="74" y="50" width="6" height="10" rx="2" fill="#045137" />
-      <path d="M 24 51 C 24 42, 76 42, 76 51 C 76 63, 68 66, 50 66 C 32 66, 24 63, 24 51 Z" fill="#CEE9DF" stroke="#045137" strokeWidth="1.2" />
-
-      {/* Dark Face Screen */}
-      <rect x="31" y="47" width="38" height="16" rx="6" fill="#23322D" />
-
-      {/* Eyes & Expression */}
+      {/* Body & Jacket */}
+      <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
+      <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
+      <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
+      <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
+      <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
+      <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
+      <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
+      
+      {/* Head */}
+      <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
+      <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
+      <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
+      <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
+      
+      {/* Eyes */}
       {isScouting ? (
         <>
-          <circle cx="42" cy="54" r="3" fill="#0BE49B" />
-          <circle cx="58" cy="54" r="3" fill="#0BE49B" />
+          <circle cx="45" cy="51" r="2.5" fill="#0BE49B" />
+          <circle cx="55" cy="51" r="2.5" fill="#0BE49B" />
         </>
       ) : (
         <>
-          <circle cx="43" cy="54" r="2.8" fill="#0BE49B" />
-          <circle cx="57" cy="54" r="2.8" fill="#0BE49B" />
+          <path d="M 41 50 Q 45 46 49 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
+          <path d="M 51 50 Q 55 46 59 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
         </>
       )}
-
-      {/* Smiling Mouth */}
-      <path d="M 46 59 Q 50 62 54 59" fill="none" stroke="#0BE49B" strokeWidth="2" strokeLinecap="round" />
+      
+      {/* Mouth */}
+      <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#0BE49B" strokeWidth="2" strokeLinecap="round" />
     </svg>
   );
 }
@@ -1857,7 +1854,7 @@ export default function TonightApp() {
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
         * { box-sizing: border-box; }
         .tn-root { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        .tn-mono { font-family: 'IBM Plex Mono', monospace; }
+        .tn-mono { font-family: 'DM Sans', sans-serif; }
         .tn-chip {
           transition: transform .15s ease, background .15s ease, border-color .15s ease;
         }
@@ -1962,11 +1959,11 @@ export default function TonightApp() {
                 justifyContent: "space-between",
                 alignItems: "center",
                 marginBottom: 6,
-                fontSize: 11.5,
+                fontSize: 11,
                 fontWeight: 700,
                 color: "#045137",
                 fontFamily: "'DM Sans', sans-serif",
-                letterSpacing: "-0.01em"
+                letterSpacing: "0.04em"
               }}>
                 <span>LOADING CHEF ELO</span>
                 <span>{Math.min(100, loadPercent)}%</span>
@@ -3260,7 +3257,7 @@ export default function TonightApp() {
                   fontWeight: 700,
                   color: "#045137",
                   fontFamily: "'DM Sans', sans-serif",
-                  letterSpacing: "-0.01em",
+                  letterSpacing: "0.02em",
                   marginBottom: 8
                 }}>
                   <span style={{ fontSize: 11 }}>{installStepText}</span>
@@ -3458,7 +3455,7 @@ export default function TonightApp() {
                   fontWeight: 700,
                   color: "#045137",
                   fontFamily: "'DM Sans', sans-serif",
-                  letterSpacing: "-0.01em",
+                  letterSpacing: "0.02em",
                   marginBottom: 8
                 }}>
                   <span style={{ fontSize: 11 }}>{updateStepText}</span>
