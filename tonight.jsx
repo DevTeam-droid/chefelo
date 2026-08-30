@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack, Globe, Smartphone, Download } from "lucide-react";
+import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack, Globe, Smartphone, Download, Menu, FileText, ShieldCheck, MessageCircle } from "lucide-react";
 
 // ---------- Internationalization & Multi-Language Support ----------
 const LANGUAGES = [
@@ -16,6 +16,7 @@ const LANGUAGES = [
 
 const TRANSLATIONS = {
   en: {
+    lets_get_started: "Let's get started",
     morning_eyebrow: "MORNING'S DECISION",
     morning_title: "What's for breakfast?",
     afternoon_eyebrow: "AFTERNOON'S DECISION",
@@ -510,57 +511,72 @@ const TRANSLATIONS = {
 
 // ---------- Data ----------
 const MEALS = [
-  { id: "m1", name: "Garlic butter chicken thighs", reason: "Ten minutes of hands-on time, then the oven does the rest.", effort: "10", pantry: ["chicken"], diet: ["dairy-free", "kid-friendly"], allergies: ["dairy"], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80" },
-  { id: "m2", name: "Sheet-pan chicken & veg", reason: "One pan, one wash-up, done.", effort: "30", pantry: ["chicken", "veg"], diet: ["dairy-free", "kid-friendly"], allergies: [], health: ["diabetic-friendly", "low-sodium"], image: "https://images.unsplash.com/photo-1518492104633-130d0cc84637?auto=format&fit=crop&w=600&q=80" },
-  { id: "m3", name: "Chicken quesadillas", reason: "Kids eat it, you won't complain either.", effort: "10", pantry: ["chicken", "leftovers"], diet: ["kid-friendly"], allergies: ["dairy", "gluten"], health: [], image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?auto=format&fit=crop&w=600&q=80" },
-  { id: "m4", name: "Cacio e pepe", reason: "Three ingredients, restaurant results.", effort: "10", pantry: ["pasta"], diet: ["vegetarian"], allergies: ["dairy", "gluten"], health: [], image: "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=600&q=80" },
-  { id: "m5", name: "Pasta with whatever's in the fridge", reason: "Built for exactly this moment.", effort: "10", pantry: ["pasta", "leftovers", "veg"], diet: ["vegetarian"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80" },
-  { id: "m6", name: "Baked ziti", reason: "Worth the wait, freezes well too.", effort: "cook", pantry: ["pasta"], diet: ["vegetarian", "kid-friendly"], allergies: ["dairy", "gluten"], health: [], image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" },
-  { id: "m7", name: "Stir-fried veg & rice", reason: "Whatever's wilting in the crisper, this'll use it.", effort: "10", pantry: ["veg", "leftovers"], diet: ["vegetarian", "dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80" },
-  { id: "m8", name: "Roasted veg grain bowl", reason: "Toss it in the oven, forget about it for 25.", effort: "30", pantry: ["veg"], diet: ["vegetarian", "dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" },
-  { id: "m9", name: "Fridge-clearout fried rice", reason: "Exactly what leftover rice was waiting for.", effort: "10", pantry: ["leftovers", "veg"], diet: ["dairy-free"], allergies: ["eggs"], health: [], image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80" },
-  { id: "m10", name: "Reinvented leftovers soup", reason: "Stock, whatever's left, twenty minutes.", effort: "10", pantry: ["leftovers"], diet: ["dairy-free", "kid-friendly"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" },
-  { id: "m11", name: "Toast, eggs, whatever you've got", reason: "Nothing in the house? This always works.", effort: "10", pantry: ["empty"], diet: ["vegetarian", "kid-friendly"], allergies: ["gluten", "eggs"], health: [], image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80" },
-  { id: "m12", name: "Beans on toast, upgraded", reason: "Pantry staples, five minutes, unreasonably good.", effort: "10", pantry: ["empty"], diet: ["vegetarian"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&w=600&q=80" },
-  { id: "m13", name: "Instant ramen, doctored up", reason: "An egg and some chili oil changes everything.", effort: "10", pantry: ["empty"], diet: ["kid-friendly"], allergies: ["gluten", "eggs"], health: [], image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80" },
-  { id: "m14", name: "Braised chicken thighs", reason: "Low effort now, big payoff at the table.", effort: "cook", pantry: ["chicken"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1516685018646-549198525c1b?auto=format&fit=crop&w=600&q=80" },
-  { id: "m15", name: "Roast chicken, the whole bird", reason: "Sunday energy, leftovers for two more nights.", effort: "cook", pantry: ["chicken"], diet: ["dairy-free", "kid-friendly"], allergies: [], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1598103442097-8b743e2b90ce?auto=format&fit=crop&w=600&q=80" },
-  { id: "m16", name: "Chickpea curry", reason: "Freezer-friendly, better the next day.", effort: "30", pantry: ["veg", "empty"], diet: ["vegetarian", "dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80" },
-  { id: "m17", name: "Veggie fried noodles", reason: "Whatever vegetables need using, this'll take them.", effort: "10", pantry: ["pasta", "veg"], diet: ["vegetarian", "dairy-free"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80" },
-  { id: "m18", name: "Slow-simmered bolognese", reason: "Start it, walk away, thank yourself later.", effort: "cook", pantry: ["pasta"], diet: ["dairy-free"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" },
-  { id: "m19", name: "Grilled cheese & tomato soup", reason: "The one that always feels like it's helping.", effort: "10", pantry: ["empty"], diet: ["vegetarian", "kid-friendly"], allergies: ["dairy", "gluten"], health: [], image: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=600&q=80" },
-  { id: "m20", name: "Chicken & veg soup", reason: "Uses up the odds and ends, tastes like effort.", effort: "30", pantry: ["chicken", "veg", "leftovers"], diet: ["dairy-free", "kid-friendly"], allergies: [], health: ["low-sodium", "diabetic-friendly"], image: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?auto=format&fit=crop&w=600&q=80" },
-  { id: "m21", name: "Beef & broccoli stir-fry", reason: "Quick sear, crisp broccoli, rich brown sauce.", effort: "10", pantry: ["beef", "veg"], diet: ["dairy-free"], allergies: ["gluten"], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80" },
-  { id: "m22", name: "Pan-seared garlic salmon", reason: "Healthy fats, crispy skin, restaurant style in 10.", effort: "10", pantry: ["seafood"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly", "low-sodium"], image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80" },
-  { id: "m23", name: "Garlic butter shrimp", reason: "Five ingredients, sweet shrimp in a rich garlicky sauce.", effort: "10", pantry: ["seafood"], diet: ["kid-friendly"], allergies: ["dairy"], health: [], image: "https://images.unsplash.com/photo-1559742811-82410b49c405?auto=format&fit=crop&w=600&q=80" },
-  { id: "m24", name: "Pan-roasted pork chops", reason: "Thick, juicy chops seared with garlic and rosemary.", effort: "30", pantry: ["pork"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1432139548911-59b9dae9115f?auto=format&fit=crop&w=600&q=80" },
-  { id: "m25", name: "Quick beef tacos", reason: "Warm tortillas, seasoned beef, and fresh toppings.", effort: "10", pantry: ["beef"], diet: ["kid-friendly"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80" },
-  { id: "m26", name: "Savory lentil stew", reason: "Warm, earthy lentils packed with vegetables and flavor.", effort: "30", pantry: ["staples", "veg"], diet: ["vegetarian", "dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" },
-  { id: "m27", name: "Spicy peanut sesame noodles", reason: "Creamy, savory peanut sauce tossed with warm noodles and scallions.", effort: "10", pantry: ["pasta"], diet: ["vegetarian"], allergies: ["nuts", "gluten"], health: [], image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80" },
-  { id: "m28", name: "Walnut & spinach pesto pasta", reason: "Rich, vibrant nutty pesto ready in fifteen minutes.", effort: "10", pantry: ["pasta", "veg"], diet: ["vegetarian"], allergies: ["nuts", "dairy", "gluten"], health: [], image: "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=600&q=80" },
+  { id: "m1", name: "Garlic butter chicken thighs", reason: "Ten minutes of hands-on time, then the oven does the rest.", effort: "10", pantry: ["chicken"], diet: ["dairy-free", "kid-friendly"], allergies: ["dairy"], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80" },
+  { id: "m2", name: "Sheet-pan chicken & veg", reason: "One pan, one wash-up, done.", effort: "30", pantry: ["chicken", "veg"], diet: ["dairy-free", "kid-friendly"], allergies: [], health: ["diabetic-friendly", "low-sodium"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1518492104633-130d0cc84637?auto=format&fit=crop&w=600&q=80" },
+  { id: "m3", name: "Chicken quesadillas", reason: "Kids eat it, you won't complain either.", effort: "10", pantry: ["chicken", "leftovers"], diet: ["kid-friendly"], allergies: ["dairy", "gluten"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?auto=format&fit=crop&w=600&q=80" },
+  { id: "m4", name: "Cacio e pepe", reason: "Three ingredients, restaurant results.", effort: "10", pantry: ["pasta"], diet: ["vegetarian"], allergies: ["dairy", "gluten"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=600&q=80" },
+  { id: "m5", name: "Pasta with whatever's in the fridge", reason: "Built for exactly this moment.", effort: "10", pantry: ["pasta", "leftovers", "veg"], diet: ["vegetarian"], allergies: ["gluten"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80" },
+  { id: "m6", name: "Baked ziti", reason: "Worth the wait, freezes well too.", effort: "cook", pantry: ["pasta"], diet: ["vegetarian", "kid-friendly"], allergies: ["dairy", "gluten"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" },
+  { id: "m7", name: "Stir-fried veg & rice", reason: "Whatever's wilting in the crisper, this'll use it.", effort: "10", pantry: ["veg", "leftovers"], diet: ["vegetarian", "dairy-free"], allergies: [], health: ["low-sodium"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80" },
+  { id: "m8", name: "Roasted veg grain bowl", reason: "Toss it in the oven, forget about it for 25.", effort: "30", pantry: ["veg"], diet: ["vegetarian", "dairy-free"], allergies: [], health: ["low-sodium"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" },
+  { id: "m9", name: "Fridge-clearout fried rice", reason: "Exactly what leftover rice was waiting for.", effort: "10", pantry: ["leftovers", "veg"], diet: ["dairy-free"], allergies: ["eggs"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80" },
+  { id: "m10", name: "Reinvented leftovers soup", reason: "Stock, whatever's left, twenty minutes.", effort: "10", pantry: ["leftovers"], diet: ["dairy-free", "kid-friendly"], allergies: [], health: ["low-sodium"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" },
+  { id: "m11", name: "Toast, eggs, whatever you've got", reason: "Nothing in the house? This always works.", effort: "10", pantry: ["empty"], diet: ["vegetarian", "kid-friendly"], allergies: ["gluten", "eggs"], health: [], mealType: ["breakfast"], image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80" },
+  { id: "m12", name: "Beans on toast, upgraded", reason: "Pantry staples, five minutes, unreasonably good.", effort: "10", pantry: ["empty"], diet: ["vegetarian"], allergies: ["gluten"], health: [], mealType: ["breakfast", "lunch"], image: "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&w=600&q=80" },
+  { id: "m13", name: "Instant ramen, doctored up", reason: "An egg and some chili oil changes everything.", effort: "10", pantry: ["empty"], diet: ["kid-friendly"], allergies: ["gluten", "eggs"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80" },
+  { id: "m14", name: "Braised chicken thighs", reason: "Low effort now, big payoff at the table.", effort: "cook", pantry: ["chicken"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1516685018646-549198525c1b?auto=format&fit=crop&w=600&q=80" },
+  { id: "m15", name: "Roast chicken, the whole bird", reason: "Sunday energy, leftovers for two more nights.", effort: "cook", pantry: ["chicken"], diet: ["dairy-free", "kid-friendly"], allergies: [], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1598103442097-8b743e2b90ce?auto=format&fit=crop&w=600&q=80" },
+  { id: "m16", name: "Chickpea curry", reason: "Freezer-friendly, better the next day.", effort: "30", pantry: ["veg", "empty"], diet: ["vegetarian", "dairy-free"], allergies: [], health: ["low-sodium"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80" },
+  { id: "m17", name: "Veggie fried noodles", reason: "Whatever vegetables need using, this'll take them.", effort: "10", pantry: ["pasta", "veg"], diet: ["vegetarian", "dairy-free"], allergies: ["gluten"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80" },
+  { id: "m18", name: "Slow-simmered bolognese", reason: "Start it, walk away, thank yourself later.", effort: "cook", pantry: ["pasta"], diet: ["dairy-free"], allergies: ["gluten"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" },
+  { id: "m19", name: "Grilled cheese & tomato soup", reason: "The one that always feels like it's helping.", effort: "10", pantry: ["empty"], diet: ["vegetarian", "kid-friendly"], allergies: ["dairy", "gluten"], health: [], mealType: ["lunch"], image: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=600&q=80" },
+  { id: "m20", name: "Chicken & veg soup", reason: "Uses up the odds and ends, tastes like effort.", effort: "30", pantry: ["chicken", "veg", "leftovers"], diet: ["dairy-free", "kid-friendly"], allergies: [], health: ["low-sodium", "diabetic-friendly"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?auto=format&fit=crop&w=600&q=80" },
+  { id: "m21", name: "Beef & broccoli stir-fry", reason: "Quick sear, crisp broccoli, rich brown sauce.", effort: "10", pantry: ["beef", "veg"], diet: ["dairy-free"], allergies: ["gluten"], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80" },
+  { id: "m22", name: "Pan-seared garlic salmon", reason: "Healthy fats, crispy skin, restaurant style in 10.", effort: "10", pantry: ["seafood"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly", "low-sodium"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80" },
+  { id: "m23", name: "Garlic butter shrimp", reason: "Five ingredients, sweet shrimp in a rich garlicky sauce.", effort: "10", pantry: ["seafood"], diet: ["kid-friendly"], allergies: ["dairy"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1559742811-82410b49c405?auto=format&fit=crop&w=600&q=80" },
+  { id: "m24", name: "Pan-roasted pork chops", reason: "Thick, juicy chops seared with garlic and rosemary.", effort: "30", pantry: ["pork"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1432139548911-59b9dae9115f?auto=format&fit=crop&w=600&q=80" },
+  { id: "m25", name: "Quick beef tacos", reason: "Warm tortillas, seasoned beef, and fresh toppings.", effort: "10", pantry: ["beef"], diet: ["kid-friendly"], allergies: ["gluten"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80" },
+  { id: "m26", name: "Savory lentil stew", reason: "Warm, earthy lentils packed with vegetables and flavor.", effort: "30", pantry: ["staples", "veg"], diet: ["vegetarian", "dairy-free"], allergies: [], health: ["low-sodium"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" },
+  { id: "m27", name: "Spicy peanut sesame noodles", reason: "Creamy, savory peanut sauce tossed with warm noodles and scallions.", effort: "10", pantry: ["pasta"], diet: ["vegetarian"], allergies: ["nuts", "gluten"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80" },
+  { id: "m28", name: "Walnut & spinach pesto pasta", reason: "Rich, vibrant nutty pesto ready in fifteen minutes.", effort: "10", pantry: ["pasta", "veg"], diet: ["vegetarian"], allergies: ["nuts", "dairy", "gluten"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=600&q=80" },
   // --- Extended Meal Library ---
-  { id: "m29", name: "Slow-roasted lamb shoulder", reason: "Fork-tender lamb that practically shreds itself.", effort: "cook", pantry: ["beef"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" },
-  { id: "m30", name: "Turkish lamb kofta", reason: "Spiced minced lamb patties, perfect over flatbread.", effort: "30", pantry: ["beef"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=600&q=80" },
-  { id: "m31", name: "Scrambled eggs & avocado", reason: "Creamy eggs, buttery avo — breakfast any time.", effort: "10", pantry: ["empty", "veg"], diet: ["vegetarian", "dairy-free", "kid-friendly"], allergies: ["eggs"], health: ["diabetic-friendly", "low-sodium"], image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80" },
-  { id: "m32", name: "Shakshuka", reason: "Poached eggs in spiced tomato sauce — one pan wonder.", effort: "30", pantry: ["veg", "empty"], diet: ["vegetarian", "dairy-free"], allergies: ["eggs"], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80" },
-  { id: "m33", name: "Fluffy pancakes", reason: "Weekend mood? Stack them high.", effort: "30", pantry: ["empty", "staples"], diet: ["vegetarian", "kid-friendly"], allergies: ["gluten", "eggs", "dairy"], health: [], image: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=600&q=80" },
-  { id: "m34", name: "Chicken tikka masala", reason: "Rich, fragrant curry that warms every corner.", effort: "cook", pantry: ["chicken"], diet: ["kid-friendly"], allergies: ["dairy"], health: [], image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80" },
-  { id: "m35", name: "Prawn pad Thai", reason: "Sweet, tangy, nutty — the classic Thai street dish.", effort: "30", pantry: ["seafood", "pasta"], diet: ["dairy-free"], allergies: ["nuts", "gluten", "eggs"], health: [], image: "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=600&q=80" },
-  { id: "m36", name: "Slow cooker beef stew", reason: "Set it in the morning, eat like a king at dinner.", effort: "cook", pantry: ["beef", "veg"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?auto=format&fit=crop&w=600&q=80" },
-  { id: "m37", name: "Pork pulled buns", reason: "Sweet slow-cooked pork piled into soft buns.", effort: "cook", pantry: ["pork"], diet: ["kid-friendly"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" },
-  { id: "m38", name: "Smoked sausage & bean casserole", reason: "Hearty, smoky, satisfying — done in 30.", effort: "30", pantry: ["pork", "staples"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" },
-  { id: "m39", name: "Tuna pasta bake", reason: "Store cupboard staples, creamy oven finish.", effort: "30", pantry: ["seafood", "pasta"], diet: ["kid-friendly"], allergies: ["dairy", "gluten"], health: [], image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80" },
-  { id: "m40", name: "Thai green chicken curry", reason: "Fragrant coconut broth, crisp veg, aromatic herbs.", effort: "30", pantry: ["chicken", "veg"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?auto=format&fit=crop&w=600&q=80" },
-  { id: "m41", name: "Mushroom risotto", reason: "Silky, earthy, properly comforting.", effort: "cook", pantry: ["veg", "staples"], diet: ["vegetarian"], allergies: ["dairy"], health: [], image: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&w=600&q=80" },
-  { id: "m42", name: "Teriyaki salmon bowls", reason: "Sweet-glazed salmon over steaming rice — 20 minutes.", effort: "30", pantry: ["seafood"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly", "low-sodium"], image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80" },
-  { id: "m43", name: "Mexican black bean quesadillas", reason: "Crispy, melty, no meat needed.", effort: "10", pantry: ["staples", "veg"], diet: ["vegetarian", "kid-friendly"], allergies: ["dairy", "gluten"], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?auto=format&fit=crop&w=600&q=80" },
-  { id: "m44", name: "Honey garlic chicken drumsticks", reason: "Sticky, sweet-savory glaze that everyone fights over.", effort: "30", pantry: ["chicken"], diet: ["dairy-free", "kid-friendly"], allergies: [], health: [], image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80" },
-  { id: "m45", name: "Beef burger from scratch", reason: "Juicy patty, your toppings, your rules.", effort: "30", pantry: ["beef"], diet: ["kid-friendly"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" },
-  { id: "m46", name: "Vietnamese pho broth", reason: "Deeply aromatic, restorative, surprisingly simple.", effort: "cook", pantry: ["beef", "veg"], diet: ["dairy-free"], allergies: ["gluten"], health: ["low-sodium"], image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" },
-  { id: "m47", name: "Caprese stuffed chicken breast", reason: "Mozzarella, basil, tomato — baked to perfection.", effort: "30", pantry: ["chicken", "veg"], diet: ["kid-friendly"], allergies: ["dairy"], health: ["diabetic-friendly"], image: "https://images.unsplash.com/photo-1518492104633-130d0cc84637?auto=format&fit=crop&w=600&q=80" },
-  { id: "m48", name: "Japanese gyudon (beef rice bowl)", reason: "Soy-simmered beef slices over fluffy rice — umami heaven.", effort: "30", pantry: ["beef", "staples"], diet: ["dairy-free"], allergies: ["gluten"], health: [], image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80" },
-  { id: "m49", name: "Egg fried rice with ham", reason: "The ultimate fridge-clearout meal in 15 minutes.", effort: "10", pantry: ["pork", "leftovers", "staples"], diet: ["dairy-free", "kid-friendly"], allergies: ["eggs"], health: [], image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80" },
-  { id: "m50", name: "Minestrone soup", reason: "Hearty Italian vegetable soup — better the next day.", effort: "30", pantry: ["veg", "staples", "leftovers"], diet: ["vegetarian", "dairy-free"], allergies: ["gluten"], health: ["low-sodium", "diabetic-friendly"], image: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?auto=format&fit=crop&w=600&q=80" }
+  { id: "m29", name: "Slow-roasted lamb shoulder", reason: "Fork-tender lamb that practically shreds itself.", effort: "cook", pantry: ["beef"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80" },
+  { id: "m30", name: "Turkish lamb kofta", reason: "Spiced minced lamb patties, perfect over flatbread.", effort: "30", pantry: ["beef"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=600&q=80" },
+  { id: "m31", name: "Scrambled eggs & avocado", reason: "Creamy eggs, buttery avo — breakfast any time.", effort: "10", pantry: ["empty", "veg"], diet: ["vegetarian", "dairy-free", "kid-friendly"], allergies: ["eggs"], health: ["diabetic-friendly", "low-sodium"], mealType: ["breakfast"], image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80" },
+  { id: "m32", name: "Shakshuka", reason: "Poached eggs in spiced tomato sauce — one pan wonder.", effort: "30", pantry: ["veg", "empty"], diet: ["vegetarian", "dairy-free"], allergies: ["eggs"], health: ["low-sodium"], mealType: ["breakfast", "lunch"], image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80" },
+  { id: "m33", name: "Fluffy pancakes", reason: "Weekend mood? Stack them high.", effort: "30", pantry: ["empty", "staples"], diet: ["vegetarian", "kid-friendly"], allergies: ["gluten", "eggs", "dairy"], health: [], mealType: ["breakfast"], image: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=600&q=80" },
+  { id: "m34", name: "Chicken tikka masala", reason: "Rich, fragrant curry that warms every corner.", effort: "cook", pantry: ["chicken"], diet: ["kid-friendly"], allergies: ["dairy"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80" },
+  { id: "m35", name: "Prawn pad Thai", reason: "Sweet, tangy, nutty — the classic Thai street dish.", effort: "30", pantry: ["seafood", "pasta"], diet: ["dairy-free"], allergies: ["nuts", "gluten", "eggs"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=600&q=80" },
+  { id: "m36", name: "Slow cooker beef stew", reason: "Set it in the morning, eat like a king at dinner.", effort: "cook", pantry: ["beef", "veg"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?auto=format&fit=crop&w=600&q=80" },
+  { id: "m37", name: "Pork pulled buns", reason: "Sweet slow-cooked pork piled into soft buns.", effort: "cook", pantry: ["pork"], diet: ["kid-friendly"], allergies: ["gluten"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" },
+  { id: "m38", name: "Smoked sausage & bean casserole", reason: "Hearty, smoky, satisfying — done in 30.", effort: "30", pantry: ["pork", "staples"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80" },
+  { id: "m39", name: "Tuna pasta bake", reason: "Store cupboard staples, creamy oven finish.", effort: "30", pantry: ["seafood", "pasta"], diet: ["kid-friendly"], allergies: ["dairy", "gluten"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80" },
+  { id: "m40", name: "Thai green chicken curry", reason: "Fragrant coconut broth, crisp veg, aromatic herbs.", effort: "30", pantry: ["chicken", "veg"], diet: ["dairy-free"], allergies: [], health: ["low-sodium"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?auto=format&fit=crop&w=600&q=80" },
+  { id: "m41", name: "Mushroom risotto", reason: "Silky, earthy, properly comforting.", effort: "cook", pantry: ["veg", "staples"], diet: ["vegetarian"], allergies: ["dairy"], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&w=600&q=80" },
+  { id: "m42", name: "Teriyaki salmon bowls", reason: "Sweet-glazed salmon over steaming rice — 20 minutes.", effort: "30", pantry: ["seafood"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly", "low-sodium"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=600&q=80" },
+  { id: "m43", name: "Mexican black bean quesadillas", reason: "Crispy, melty, no meat needed.", effort: "10", pantry: ["staples", "veg"], diet: ["vegetarian", "kid-friendly"], allergies: ["dairy", "gluten"], health: ["low-sodium"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?auto=format&fit=crop&w=600&q=80" },
+  { id: "m44", name: "Honey garlic chicken drumsticks", reason: "Sticky, sweet-savory glaze that everyone fights over.", effort: "30", pantry: ["chicken"], diet: ["dairy-free", "kid-friendly"], allergies: [], health: [], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80" },
+  { id: "m45", name: "Beef burger from scratch", reason: "Juicy patty, your toppings, your rules.", effort: "30", pantry: ["beef"], diet: ["kid-friendly"], allergies: ["gluten"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" },
+  { id: "m46", name: "Vietnamese pho broth", reason: "Deeply aromatic, restorative, surprisingly simple.", effort: "cook", pantry: ["beef", "veg"], diet: ["dairy-free"], allergies: ["gluten"], health: ["low-sodium"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80" },
+  { id: "m47", name: "Caprese stuffed chicken breast", reason: "Mozzarella, basil, tomato — baked to perfection.", effort: "30", pantry: ["chicken", "veg"], diet: ["kid-friendly"], allergies: ["dairy"], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1518492104633-130d0cc84637?auto=format&fit=crop&w=600&q=80" },
+  { id: "m48", name: "Japanese gyudon (beef rice bowl)", reason: "Soy-simmered beef slices over fluffy rice — umami heaven.", effort: "30", pantry: ["beef", "staples"], diet: ["dairy-free"], allergies: ["gluten"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80" },
+  { id: "m49", name: "Egg fried rice with ham", reason: "The ultimate fridge-clearout meal in 15 minutes.", effort: "10", pantry: ["pork", "leftovers", "staples"], diet: ["dairy-free", "kid-friendly"], allergies: ["eggs"], health: [], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80" },
+  { id: "m50", name: "Minestrone soup", reason: "Hearty Italian vegetable soup — better the next day.", effort: "30", pantry: ["veg", "staples", "leftovers"], diet: ["vegetarian", "dairy-free"], allergies: ["gluten"], health: ["low-sodium", "diabetic-friendly"], mealType: ["lunch", "dinner"], image: "https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?auto=format&fit=crop&w=600&q=80" },
+  // --- Breakfast meals ---
+  { id: "m51", name: "Avocado toast with poached egg", reason: "The breakfast that earned its cult status — for good reason.", effort: "10", pantry: ["empty", "veg"], diet: ["vegetarian", "dairy-free"], allergies: ["gluten", "eggs"], health: ["diabetic-friendly", "low-sodium"], mealType: ["breakfast"], image: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80" },
+  { id: "m52", name: "Classic French omelette", reason: "Three eggs, a hot pan, three minutes of focus.", effort: "10", pantry: ["empty"], diet: ["vegetarian", "kid-friendly"], allergies: ["eggs", "dairy"], health: ["diabetic-friendly"], mealType: ["breakfast"], image: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?auto=format&fit=crop&w=600&q=80" },
+  { id: "m53", name: "Overnight oats", reason: "Prep tonight, breakfast done tomorrow.", effort: "10", pantry: ["staples"], diet: ["vegetarian", "dairy-free"], allergies: ["gluten"], health: ["diabetic-friendly", "low-sodium"], mealType: ["breakfast"], image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" },
+  { id: "m54", name: "Breakfast burrito", reason: "Eggs, cheese, salsa — wrapped up for the morning rush.", effort: "10", pantry: ["empty"], diet: ["kid-friendly"], allergies: ["gluten", "eggs", "dairy"], health: [], mealType: ["breakfast"], image: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?auto=format&fit=crop&w=600&q=80" },
+  { id: "m55", name: "Greek yogurt parfait", reason: "Creamy yogurt, granola, fresh fruit — done in two minutes.", effort: "10", pantry: ["empty", "staples"], diet: ["vegetarian", "kid-friendly"], allergies: ["dairy", "nuts", "gluten"], health: ["diabetic-friendly", "low-sodium"], mealType: ["breakfast"], image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80" },
+  { id: "m56", name: "Banana smoothie bowl", reason: "Thick, satisfying, no cooking required.", effort: "10", pantry: ["empty", "veg"], diet: ["vegetarian", "dairy-free", "kid-friendly"], allergies: [], health: ["low-sodium"], mealType: ["breakfast"], image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" },
+  { id: "m57", name: "Smashed avo on sourdough", reason: "Lemon, chilli flakes, good bread. Simple wins.", effort: "10", pantry: ["empty", "veg"], diet: ["vegetarian", "dairy-free"], allergies: ["gluten"], health: ["low-sodium", "diabetic-friendly"], mealType: ["breakfast"], image: "https://images.unsplash.com/photo-1541532713592-79a0317b6b77?auto=format&fit=crop&w=600&q=80" },
+  // --- Lunch meals ---
+  { id: "m58", name: "Club sandwich", reason: "Stacked, toasted, and always satisfying.", effort: "10", pantry: ["chicken", "empty"], diet: ["kid-friendly"], allergies: ["gluten", "dairy", "eggs"], health: [], mealType: ["lunch"], image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80" },
+  { id: "m59", name: "Caesar salad with croutons", reason: "Crisp romaine, punchy dressing, satisfying crunch.", effort: "10", pantry: ["empty", "veg"], diet: ["vegetarian", "kid-friendly"], allergies: ["dairy", "gluten", "eggs"], health: ["low-sodium"], mealType: ["lunch"], image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80" },
+  { id: "m60", name: "Tuna nicoise salad", reason: "French bistro vibes, no reservation required.", effort: "30", pantry: ["seafood", "veg"], diet: ["dairy-free"], allergies: ["eggs"], health: ["diabetic-friendly", "low-sodium"], mealType: ["lunch"], image: "https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80" },
+  { id: "m61", name: "Tomato & mozzarella flatbread", reason: "Pizza vibes, no oven needed.", effort: "10", pantry: ["empty", "veg"], diet: ["vegetarian", "kid-friendly"], allergies: ["gluten", "dairy"], health: [], mealType: ["lunch"], image: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=600&q=80" },
+  { id: "m62", name: "Lemon herb chickpea wrap", reason: "Protein-packed, fresh, and ready in ten.", effort: "10", pantry: ["empty", "veg"], diet: ["vegetarian", "dairy-free"], allergies: ["gluten"], health: ["low-sodium"], mealType: ["lunch"], image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80" },
+  { id: "m63", name: "Prawn & avocado salad", reason: "Light, fresh, and ready in minutes.", effort: "10", pantry: ["seafood", "veg"], diet: ["dairy-free"], allergies: [], health: ["diabetic-friendly", "low-sodium"], mealType: ["lunch"], image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80" },
 ];
 
 
@@ -1062,60 +1078,80 @@ const fetchOutsourcedRecipe = async (filters) => {
 };
 
 // ---------- Logic ----------
+const MEAL_TYPES = [
+  { id: "breakfast", label: "Breakfast", icon: "🌅" },
+  { id: "lunch", label: "Lunch", icon: "☀️" },
+  { id: "dinner", label: "Dinner", icon: "🌙" },
+];
+
 function getTimeOfDayInfo() {
   const hour = new Date().getHours();
-  if (hour >= 5 && hour < 12) {
+  if (hour >= 5 && hour < 11) {
     return {
-      eyebrow: "MORNING'S DECISION",
-      title: "What's for breakfast?",
+      eyebrow: "MEAL DECISION",
+      title: "What are we cooking?",
       mealType: "breakfast",
-      revealEyebrow: "THIS MORNING, YOU'RE HAVING"
+      revealEyebrow: "YOUR BREAKFAST DECISION IS"
     };
-  } else if (hour >= 12 && hour < 17) {
+  } else if (hour >= 11 && hour < 16) {
     return {
-      eyebrow: "AFTERNOON'S DECISION",
-      title: "What's for lunch?",
+      eyebrow: "MEAL DECISION",
+      title: "What are we cooking?",
       mealType: "lunch",
-      revealEyebrow: "THIS AFTERNOON, YOU'RE HAVING"
+      revealEyebrow: "YOUR LUNCH DECISION IS"
     };
   } else {
     return {
-      eyebrow: "TONIGHT'S DECISION",
-      title: "What's for dinner?",
+      eyebrow: "MEAL DECISION",
+      title: "What are we cooking?",
       mealType: "dinner",
-      revealEyebrow: "TONIGHT, YOU'RE HAVING"
+      revealEyebrow: "YOUR DINNER DECISION IS"
     };
   }
 }
 
-function pickMeal({ effort, pantry, diet, rejectedIds, lastId, selectedAllergies = [], selectedHealth = [] }) {
-  const filteredMeals = MEALS.filter(m => {
-    if (effort === "10" && m.effort !== "10") {
+function pickMeal({ effort, pantry, diet = [], rejectedIds = [], lastId, selectedAllergies = [], selectedHealth = [], selectedMealType = "dinner" }) {
+  // 1. Strict mealType filter
+  let mealsToFilter = MEALS.filter((m) => m.mealType && m.mealType.includes(selectedMealType));
+  if (mealsToFilter.length === 0) mealsToFilter = MEALS;
+
+  // 2. Strict Allergies, Health, Effort, and Veggie filtering
+  const filteredMeals = mealsToFilter.filter((m) => {
+    if (effort === "10" && m.effort !== "10") return false;
+    if (effort === "30" && m.effort !== "10" && m.effort !== "30") return false;
+    
+    // Strict Allergy check: reject if meal contains any selected allergen
+    if (selectedAllergies.some((allergy) => m.allergies && m.allergies.includes(allergy))) {
       return false;
     }
-    if (effort === "30" && m.effort !== "10" && m.effort !== "30") {
+    
+    // Health check
+    if (selectedHealth.some((hCond) => !m.health || !m.health.includes(hCond))) {
       return false;
     }
-    if (selectedAllergies.some(allergy => m.allergies?.includes(allergy))) {
+
+    // Vegetarian check
+    if (diet.includes("vegetarian") && (!m.diet || !m.diet.includes("vegetarian"))) {
       return false;
     }
-    if (selectedHealth.some(hCond => !m.health?.includes(hCond))) {
-      return false;
-    }
+
     return true;
   });
 
-  const mealsToScore = filteredMeals.length > 0 ? filteredMeals : MEALS.filter(m => !selectedAllergies.some(allergy => m.allergies?.includes(allergy)));
-  const finalMeals = mealsToScore.length > 0 ? mealsToScore : MEALS;
+  const mealsToScore = filteredMeals.length > 0 
+    ? filteredMeals 
+    : mealsToFilter.filter((m) => !selectedAllergies.some((allergy) => m.allergies && m.allergies.includes(allergy)));
+  const finalMeals = mealsToScore.length > 0 ? mealsToScore : mealsToFilter;
 
   const score = (m) => {
     let s = 0;
-    if (effort && m.effort === effort) s += 3;
-    if (pantry && m.pantry.includes(pantry)) s += 3;
-    diet.forEach((d) => { if (m.diet.includes(d)) s += 2; });
-    if (diet.some((d) => !m.diet.includes(d))) s -= 5;
-    if (m.id === lastId) s -= 10;
-    if (rejectedIds.includes(m.id)) s -= 8;
+    if (effort && m.effort === effort) s += 4;
+    if (pantry && m.pantry && m.pantry.includes(pantry)) s += 4;
+    if (diet && diet.length > 0) {
+      diet.forEach((d) => { if (m.diet && m.diet.includes(d)) s += 2; });
+    }
+    if (m.id === lastId) s -= 12;
+    if (rejectedIds && rejectedIds.includes(m.id)) s -= 10;
     return s;
   };
   const scored = finalMeals.map((m) => ({ m, s: score(m) })).sort((a, b) => b.s - a.s);
@@ -1176,6 +1212,7 @@ export default function TonightApp() {
       return "health";
     }
   }); // health | ask | reveal | done
+  const [showMenu, setShowMenu] = useState(false);
   const [effort, setEffort] = useState(null);
   const [pantry, setPantry] = useState(null);
   const [diet, setDiet] = useState([]);
@@ -1199,6 +1236,10 @@ export default function TonightApp() {
     } catch {
       return [];
     }
+  });
+  const [selectedMealType, setSelectedMealType] = useState(() => {
+    // Default to the time-of-day appropriate meal type
+    return getTimeOfDayInfo().mealType;
   });
   const [isCooking, setIsCooking] = useState(false);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -1757,6 +1798,7 @@ export default function TonightApp() {
         diet,
         selectedAllergies,
         selectedHealth,
+        selectedMealType,
         rejectedIds: [...rejected, ...(current ? [current.id] : [])]
       });
     } catch (err) {
@@ -1764,7 +1806,7 @@ export default function TonightApp() {
     }
 
     if (!meal) {
-      meal = pickMeal({ effort, pantry, diet, rejectedIds: rejected, lastId: current?.id, selectedAllergies, selectedHealth });
+      meal = pickMeal({ effort, pantry, diet, rejectedIds: rejected, lastId: current?.id, selectedAllergies, selectedHealth, selectedMealType });
     }
 
     setCurrent(meal);
@@ -1995,12 +2037,12 @@ export default function TonightApp() {
         </div>
       ) : (
         <div className="tn-root" style={styles.wrap}>
-          {!isCooking && (
+          {!isCooking && stage !== "done" && (
             <header style={styles.header}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                 <div className="tn-mono" style={{ ...styles.eyebrow, marginBottom: 0 }}>
                   <ChefHat size={14} style={{ marginRight: 6, verticalAlign: "-2px" }} />
-                  {timeInfo.mealType === "breakfast" ? t("morning_eyebrow", timeInfo.eyebrow) : timeInfo.mealType === "lunch" ? t("afternoon_eyebrow", timeInfo.eyebrow) : t("tonight_eyebrow", timeInfo.eyebrow)}
+                  {t("meal_decision_eyebrow", "MEAL DECISION")}
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   {!isStandalone && (
@@ -2030,17 +2072,17 @@ export default function TonightApp() {
                       <span>{t("install_app", "Install App")}</span>
                     </button>
                   )}
-                  {/* Language Switcher Pill */}
+                  {/* Menu Button */}
                   <button
                     type="button"
-                    onClick={() => setShowLangModal(true)}
+                    onClick={() => setShowMenu(true)}
                     className="tn-focus"
-                    aria-label="Change Language"
+                    aria-label="Open Menu"
                     style={{
                       background: "#F5F9F7",
                       border: "1px solid #C2DDD4",
                       borderRadius: 999,
-                      padding: "4px 10px",
+                      padding: "4px 12px",
                       fontSize: 11,
                       fontWeight: 600,
                       color: "#045137",
@@ -2052,14 +2094,17 @@ export default function TonightApp() {
                       letterSpacing: "0.02em",
                     }}
                   >
-                    <Globe size={13} style={{ verticalAlign: "-1px" }} />
-                    <span>{LANGUAGES.find(l => l.code === lang)?.label || "English"}</span>
-                    <span style={{ fontSize: 9, opacity: 0.7 }}>▾</span>
+                    <Menu size={13} style={{ verticalAlign: "-1px" }} />
+                    <span>{t("menu", "Menu")}</span>
                   </button>
                 </div>
               </div>
-              <h1 style={styles.h1}>
-                {timeInfo.mealType === "breakfast" ? t("morning_title", timeInfo.title) : timeInfo.mealType === "lunch" ? t("afternoon_title", timeInfo.title) : t("tonight_title", timeInfo.title)}
+              <h1 style={{ ...styles.h1, fontSize: 24 }}>
+                {stage === "health"
+                  ? t("lets_get_started", "Let's get started")
+                  : stage === "reveal"
+                  ? t("here_is_pick", "Here's what Chef Elo picked")
+                  : ""}
               </h1>
             </header>
           )}
@@ -2227,6 +2272,37 @@ export default function TonightApp() {
                     </button>
                   </div>
 
+                  {/* Meal type selector */}
+                  <div style={{ marginBottom: 24 }}>
+                    <h2 style={{
+                      color: "#23322D",
+                      fontSize: 20,
+                      fontWeight: 700,
+                      letterSpacing: "-0.01em",
+                      margin: "0 0 12px 0",
+                      fontFamily: "'DM Sans', sans-serif"
+                    }}>
+                      {t("meal_type_title", "WHICH MEAL ARE WE DECIDING FOR?")}
+                    </h2>
+                    <ChipRow>
+                      {MEAL_TYPES.map((mt) => (
+                        <Chip
+                          key={mt.id}
+                          active={selectedMealType === mt.id}
+                          onClick={() => setSelectedMealType(mt.id)}
+                          style={{
+                            fontSize: 14,
+                            padding: "12px 20px",
+                            fontWeight: selectedMealType === mt.id ? 700 : 500
+                          }}
+                        >
+                          <span style={{ marginRight: 6 }}>{mt.icon}</span>
+                          {t("meal_" + mt.id, mt.label)}
+                        </Chip>
+                      ))}
+                    </ChipRow>
+                  </div>
+
                   <Section title={t("pantry_title", "WHAT'S IN THE PANTRY?")}>
                     <ChipRow>
                       {PANTRY.map((p) => (
@@ -2272,7 +2348,7 @@ export default function TonightApp() {
                       {current.image && (
                         <img src={current.image} alt={current.name} style={styles.cardImage} />
                       )}
-                      <div className="tn-mono" style={styles.cardEyebrow}>{timeInfo.revealEyebrow}</div>
+                      <div className="tn-mono" style={styles.cardEyebrow}>{selectedMealType === "breakfast" ? "YOUR BREAKFAST DECISION IS" : selectedMealType === "lunch" ? "YOUR LUNCH DECISION IS" : "YOUR DINNER DECISION IS"}</div>
                       <div style={styles.cardName}>{current.name}</div>
                       <div style={styles.cardReason}>{current.reason}</div>
                       <div style={styles.cardTagRow}>
@@ -2865,6 +2941,176 @@ export default function TonightApp() {
             >
               {restoreLoading ? "Checking..." : "Look Up Account"}
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Navigation Menu Modal */}
+      {showMenu && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(35, 50, 45, 0.72)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+          zIndex: 99999,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "16px",
+        }} className="tn-card-enter" onClick={() => setShowMenu(false)}>
+          <div style={{
+            background: "#FFFFFF",
+            borderRadius: 22,
+            border: "1px solid #C2DDD4",
+            padding: "24px 22px",
+            maxWidth: 360,
+            width: "100%",
+            boxShadow: "0 20px 40px -15px rgba(35, 50, 45, 0.25)",
+            position: "relative",
+          }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+              <div className="tn-mono" style={{ fontSize: 12, color: "#045137", fontWeight: 700, letterSpacing: "0.08em" }}>
+                MENU & OPTIONS
+              </div>
+              <button
+                onClick={() => setShowMenu(false)}
+                className="tn-focus"
+                style={{
+                  background: "#F5F9F7",
+                  border: "1px solid #C2DDD4",
+                  borderRadius: "50%",
+                  width: 30,
+                  height: 30,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#6B8F82",
+                  cursor: "pointer",
+                  fontSize: 14,
+                  fontWeight: 700,
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {/* Language Switcher */}
+              <button
+                onClick={() => { setShowMenu(false); setShowLangModal(true); }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  width: "100%",
+                  padding: "12px 14px",
+                  background: "#F5F9F7",
+                  border: "1px solid #C2DDD4",
+                  borderRadius: 14,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: "#23322D",
+                  cursor: "pointer",
+                  fontFamily: "'Inter', sans-serif"
+                }}
+              >
+                <Globe size={18} color="#045137" />
+                <div style={{ flex: 1, textAlign: "left" }}>
+                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>LANGUAGE</div>
+                  <div>{LANGUAGES.find(l => l.code === lang)?.label || "English"}</div>
+                </div>
+                <span style={{ fontSize: 12, color: "#6B8F82" }}>Change ▾</span>
+              </button>
+
+              {/* Live Chat & Support */}
+              <button
+                onClick={() => {
+                  setShowMenu(false);
+                  if (typeof window !== "undefined" && window.Tawk_API && typeof window.Tawk_API.maximize === "function") {
+                    window.Tawk_API.maximize();
+                  } else {
+                    alert(t("live_chat_connecting", "Connecting to Live Support agent... Please try again in a moment."));
+                  }
+                }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  width: "100%",
+                  padding: "12px 14px",
+                  background: "#F5F9F7",
+                  border: "1px solid #C2DDD4",
+                  borderRadius: 14,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: "#23322D",
+                  cursor: "pointer",
+                  fontFamily: "'Inter', sans-serif"
+                }}
+              >
+                <MessageCircle size={18} color="#045137" />
+                <div style={{ flex: 1, textAlign: "left" }}>
+                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>SUPPORT</div>
+                  <div>Live Chat</div>
+                </div>
+              </button>
+
+              {/* Terms of Service */}
+              <button
+                onClick={() => { setShowMenu(false); setShowTermsModal(true); }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  width: "100%",
+                  padding: "12px 14px",
+                  background: "#F5F9F7",
+                  border: "1px solid #C2DDD4",
+                  borderRadius: 14,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: "#23322D",
+                  cursor: "pointer",
+                  fontFamily: "'Inter', sans-serif"
+                }}
+              >
+                <FileText size={18} color="#045137" />
+                <div style={{ flex: 1, textAlign: "left" }}>
+                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>LEGAL</div>
+                  <div>Terms of Service</div>
+                </div>
+              </button>
+
+              {/* Privacy Policy */}
+              <button
+                onClick={() => { setShowMenu(false); setShowPrivacyModal(true); }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  width: "100%",
+                  padding: "12px 14px",
+                  background: "#F5F9F7",
+                  border: "1px solid #C2DDD4",
+                  borderRadius: 14,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: "#23322D",
+                  cursor: "pointer",
+                  fontFamily: "'Inter', sans-serif"
+                }}
+              >
+                <ShieldCheck size={18} color="#045137" />
+                <div style={{ flex: 1, textAlign: "left" }}>
+                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>PRIVACY</div>
+                  <div>Privacy Policy</div>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       )}
