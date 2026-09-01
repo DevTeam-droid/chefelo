@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack, Globe, Smartphone, Download, Menu, FileText, ShieldCheck, MessageCircle } from "lucide-react";
+import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack, Globe, Smartphone, Download, Menu, FileText, ShieldCheck, MessageCircle, Volume2, VolumeX } from "lucide-react";
 
 // ---------- Internationalization & Multi-Language Support ----------
 const LANGUAGES = [
@@ -559,7 +559,45 @@ const RECIPES = {
   m47: { time: "35 min", ingredients: ["4 chicken breasts", "100g mozzarella, sliced", "8 cherry tomatoes, halved", "Fresh basil", "Salt, pepper, olive oil"], steps: ["Cut a deep pocket into each chicken breast.", "Stuff with mozzarella, tomatoes and basil; secure with a toothpick.", "Sear in an oven-safe pan 3 min per side until golden.", "Transfer to 400°F oven; bake 18–20 min until cooked through."], durations: [180, 120, 180, 1200] },
   m48: { time: "20 min", ingredients: ["300g thinly sliced beef (rib-eye or sirloin)", "1 onion, thinly sliced", "3 tbsp soy sauce", "1 tbsp sugar, 1 tbsp mirin", "Steamed rice, pickled ginger"], steps: ["Combine soy sauce, sugar, mirin and 1/4 cup water in a pan.", "Add onion and simmer 5 min until softened.", "Add beef slices and cook 3–4 min, turning once.", "Serve over steamed rice; top with pickled ginger."], durations: [60, 300, 240, 60] },
   m49: { time: "15 min", ingredients: ["2 cups cold cooked rice", "100g cooked ham, diced", "3 eggs", "2 tbsp soy sauce", "1 tbsp sesame oil, scallions"], steps: ["Beat eggs and pour into a hot oiled wok; scramble lightly and push to the side.", "Add diced ham, stir-fry 1 min.", "Add cold rice, breaking clumps, and fry on high heat 3 min.", "Add soy sauce and sesame oil; toss everything together; top with scallions."], durations: [60, 60, 180, 60] },
-  m50: { time: "35 min", ingredients: ["1 can cannellini beans", "2 carrots, 2 celery stalks, 1 zucchini, diced", "1 can diced tomatoes", "1L vegetable stock", "100g small pasta, parmesan rind"], steps: ["Sauté carrot and celery in olive oil 5 min.", "Add zucchini, tomatoes and stock; bring to a boil.", "Add beans, pasta and parmesan rind; simmer 12 min.", "Remove rind, season well; serve with grated parmesan and crusty bread."], durations: [300, 120, 720, 60] }
+  m50: { time: "35 min", ingredients: ["1 can cannellini beans", "2 carrots, 2 celery stalks, 1 zucchini, diced", "1 can diced tomatoes", "1L vegetable stock", "100g small pasta, parmesan rind"], steps: ["Sauté carrot and celery in olive oil 5 min.", "Add zucchini, tomatoes and stock; bring to a boil.", "Add beans, pasta and parmesan rind; simmer 12 min.", "Remove rind, season well; serve with grated parmesan and crusty bread."], durations: [300, 120, 720, 60] },
+  m51: { time: "25 min", ingredients: ["200g halloumi, sliced", "2 pita breads", "1 cup cherry tomatoes, halved", "1 cucumber, diced", "2 tbsp olive oil & oregano"], steps: ["Pan-fry halloumi slices in a dry skillet over medium-high heat for 2 min per side until golden brown.", "Warm pita breads in oven or toaster.", "Toss cherry tomatoes and cucumber with olive oil, oregano, salt, and pepper.", "Fill pitas with golden halloumi and fresh salad, serve immediately."], durations: [240, 120, 180, 120] },
+  m52: { time: "20 min", ingredients: ["2 slices sourdough", "1 ripe avocado, mashed", "2 eggs", "1 tbsp chili flakes", "Lemon juice, salt"], steps: ["Toast sourdough slices until golden and crisp.", "Mash avocado with lemon juice, salt, and pepper.", "Poach or fry eggs to desired soft yolk.", "Spread avocado on toast, top with eggs, and sprinkle with chili flakes."], durations: [180, 120, 240, 60] },
+  m53: { time: "15 min", ingredients: ["2 cups spinach & mixed greens", "1 green apple, sliced", "½ cup walnuts", "100g goat cheese", "2 tbsp vinaigrette"], steps: ["Wash and dry mixed greens, place in a large bowl.", "Slice green apple thinly and crumble goat cheese.", "Toast walnuts in a dry pan for 2 min until fragrant.", "Toss greens, apples, walnuts, and goat cheese with vinaigrette."], durations: [120, 120, 120, 120] },
+  m54: { time: "30 min", ingredients: ["1 small pumpkin/squash, cubed", "1 onion, chopped", "2 garlic cloves", "3 cups vegetable broth", "½ cup cream or coconut milk"], steps: ["Sauté onion and garlic in olive oil for 4 min until soft.", "Add cubed pumpkin and broth, bring to a boil, then simmer 20 min until soft.", "Puree soup with a blender until smooth and creamy.", "Stir in cream/coconut milk, season with nutmeg, salt, and pepper."], durations: [240, 1200, 180, 120] },
+  m55: { time: "25 min", ingredients: ["200g soba noodles", "1 cup edamame, cooked", "1 cucumber, julienned", "2 tbsp sesame oil", "2 tbsp soy sauce & ginger"], steps: ["Boil soba noodles for 4-5 min, drain and rinse under cold water.", "Whisk sesame oil, soy sauce, grated ginger, and rice vinegar.", "Combine chilled noodles, edamame, and cucumber in a bowl.", "Pour sesame ginger dressing over noodles and toss."], durations: [300, 180, 120, 120] },
+  m56: { time: "35 min", ingredients: ["2 cans black beans", "1 onion, diced", "2 garlic cloves", "1 tsp cumin & oregano", "Cooked white rice"], steps: ["Sauté onion and garlic in oil for 5 min.", "Add black beans (with liquid), cumin, oregano, and salt.", "Simmer on low heat for 20-25 min, mashing some beans to thicken.", "Serve hot over steamed white rice with fresh cilantro."], durations: [300, 1200, 120, 120] },
+  m57: { time: "20 min", ingredients: ["4 large eggs", "1 cup cherry tomatoes", "½ cup feta cheese", "1 tbsp olive oil", "Fresh basil"], steps: ["Whisk eggs with salt and pepper.", "Heat oil in an oven-safe skillet, cook cherry tomatoes for 3 min.", "Pour eggs over tomatoes, sprinkle feta on top.", "Cook on stovetop for 3 min, then broiler for 3 min until set."], durations: [120, 180, 180, 180] },
+  m58: { time: "25 min", ingredients: ["1 block firm tofu, cubed", "2 cups broccoli florets", "2 tbsp peanut butter", "2 tbsp soy sauce", "1 tbsp maple syrup"], steps: ["Press and cube tofu, pan-fry in oil for 8 min until crispy.", "Steam or stir-fry broccoli florets for 4 min.", "Whisk peanut butter, soy sauce, maple syrup, and warm water for sauce.", "Combine tofu, broccoli, and peanut sauce in pan and toss."], durations: [480, 240, 120, 120] },
+  m59: { time: "30 min", ingredients: ["2 eggplant, sliced", "2 tomatoes, sliced", "2 zucchini, sliced", "2 tbsp olive oil", "Garlic & thyme"], steps: ["Preheat oven to 375°F (190°C).", "Arrange alternating slices of eggplant, tomato, and zucchini in a baking dish.", "Drizzle generously with olive oil, minced garlic, thyme, salt, and pepper.", "Bake covered for 20 min, then uncovered for 10 min."], durations: [300, 300, 1200, 600] },
+  m60: { time: "20 min", ingredients: ["1 package rice paper wrappers", "1 cup cooked vermicelli", "1 cup shredded lettuce & mint", "Cooked shrimp or tofu"], steps: ["Dip rice paper wrapper in warm water for 5 seconds until soft.", "Lay flat, place lettuce, mint, vermicelli, and shrimp/tofu in middle.", "Fold bottom over filling, roll tightly, tucking in sides.", "Serve fresh with peanut dipping sauce."], durations: [60, 240, 180, 120] },
+  m61: { time: "25 min", ingredients: ["200g soba or udon noodles", "1 cup kimchi, chopped", "1 tbsp gochujang", "1 egg", "Green onions"], steps: ["Boil noodles according to package, drain.", "Sauté kimchi and gochujang paste in sesame oil for 3 min.", "Toss noodles with kimchi sauce until hot.", "Top with a fried egg and sliced green onions."], durations: [300, 180, 120, 120] },
+  m62: { time: "35 min", ingredients: ["1 can chickpeas, drained", "1 small cauliflower, chopped", "2 tbsp olive oil", "1 tsp paprika & cumin", "Tahini dressing"], steps: ["Preheat oven to 400°F (200°C).", "Toss chickpeas and cauliflower with oil, paprika, cumin, and salt.", "Roast on a baking sheet for 25 min until golden and crispy.", "Drizzle with tahini dressing before serving."], durations: [300, 1500, 60, 60] },
+  m63: { time: "15 min", ingredients: ["1 can tuna", "2 tbsp mayonnaise", "4 slices bread", "2 slices cheddar cheese", "Butter"], steps: ["Mix canned tuna with mayonnaise, salt, and pepper.", "Spread tuna mix on bread slices, top with cheddar cheese.", "Butter the outside of the sandwiches.", "Grill in a skillet for 3-4 min per side until cheese melts."], durations: [120, 120, 60, 240] },
+  m64: { time: "35 min", ingredients: ["2 cups rice", "400g chicken or beef, cubed", "2 tbsp tomato paste", "1 onion, diced", "1 cup vegetable oil"], steps: ["Blend tomatoes, red peppers, and onions into a smooth puree.", "Sauté onions in hot oil, add tomato paste and stir-fry 5 min.", "Pour in blended mixture and cook 15 min until reduced.", "Add rice, stock, and seasoning; cover tightly and cook on low heat for 20 min."], durations: [300, 300, 900, 1200] },
+  m65: { time: "40 min", ingredients: ["500g chicken thighs", "2 tbsp Moroccan spices (ras el hanout)", "1 onion, 2 garlic cloves", "1 cup chicken stock", "½ cup olives & preserved lemon"], steps: ["Rub chicken thighs with Moroccan spices, salt, and olive oil.", "Sauté onion and garlic in a tagine or heavy pot until soft.", "Add chicken, stock, olives, and preserved lemon slices.", "Cover and simmer on low heat for 30 min until chicken is tender."], durations: [300, 300, 1800, 120] },
+  m66: { time: "50 min", ingredients: ["600g chicken pieces", "3 tbsp berbere spice blend", "2 onions, finely chopped", "2 tbsp niter kibbeh (spiced butter)", "4 hard-boiled eggs"], steps: ["Slow-cook chopped onions in dry pot for 15 min until sweet.", "Add spiced butter, garlic, ginger, and berbere spice; sauté 5 min.", "Add chicken pieces and water; simmer covered for 25 min.", "Add hard-boiled eggs, simmer 5 min more, and serve with injera."], durations: [900, 300, 1500, 300] },
+  m67: { time: "45 min", ingredients: ["500g ground beef or lamb", "1 cup milk", "2 slices bread", "1 onion, 2 tbsp curry powder", "½ cup raisins, 2 eggs"], steps: ["Soak bread in milk, mash fine; sauté onion and curry powder.", "Combine ground meat, soaked bread, onions, raisins, and chutney.", "Press mixture into a baking dish.", "Whisk eggs with remaining milk, pour on top, bake at 350°F for 35 min."], durations: [300, 300, 120, 2100] },
+  m68: { time: "35 min", ingredients: ["500g chicken thighs, cubed", "3 tbsp jerk seasoning paste", "1 tbsp lime juice", "2 tbsp brown sugar", "Soy sauce & thyme"], steps: ["Marinate chicken in jerk paste, lime juice, brown sugar, and soy sauce.", "Preheat grill or grill pan over medium-high heat.", "Grill chicken for 6-8 min per side until charred and cooked through.", "Rest 5 min before serving with rice and peas."], durations: [600, 120, 480, 300] },
+  m69: { time: "45 min", ingredients: ["600g beef chuck", "3 dried guajillo chilies", "2 dried ancho chilies", "3 garlic cloves, cumin", "Corn tortillas & cilantro"], steps: ["Deseed and boil dried chilies, then blend with garlic, cumin, and vinegar.", "Marinate beef cubes in chili marinade.", "Braise beef in a pot with broth for 35 min until shreddable.", "Shred beef, dip tortillas in consommé, fry, fill with beef and cheese."], durations: [600, 300, 2100, 300] },
+  m70: { time: "25 min", ingredients: ["400g beef sirloin, strips", "1 red onion, wedged", "2 tomatoes, wedged", "2 tbsp soy sauce & red wine vinegar", "French fries"], steps: ["Stir-fry beef strips in a piping hot wok for 3 min, set aside.", "Sauté red onions and tomatoes over high heat for 2 min.", "Add soy sauce, vinegar, and beef back to wok; toss 1 min.", "Serve hot alongside or mixed with crispy French fries."], durations: [180, 120, 60, 120] },
+  m71: { time: "1 hr 15 min", ingredients: ["1 can black beans", "200g smoked sausage, sliced", "200g pork shoulder, cubed", "1 onion, 3 garlic cloves", "Orange zest"], steps: ["Sauté smoked sausage, pork, onion, and garlic in a heavy pot.", "Add black beans, water, bay leaf, and orange zest.", "Simmer on low heat for 55 min until rich and thick.", "Serve hot with white rice, farofa, and orange slices."], durations: [300, 180, 3300, 120] },
+  m72: { time: "20 min", ingredients: ["400g flank steak", "½ cup parsley, finely chopped", "3 garlic cloves, minced", "2 tbsp oregano", "⅓ cup olive oil, 2 tbsp red wine vinegar"], steps: ["Whisk parsley, garlic, oregano, olive oil, vinegar, salt, and red pepper flakes.", "Season steak generously with salt and black pepper.", "Grill or sear steak in a hot skillet for 4-5 min per side.", "Slice steak against the grain and spoon chimichurri over top."], durations: [300, 120, 300, 120] },
+  m73: { time: "30 min", ingredients: ["500g chicken breast, cubed", "2 tbsp butter", "1 tbsp garram masala", "1 cup tomato puree", "½ cup heavy cream"], steps: ["Sear chicken pieces in butter until lightly browned.", "Add tomato puree, garlic, ginger, and garam masala; simmer 15 min.", "Stir in heavy cream and 1 tbsp butter; simmer on low for 5 min.", "Serve rich curry over warm basmati rice or with naan."], durations: [300, 900, 300, 60] },
+  m74: { time: "25 min", ingredients: ["4 chicken cutlets", "1 cup panko breadcrumbs", "1 egg, ½ cup flour", "Japanese curry roux block", "Potatoes & carrots"], steps: ["Dredge chicken cutlets in flour, beaten egg, then panko breadcrumbs.", "Deep fry cutlets in oil at 340°F for 5-6 min until golden; drain.", "Boil potatoes and carrots in water, add curry roux block and melt.", "Slice katsu cutlet, lay over rice, and spoon curry sauce beside it."], durations: [300, 360, 480, 120] },
+  m75: { time: "25 min", ingredients: ["2 cups cooked rice", "100g beef strips", "1 cup spinach & bean sprouts", "1 egg", "2 tbsp gochujang paste"], steps: ["Sauté beef strips in sesame oil and soy sauce.", "Blanch spinach and bean sprouts; sauté sliced carrots and mushrooms.", "Place warm rice in a bowl, arrange vegetables and beef on top.", "Top with a fried egg and gochujang paste, mix thoroughly before eating."], durations: [180, 240, 120, 60] },
+  m76: { time: "20 min", ingredients: ["3 cups cold cooked rice", "2 tbsp sweet soy sauce (kecap manis)", "1 tbsp chili paste", "1 egg, 2 garlic cloves", "Chicken or shrimp"], steps: ["Heat oil in wok, fry garlic, chili paste, and chicken/shrimp 3 min.", "Add cold rice, kecap manis, and soy sauce; stir-fry vigorously 4 min.", "Fry an egg sunny-side up in a separate pan.", "Plate fried rice, top with fried egg and cucumber slices."], durations: [180, 240, 120, 60] },
+  m77: { time: "30 min", ingredients: ["500g chicken thighs, cut", "⅓ cup soy sauce", "⅓ cup cane vinegar", "4 garlic cloves, crushed", "2 bay leaves & black peppercorns"], steps: ["Combine chicken, soy sauce, vinegar, garlic, bay leaves, and peppercorns in pot.", "Bring to a boil, then cover and simmer 20 min until tender.", "Remove chicken and sear in a hot skillet for 3 min until browned.", "Reduce remaining marinade into a glaze, pour over browned chicken."], durations: [120, 1200, 180, 180] },
+  m78: { time: "20 min", ingredients: ["250g jumbo shrimp", "2 lemongrass stalks, bruised", "3 kaffir lime leaves", "2 tbsp Tom Yum paste", "Mushrooms & lime juice"], steps: ["Boil water or broth with lemongrass, lime leaves, and galangal for 5 min.", "Stir in Tom Yum paste and sliced mushrooms; simmer 3 min.", "Add shrimp and cook for 2-3 min until pink.", "Remove from heat, stir in lime juice and fish sauce, garnish with cilantro."], durations: [300, 180, 180, 60] },
+  m79: { time: "25 min", ingredients: ["300g flank steak, sliced", "2 lemongrass stalks, minced", "2 tbsp fish sauce", "Rice vermicelli noodles", "Fresh mint, cucumber, peanuts"], steps: ["Marinate steak strips in minced lemongrass, garlic, fish sauce, and sugar.", "Cook vermicelli noodles, drain and place in bowls.", "Stir-fry steak in a hot skillet for 3-4 min.", "Top noodles with steak, fresh mint, cucumber, and crushed peanuts."], durations: [300, 180, 240, 120] },
+  m80: { time: "20 min", ingredients: ["1 can chickpeas, drained", "½ cup parsley & cilantro", "3 garlic cloves", "1 tsp cumin & coriander", "Pita & tahini sauce"], steps: ["Pulse chickpeas, herbs, garlic, spices, and 2 tbsp flour in a food processor.", "Form mixture into small patties or balls.", "Deep-fry or pan-fry in hot oil for 3-4 min per side until golden brown.", "Serve in pita bread with tahini sauce and tomatoes."], durations: [300, 120, 240, 60] },
+  m81: { time: "25 min", ingredients: ["400g lamb or chicken strips", "2 tbsp shawarma spice blend", "3 garlic cloves, minced", "Flatbreads", "Garlic sauce (toum) & pickles"], steps: ["Toss lamb/chicken strips with shawarma spices, garlic, lemon, and oil.", "Sear in a hot cast-iron skillet for 6-8 min until charred.", "Warm flatbreads on grill or pan.", "Spread garlic sauce on bread, add meat, pickles, and roll tightly."], durations: [300, 480, 60, 120] },
+  m82: { time: "50 min", ingredients: ["2 large eggplants, sliced", "300g ground lamb or beef", "1 can tomato sauce", "2 tbsp flour, 2 tbsp butter", "1 cup milk (for béchamel)"], steps: ["Salt and roast eggplant slices at 400°F for 20 min.", "Sauté ground meat with onion, garlic, and tomato sauce for 15 min.", "Make béchamel sauce by whisking butter, flour, and milk until thick.", "Layer eggplant and meat in dish, top with béchamel, bake 25 min."], durations: [1200, 900, 300, 1500] },
+  m83: { time: "40 min", ingredients: ["300g bomba rice", "200g shrimp & squid", "1 pinch saffron threads", "3 cups fish stock", "1 red bell pepper, diced"], steps: ["Warm fish stock with saffron threads in a saucepan.", "Sauté bell pepper and seafood in a paella pan, remove seafood.", "Add rice and tomato paste, stir 2 min, then pour in saffron stock.", "Simmer undisturbed 18 min, return seafood on top, rest 5 min."], durations: [300, 240, 1080, 300] },
+  m84: { time: "1 hr 10 min", ingredients: ["600g chicken thighs", "2 cups red wine (or beef stock)", "150g bacon lardons", "200g mushrooms, halved", "2 tbsp butter & flour"], steps: ["Fry bacon lardons until crispy, set aside; sear chicken in bacon fat.", "Add mushrooms and onions to pan, cook 5 min.", "Pour in red wine/stock and herbs, simmer covered 45 min.", "Thicken sauce with butter-flour paste and serve."], durations: [300, 300, 2700, 300] },
+  m85: { time: "1 hr 30 min", ingredients: ["600g beef chuck, cubed", "2 onions, 2 bell peppers, chopped", "2 tbsp sweet Hungarian paprika", "3 cups beef broth", "Caraway seeds"], steps: ["Sauté onions in lard or oil until golden, stir in sweet paprika.", "Add beef cubes, caraway seeds, salt, and broth; cover and simmer 1 hr.", "Add chopped bell peppers and potatoes; simmer 20 min more.", "Serve hot with crusty bread or egg noodles."], durations: [300, 3600, 1200, 120] },
+  m86: { time: "20 min", ingredients: ["250g spaghetti", "150g pancetta or bacon, diced", "2 large eggs + 1 yolk", "50g Pecorino Romano, grated", "Black pepper"], steps: ["Boil spaghetti in salted water until al dente.", "Crisp pancetta in a skillet over medium heat for 5 min.", "Whisk eggs, yolk, and grated cheese together in a bowl.", "Toss drained pasta with pancetta, remove from heat, stir in egg mix until creamy."], durations: [600, 300, 120, 120] },
+  m87: { time: "40 min", ingredients: ["400g chicken or shrimp", "1 cup holy trinity (onion, celery, bell pepper)", "2 tbsp flour, 2 tbsp oil (roux)", "2 cups chicken stock", "1 tsp Cajun seasoning"], steps: ["Make dark roux by stirring flour and oil over medium heat for 15 min.", "Add onion, celery, and bell pepper; cook 5 min until soft.", "Pour in stock and Cajun seasoning, simmer 15 min.", "Add chicken/shrimp, cook 5 min, and serve over rice."], durations: [900, 300, 900, 300] },
+  m88: { time: "35 min", ingredients: ["4 poblano peppers", "300g ground pork or beef", "1 can tomato sauce", "½ cup raisins & almonds", "2 eggs (for batter)"], steps: ["Roast poblanos over flame, peel skin, and slit open.", "Sauté ground meat with diced onions, raisins, and almonds.", "Stuff poblanos with meat mixture.", "Dip in beaten egg batter, fry 3 min per side until golden."], durations: [600, 600, 300, 360] }
 };
 
 const EFFORT = [
@@ -598,124 +636,292 @@ const HEALTH_CONDITIONS = [
   { id: "low-sodium", label: "Low-sodium" },
 ];
 
+
+// ---------- Interactive Kitchen Setting for "Chef Elo Says" ----------
+function ChefEloKitchenStage({ stepText, currentStep, totalSteps, isVoiceActive, onToggleVoice, lang = "en" }) {
+  // Helper to speak text with proper browser voice & language
+  const speakText = (textToSpeak) => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      const langTags = {
+        en: "en-US",
+        es: "es-ES",
+        fr: "fr-FR",
+        de: "de-DE",
+        it: "it-IT",
+        pt: "pt-PT",
+        zh: "zh-CN",
+        ja: "ja-JP",
+        ar: "ar-SA"
+      };
+      utterance.lang = langTags[lang] || "en-US";
+      utterance.rate = 0.95;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      console.warn("Speech synthesis error:", e);
+    }
+  };
+
+  useEffect(() => {
+    if (isVoiceActive && stepText) {
+      speakText("Step " + currentStep + ". " + stepText);
+    } else if (!isVoiceActive && typeof window !== "undefined" && "speechSynthesis" in window) {
+      try { window.speechSynthesis.cancel(); } catch (e) {}
+    }
+  }, [stepText, currentStep, isVoiceActive]);
+
+  const handleVoiceToggle = () => {
+    const nextState = !isVoiceActive;
+    onToggleVoice();
+    if (nextState) {
+      speakText("Voice guidance active. Step " + currentStep + ". " + stepText);
+    } else {
+      if (typeof window !== "undefined" && "speechSynthesis" in window) {
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+      }
+    }
+  };
+
+  return (
+    <div style={{
+      position: "relative",
+      width: "100%",
+      background: "linear-gradient(180deg, #13241E 0%, #1A2D26 100%)",
+      borderRadius: 24,
+      border: "1px solid #2B4239",
+      padding: "24px 20px 20px",
+      overflow: "hidden",
+      boxShadow: "none"
+    }}>
+      {/* Kitchen Background Details (Hanging Utensils & Warm Lighting Glow) */}
+      <div style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 120,
+        background: "radial-gradient(ellipse at 50% 0%, rgba(11,228,155,0.08) 0%, transparent 70%)",
+        pointerEvents: "none"
+      }} />
+
+      {/* Top Banner: CHEF ELO SAYS */}
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: 16,
+        position: "relative",
+        zIndex: 2
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            background: "#045137",
+            padding: "5px 12px",
+            borderRadius: 999,
+            color: "#0BE49B",
+            fontSize: 11,
+            fontWeight: 700,
+            fontFamily: "'IBM Plex Mono', monospace",
+            letterSpacing: "0.06em"
+          }}>
+            <span>🍳 CHEF ELO SAYS</span>
+          </div>
+          <button
+            type="button"
+            onClick={handleVoiceToggle}
+            className="tn-mono tn-focus"
+            style={{
+              background: isVoiceActive ? "#0BE49B" : "rgba(255,255,255,0.08)",
+              color: isVoiceActive ? "#23322D" : "#CEE9DF",
+              border: "1px solid " + (isVoiceActive ? "#0BE49B" : "#3C5A4F"),
+              padding: "5px 12px",
+              borderRadius: 999,
+              fontSize: 11,
+              fontFamily: "'IBM Plex Mono', monospace",
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5
+            }}
+          >
+            {isVoiceActive ? <Volume2 size={13} /> : <VolumeX size={13} />}
+            <span>{isVoiceActive ? "Listen & Read: ON" : "Voice: OFF"}</span>
+          </button>
+        </div>
+        <div className="tn-mono" style={{
+          color: "#CEE9DF",
+          fontSize: 11,
+          fontWeight: 700,
+          fontFamily: "'IBM Plex Mono', monospace",
+          letterSpacing: "0.06em",
+          background: "rgba(255,255,255,0.08)",
+          padding: "5px 12px",
+          borderRadius: 999
+        }}>
+          STEP {currentStep} / {totalSteps}
+        </div>
+      </div>
+
+      {/* Kitchen Stage Grid: Chef Elo on Left, Recipe Blackboard on Right */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "130px 1fr",
+        gap: 16,
+        alignItems: "end",
+        position: "relative",
+        zIndex: 2
+      }}>
+        {/* Left: Chef Elo in Kitchen with Stove & Steaming Pan */}
+        <div style={{
+          position: "relative",
+          width: 130,
+          height: 200,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-end"
+        }}>
+          {/* Animated Steam Wisps from Pot */}
+          <div style={{
+            position: "absolute",
+            top: 25,
+            left: 20,
+            display: "flex",
+            gap: 6,
+            zIndex: 3
+          }}>
+            <div className="tn-steam-wisp-1" style={{ width: 4, height: 16, borderRadius: 999, background: "rgba(255,255,255,0.65)" }} />
+            <div className="tn-steam-wisp-2" style={{ width: 4, height: 20, borderRadius: 999, background: "rgba(255,255,255,0.75)" }} />
+            <div className="tn-steam-wisp-3" style={{ width: 4, height: 14, borderRadius: 999, background: "rgba(255,255,255,0.55)" }} />
+          </div>
+
+          {/* Full Figure Chef Elo Standing in Kitchen */}
+          <img
+            src="/chef-elo-avatar.png"
+            alt="Chef Elo Cooking"
+            style={{
+              width: 125,
+              height: 165,
+              objectFit: "contain",
+              objectPosition: "bottom center",
+              position: "relative",
+              zIndex: 2
+            }}
+          />
+
+          {/* Kitchen Counter / Stove Base */}
+          <div style={{
+            width: "100%",
+            height: 28,
+            background: "linear-gradient(180deg, #2D443B 0%, #1F3029 100%)",
+            borderRadius: "8px 8px 0 0",
+            border: "1px solid #3C5A4F",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "relative",
+            zIndex: 1,
+            marginTop: -10
+          }}>
+            {/* Stove Burner Glow */}
+            <div style={{
+              width: 45,
+              height: 6,
+              background: "#D05F0D",
+              borderRadius: 999,
+              boxShadow: "0 0 12px #D05F0D"
+            }} />
+          </div>
+        </div>
+
+        {/* Right: Recipe Instructions Speech Card */}
+        <div style={{
+          background: "#CEE9DF",
+          borderRadius: "16px 16px 16px 4px",
+          padding: "18px 18px",
+          position: "relative",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
+          marginBottom: 10
+        }}>
+          <div style={{
+            color: "#23322D",
+            fontSize: 15,
+            lineHeight: 1.55,
+            fontWeight: 600,
+            fontFamily: "'Inter', sans-serif"
+          }}>
+            {stepText}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ---------- Reusable Chef Bot Avatar ----------
 function ChefBotAvatar({ style, isScouting = false }) {
   return (
-    <svg viewBox="0 0 100 100" style={style || styles.botSvg}>
-      {/* White Chef Hat */}
-      <path d="M30 32 C30 15, 70 15, 70 32 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
-      <circle cx="40" cy="20" r="10" fill="#FFFFFF" />
-      <circle cx="50" cy="15" r="12" fill="#FFFFFF" />
-      <circle cx="60" cy="20" r="10" fill="#FFFFFF" />
-      <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
-      
-      {/* Body & Jacket */}
-      <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
-      <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
-      <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
-      <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
-      <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
-      <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
-      <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
-      
-      {/* Head */}
-      <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
-      <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
-      <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
-      <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
-      
-      {/* Eyes */}
-      {isScouting ? (
-        <>
-          <circle cx="45" cy="51" r="2.5" fill="#0BE49B" />
-          <circle cx="55" cy="51" r="2.5" fill="#0BE49B" />
-        </>
-      ) : (
-        <>
-          <path d="M 41 50 Q 45 46 49 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
-          <path d="M 51 50 Q 55 46 59 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
-        </>
-      )}
-      
-      {/* Mouth */}
-      <path d="M 46 56 Q 50 60 54 56" fill="none" stroke="#0BE49B" strokeWidth="2" strokeLinecap="round" />
-    </svg>
+    <img
+      src="/chef-elo-avatar.png"
+      alt="Chef Elo"
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "contain",
+        display: "block",
+        ...(style || styles.botSvg)
+      }}
+    />
   );
 }
 
 // ---------- Reusable Chef Bot at Dining Table ----------
 function ChefBotDiningTable({ style }) {
   return (
-    <svg viewBox="0 0 240 200" style={style || { width: "100%", maxWidth: 260, height: "auto" }}>
-      {/* Background Soft Floor Shadow */}
-      <ellipse cx="120" cy="180" rx="95" ry="14" fill="#EBF4F0" />
-      
-      {/* Table Legs */}
-      <rect x="42" y="145" width="8" height="40" rx="3" fill="#23322D" />
-      <rect x="190" y="145" width="8" height="40" rx="3" fill="#23322D" />
-      
-      {/* Table Top Base */}
-      <ellipse cx="120" cy="146" rx="100" ry="20" fill="#23322D" />
-      {/* Tablecloth */}
-      <ellipse cx="120" cy="143" rx="96" ry="18" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
-      
-      {/* Plate */}
-      <ellipse cx="120" cy="141" rx="46" ry="11" fill="#FFFFFF" stroke="#C2DDD4" strokeWidth="1.5" />
-      <ellipse cx="120" cy="140" rx="32" ry="7" fill="#F5F9F7" />
-      
-      {/* Food on Plate */}
-      <ellipse cx="120" cy="138" rx="22" ry="5.5" fill="#D05F0D" />
-      <circle cx="112" cy="137" r="3" fill="#0BE49B" />
-      <circle cx="124" cy="136" r="2.5" fill="#F2A93B" />
-      <circle cx="118" cy="138" r="2" fill="#045137" />
-      
-      {/* Steaming Wisps */}
-      <path d="M 112 128 Q 109 119 114 112" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" opacity="0.75" />
-      <path d="M 120 126 Q 124 117 119 108" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" opacity="0.85" />
-      <path d="M 128 128 Q 132 119 127 111" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" opacity="0.75" />
-
-      {/* Fork on Left */}
-      <path d="M 58 133 L 58 147 M 55 133 L 55 139 Q 58 141 61 139 L 61 133" fill="none" stroke="#6B8F82" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-      
-      {/* Knife on Right */}
-      <path d="M 182 133 Q 185 138 185 147" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" />
-
-      {/* Chef Bot Elo sitting behind the table */}
-      <g transform="translate(70, 15)">
-        {/* White Chef Hat */}
-        <path d="M30 32 C30 15, 70 15, 70 32 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
-        <circle cx="40" cy="20" r="10" fill="#FFFFFF" />
-        <circle cx="50" cy="15" r="12" fill="#FFFFFF" />
-        <circle cx="60" cy="20" r="10" fill="#FFFFFF" />
-        <rect x="33" y="28" width="34" height="8" rx="2" fill="#E2E8F0" />
-        
-        {/* Body & Jacket */}
-        <rect x="46" y="65" width="8" height="10" fill="#CEE9DF" rx="2" />
-        <path d="M 25 95 L 75 95 L 68 70 L 32 70 Z" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="0.5" />
-        <circle cx="46" cy="78" r="1.5" fill="#94A3B8" />
-        <circle cx="46" cy="85" r="1.5" fill="#94A3B8" />
-        <circle cx="54" cy="78" r="1.5" fill="#94A3B8" />
-        <circle cx="54" cy="85" r="1.5" fill="#94A3B8" />
-        <path d="M 45 70 L 50 82 L 55 70 Z" fill="#D05F0D" />
-        
-        {/* Head */}
-        <rect x="32" y="38" width="36" height="28" rx="10" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
-        <rect x="28" y="47" width="4" height="10" rx="1" fill="#045137" />
-        <rect x="68" y="47" width="4" height="10" rx="1" fill="#045137" />
-        <rect x="37" y="43" width="26" height="18" rx="5" fill="#23322D" />
-        
-        {/* Eyes (Happy Closed Smiling LED Arches) */}
-        <path d="M 41 50 Q 45 45 49 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M 51 50 Q 55 45 59 50" fill="none" stroke="#0BE49B" strokeWidth="2.5" strokeLinecap="round" />
-        
-        {/* Mouth (Big Joyful Smile) */}
-        <path d="M 44 55 Q 50 63 56 55 Z" fill="#0BE49B" />
-        
-        {/* Cute Robot Hands resting on the table */}
-        <rect x="18" y="93" width="14" height="8" rx="4" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
-        <rect x="68" y="93" width="14" height="8" rx="4" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
-      </g>
-    </svg>
+    <div style={{ position: "relative", width: "100%", maxWidth: 260, height: 200, margin: "0 auto 10px" }}>
+      <img
+        src="/chef-elo-avatar.png"
+        alt="Chef Elo"
+        style={{
+          position: "absolute",
+          bottom: 30,
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 145,
+          height: "auto",
+          maxHeight: 165,
+          objectFit: "contain",
+          zIndex: 1
+        }}
+      />
+      <svg viewBox="0 0 240 100" style={{ position: "absolute", bottom: 0, left: 0, width: "100%", height: 95, zIndex: 2 }}>
+        <ellipse cx="120" cy="80" rx="95" ry="14" fill="#EBF4F0" />
+        <rect x="42" y="45" width="8" height="40" rx="3" fill="#23322D" />
+        <rect x="190" y="45" width="8" height="40" rx="3" fill="#23322D" />
+        <ellipse cx="120" cy="46" rx="100" ry="20" fill="#23322D" />
+        <ellipse cx="120" cy="43" rx="96" ry="18" fill="#CEE9DF" stroke="#045137" strokeWidth="1" />
+        <ellipse cx="120" cy="41" rx="46" ry="11" fill="#FFFFFF" stroke="#C2DDD4" strokeWidth="1.5" />
+        <ellipse cx="120" cy="40" rx="32" ry="7" fill="#F5F9F7" />
+        <ellipse cx="120" cy="38" rx="22" ry="5.5" fill="#D05F0D" />
+        <circle cx="112" cy="37" r="3" fill="#0BE49B" />
+        <circle cx="124" cy="36" r="2.5" fill="#F2A93B" />
+        <circle cx="118" cy="38" r="2" fill="#045137" />
+        <path d="M 112 28 Q 109 19 114 12" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" opacity="0.75" />
+        <path d="M 120 26 Q 124 17 119 8" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" opacity="0.85" />
+        <path d="M 128 28 Q 132 19 127 11" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" opacity="0.75" />
+        <path d="M 58 33 L 58 47 M 55 33 L 55 39 Q 58 41 61 39 L 61 33" fill="none" stroke="#6B8F82" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M 182 33 Q 185 38 185 47" fill="none" stroke="#6B8F82" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    </div>
   );
 }
 
@@ -1183,6 +1389,7 @@ export default function TonightApp() {
     }
   });
   const [isRinging, setIsRinging] = useState(false);
+  const [isVoiceActive, setIsVoiceActive] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallModal, setShowInstallModal] = useState(false);
@@ -1423,7 +1630,17 @@ export default function TonightApp() {
     }
   };
 
-  const currentRecipe = current?.recipe || (current ? RECIPES[current.id] : null);
+  const currentRecipe = current?.recipe || (current && RECIPES[current.id] ? RECIPES[current.id] : (current ? {
+  time: current.time || "25 min",
+  ingredients: current.pantry || ["Main ingredients", "Salt, pepper & oil"],
+  steps: [
+    `Prep all ingredients for ${current.name || "your meal"}.`,
+    `Heat oil or butter in a pan over medium heat.`,
+    `Add ingredients and cook 10–15 min until tender and fragrant.`,
+    `Season to taste with salt, pepper, and serve hot!`
+  ],
+  durations: [180, 120, 600, 180]
+} : null));
 
   useEffect(() => {
     // Check if running in standalone PWA mode
@@ -1582,7 +1799,7 @@ export default function TonightApp() {
     setTimeout(() => {
       clearInterval(interval);
       setUpdateProgress(100);
-      setUpdateStepText("Reloading Chef Elo...");
+      setUpdateStepText("Reloading...");
       if (waitingWorker) {
         waitingWorker.postMessage({ type: "SKIP_WAITING" });
       }
@@ -1896,7 +2113,7 @@ export default function TonightApp() {
               background: "transparent",
               margin: "0 auto",
             }}>
-              <ChefBotAvatar style={{ width: 120, height: 120 }} />
+              <img src="/chef-elo-logo.png" alt="Chef Elo Logo" style={{ width: 120, height: 120, borderRadius: 24, boxShadow: "0 8px 24px rgba(4,81,55,0.18)" }} />
             </div>
 
             {/* Typography positioned below the logo */}
@@ -1910,7 +2127,7 @@ export default function TonightApp() {
                 margin: "0 0 6px",
                 lineHeight: 1.15
               }}>
-                Chef Elo — AI Meal Decider
+                Chef Elo — Meal Decider
               </h1>
               <p style={{
                 color: "#6B8F82",
@@ -1937,7 +2154,7 @@ export default function TonightApp() {
                 fontFamily: "'DM Sans', sans-serif",
                 letterSpacing: "0.04em"
               }}>
-                <span>LOADING CHEF ELO</span>
+                <span>LOADING</span>
                 <span>{Math.min(100, loadPercent)}%</span>
               </div>
               <div style={styles.loaderBarBg}>
@@ -1987,14 +2204,14 @@ export default function TonightApp() {
                         borderRadius: 999,
                         padding: "4px 10px",
                         fontSize: 11,
-                        fontWeight: 600,
                         color: "#FFFFFF",
                         cursor: "pointer",
                         display: "inline-flex",
                         alignItems: "center",
                         gap: 5,
                         fontFamily: "'IBM Plex Mono', monospace",
-                        letterSpacing: "0.02em",
+                        letterSpacing: "0.06em",
+                        fontWeight: 700,
                         boxShadow: "0 2px 6px rgba(208,95,13,0.25)",
                       }}
                     >
@@ -2014,14 +2231,14 @@ export default function TonightApp() {
                       borderRadius: 999,
                       padding: "4px 12px",
                       fontSize: 11,
-                      fontWeight: 600,
                       color: "#045137",
                       cursor: "pointer",
                       display: "inline-flex",
                       alignItems: "center",
                       gap: 5,
                       fontFamily: "'IBM Plex Mono', monospace",
-                      letterSpacing: "0.02em",
+                      letterSpacing: "0.06em",
+                      fontWeight: 700,
                     }}
                   >
                     <Menu size={13} style={{ verticalAlign: "-1px" }} />
@@ -2041,18 +2258,15 @@ export default function TonightApp() {
 
           {isCooking && current && currentRecipe ? (
             <div style={styles.cookingPanel} className="tn-card-enter">
-              {/* Chef Bot Header Card */}
-              <div style={styles.botCard}>
-                <div style={styles.botAvatarContainer}>
-                  <ChefBotAvatar />
-                </div>
-                <div style={styles.speechBubble}>
-                  <div className="tn-mono" style={styles.speechTitle}>CHEF BOT SAYS:</div>
-                  <div style={styles.speechText}>
-                    {currentRecipe.steps[currentStepIndex]}
-                  </div>
-                </div>
-              </div>
+              {/* Kitchen Setting for Chef Elo Says */}
+              <ChefEloKitchenStage
+                stepText={currentRecipe.steps[currentStepIndex]}
+                currentStep={currentStepIndex + 1}
+                totalSteps={currentRecipe.steps.length}
+                isVoiceActive={isVoiceActive}
+                onToggleVoice={() => setIsVoiceActive(!isVoiceActive)}
+                lang={lang}
+              />
 
               {/* Timer and Controls */}
               <div 
@@ -2512,7 +2726,7 @@ export default function TonightApp() {
               {t("paywall_title", "Decide & Cook Without Limits.")}
             </h2>
             <p style={{ color: "#6B8F82", fontSize: 13.5, margin: "0 0 18px", lineHeight: 1.45, fontFamily: "'Inter', sans-serif" }}>
-              {t("paywall_sub", "Unlock daily AI meal decider, step-by-step cooking timers, and dietary safeguards.")}
+              {t("paywall_sub", "Unlock daily meal decider, step-by-step cooking timers, and dietary safeguards.")}
             </p>
 
             {/* Anchor-Style Feature Checklist */}
@@ -2532,7 +2746,7 @@ export default function TonightApp() {
                   ✓
                 </div>
                 <div style={{ color: "#23322D", fontSize: 12.5, fontWeight: 600, fontFamily: "'Inter', sans-serif" }}>
-                  Instant AI Meal Decisions <span style={{ color: "#6B8F82", fontWeight: 400 }}>· tailored to your pantry</span>
+                  Instant Meal Decisions <span style={{ color: "#6B8F82", fontWeight: 400 }}>· tailored to your pantry</span>
                 </div>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
@@ -4106,9 +4320,12 @@ const styles = {
     alignItems: "center",
   },
   botAvatarContainer: {
-    width: 70,
-    height: 70,
+    width: 76,
+    height: 76,
     flexShrink: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   botSvg: {
     width: "100%",
@@ -4248,7 +4465,6 @@ const styles = {
   loaderAvatar: {
     width: 140,
     height: 140,
-    filter: "drop-shadow(0 4px 12px rgba(4,81,55,0.12))",
   },
   loaderTitle: {
     color: "#23322D",

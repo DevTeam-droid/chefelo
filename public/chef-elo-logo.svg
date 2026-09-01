@@ -1,0 +1,92 @@
+<svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0B6B49"/>
+      <stop offset="100%" stop-color="#02311F"/>
+    </linearGradient>
+
+    <radialGradient id="glow" gradientUnits="userSpaceOnUse" cx="512" cy="470" r="440">
+      <stop offset="0%" stop-color="#CFEDDC" stop-opacity="0.30"/>
+      <stop offset="60%" stop-color="#CFEDDC" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#CFEDDC" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="puffGrad" gradientUnits="userSpaceOnUse" cx="430" cy="260" r="420">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="55%" stop-color="#F3F2ED"/>
+      <stop offset="100%" stop-color="#C2C7BF"/>
+    </radialGradient>
+
+    <linearGradient id="bandGrad" x1="15%" y1="0%" x2="90%" y2="70%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="45%" stop-color="#F2F1EC"/>
+      <stop offset="100%" stop-color="#BEC3BB"/>
+    </linearGradient>
+
+    <linearGradient id="trimGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F0904B"/>
+      <stop offset="100%" stop-color="#B85510"/>
+    </linearGradient>
+
+    <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+    <filter id="softBlurSmall" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+
+    <clipPath id="hatClip">
+      <path d="M 512 120
+        C 580 120 634 168 640 230
+        C 690 226 736 264 742 316
+        C 748 372 712 418 662 434
+        C 672 456 674 480 668 504
+        L 668 552
+        L 356 552
+        L 356 504
+        C 350 480 352 456 362 434
+        C 312 418 276 372 282 316
+        C 288 264 334 226 384 230
+        C 390 168 444 120 512 120 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#glow)"/>
+
+  <g transform="translate(-153.6,-33.8) scale(1.3)">
+    <!-- Cast shadow, grounding the hat -->
+    <ellipse cx="512" cy="762" rx="220" ry="38" fill="#010F09" opacity="0.38" filter="url(#softBlur)"/>
+
+    <!-- Chef hat: scalloped poof + band, single silhouette for a clean edge -->
+    <path d="M 512 120
+      C 580 120 634 168 640 230
+      C 690 226 736 264 742 316
+      C 748 372 712 418 662 434
+      C 672 456 674 480 668 504
+      L 668 552
+      L 356 552
+      L 356 504
+      C 350 480 352 456 362 434
+      C 312 418 276 372 282 316
+      C 288 264 334 226 384 230
+      C 390 168 444 120 512 120 Z"
+      fill="url(#puffGrad)"/>
+
+    <!-- Contact shadow where poof meets band -->
+    <ellipse cx="512" cy="558" rx="172" ry="14" fill="#1C231D" opacity="0.2" filter="url(#softBlurSmall)"/>
+
+    <!-- Hat band -->
+    <rect x="330" y="560" width="364" height="172" rx="28" fill="url(#bandGrad)"/>
+
+    <!-- Orange trim -->
+    <rect x="330" y="678" width="364" height="28" fill="url(#trimGrad)"/>
+
+    <!-- Base shadow where band meets background -->
+    <rect x="330" y="702" width="364" height="30" fill="#02311F" opacity="0.12"/>
+
+    <!-- Top highlight sheen, clipped to the hat silhouette -->
+    <ellipse cx="440" cy="220" rx="130" ry="76" fill="#FFFFFF" opacity="0.55" filter="url(#softBlurSmall)" clip-path="url(#hatClip)"/>
+  </g>
+</svg>

@@ -1,7 +1,7 @@
 {
-  "name": "Chef Elo – AI Meal Decider",
+  "name": "Chef Elo – Meal Decider",
   "short_name": "Chef Elo",
-  "description": "Your personal AI chef. Instant meal decisions, step-by-step cooking timers, and dietary safeguards — all in one beautiful app.",
+  "description": "Your personal Chef Elo. Instant meal decisions, step-by-step cooking timers, and dietary safeguards — all in one beautiful app.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
