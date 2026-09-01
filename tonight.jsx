@@ -16,6 +16,18 @@ const LANGUAGES = [
 
 const TRANSLATIONS = {
   en: {
+    free_trial_sub: "Then $4.99/mo. Cancel anytime in App Store or Settings.",
+    free_trial_title: "Start 7-Day Free Trial",
+    something_amazing: "Something amazing is coming!",
+    decided_eyebrow: "DECIDED",
+    cancel_anytime: "7 Days Free · Cancel Anytime in 1 Tap",
+    pro_trial_badge: "CHEF ELO PRO · 7-DAY FREE TRIAL",
+    serves_2: "serves 2",
+    bon_appetit: "BON APPÉTIT",
+    dinner_decision: "YOUR DINNER DECISION IS",
+    lunch_decision: "YOUR LUNCH DECISION IS",
+    breakfast_decision: "YOUR BREAKFAST DECISION IS",
+    app_title: "Chef Elo",
     lets_get_started: "Let's get started",
     morning_eyebrow: "MORNING'S DECISION",
     morning_title: "What's for breakfast?",
@@ -32,12 +44,14 @@ const TRANSLATIONS = {
     time_title: "HOW MUCH TIME DO YOU HAVE?",
     diet_title: "ANY DIETARY RESTRICTIONS?",
     allergies_title: "ALLERGIES & RESTRICTIONS",
-    health_title: "HEALTH & DIET GOALS",
+    health_title: "HEALTH CONSIDERATIONS",
     decide_btn: "Decide for me",
-    not_this: "Not this one",
+    not_this: "Not this, pick another",
     doing_this: "Doing this",
     cook_now: "Cook this now",
-    view_recipe: "View recipe",
+    view_recipe: "How do I make it",
+    cook_step_by_step: "Cook Step-by-Step",
+    decide_again_tomorrow: "Decide again tomorrow",
     ingredients: "INGREDIENTS",
     steps: "PREPARATION STEPS",
     step_of: "STEP",
@@ -50,16 +64,60 @@ const TRANSLATIONS = {
     food_ready: "Food is ready, please serve!",
     hi_elo: "Hi, I'm Elo, your Chef!",
     menu: "Menu",
+    support: "Support",
     live_chat: "Live Chat & Support",
     undergoing_maintenance: "Undergoing maintenance",
     filters_active: "FILTER(S) ACTIVE",
     filters_off: "ALL DIETARY FILTERS OFF",
     edit_preferences: "Edit preferences",
     restore_purchases: "Restore Purchases",
-    terms: "Terms",
-    privacy: "Privacy"
+    terms: "Terms of Service",
+    privacy: "Privacy Policy",
+    loading: "Loading...",
+    scouting: "Elo is scouting the web...",
+    scouting_sub: "Finding the perfect recipe matching your pantry and filters.",
+    chef_elo_says: "CHEF ELO SAYS",
+    voice_on: "Listen & Read: ON",
+    voice_off: "Voice: OFF",
+    install_app: "Install App",
+    install_app_title: "Install Chef Elo",
+    install_app_sub: "Add Chef Elo to your Home Screen for 1-tap access and offline cooking.",
+    install_app_btn: "Install App Now",
+    update_required: "UPDATE REQUIRED",
+    update_title: "App Update Available",
+    update_now: "Update Now",
+    got_it: "Got It",
+    annual_plan: "Annual Plan",
+    monthly_plan: "Monthly Plan",
+    standard_monthly: "Standard monthly billing",
+    start_free_trial: "Start 7-Day Free Trial",
+    after_trial: "after trial",
+    legal: "LEGAL",
+    language: "LANGUAGE",
+    pantry_chicken: "Chicken",
+    pantry_beef: "Beef",
+    pantry_pork: "Pork",
+    pantry_seafood: "Seafood",
+    pantry_pasta: "Pasta",
+    pantry_veg: "Mostly veg",
+    pantry_staples: "Beans & Grains",
+    pantry_leftovers: "Leftovers",
+    pantry_empty: "Basically nothing",
+    effort_10: "10 min",
+    effort_30: "30 min",
+    effort_cook: "I'll cook",
+    diet_vegetarian: "Veggie",
+    diet_dairy_free: "No dairy",
+    diet_kid_friendly: "Kid-friendly",
+    allergy_gluten: "Gluten-free",
+    allergy_dairy: "Dairy-free",
+    allergy_eggs: "Egg-free",
+    allergy_nuts: "Nut-free",
+    health_diabetic_friendly: "Diabetic-friendly",
+    health_low_sodium: "Low-sodium"
   },
   es: {
+    app_title: "Chef Elo",
     lets_get_started: "¡Empecemos!",
     morning_eyebrow: "DECISIÓN DE LA MAÑANA",
     morning_title: "¿Qué hay de desayuno?",
@@ -76,12 +134,14 @@ const TRANSLATIONS = {
     time_title: "¿CUÁNTO TIEMPO TIENES?",
     diet_title: "¿RESTRICCIONES DIETÉTICAS?",
     allergies_title: "ALERGIAS Y RESTRICCIONES",
-    health_title: "OBJETIVOS DE SALUD Y DIETA",
+    health_title: "CONSIDERACIONES DE SALUD",
     decide_btn: "Decide por mí",
-    not_this: "Este no",
-    doing_this: "Voy a hacer este",
+    not_this: "Este no, elige otro",
+    doing_this: "Elegir este",
     cook_now: "Cocinar ahora",
-    view_recipe: "Ver receta",
+    view_recipe: "¿Cómo se hace?",
+    cook_step_by_step: "Cocinar paso a paso",
+    decide_again_tomorrow: "Decidir de nuevo mañana",
     ingredients: "INGREDIENTES",
     steps: "PASOS DE PREPARACIÓN",
     step_of: "PASO",
@@ -94,16 +154,60 @@ const TRANSLATIONS = {
     food_ready: "¡La comida está lista, a servir!",
     hi_elo: "¡Hola, soy Elo, tu Chef!",
     menu: "Menú",
-    live_chat: "Chat en vivo y soporte",
+    support: "Soporte",
+    live_chat: "Chat en vivo y Soporte",
     undergoing_maintenance: "En mantenimiento",
     filters_active: "FILTRO(S) ACTIVO(S)",
-    filters_off: "SIN FILTROS DIETÉTICOS",
+    filters_off: "FILTROS DESACTIVADOS",
     edit_preferences: "Editar preferencias",
     restore_purchases: "Restaurar compras",
-    terms: "Términos",
-    privacy: "Privacidad"
+    terms: "Términos de servicio",
+    privacy: "Política de privacidad",
+    loading: "Cargando...",
+    scouting: "Elo está buscando en la web...",
+    scouting_sub: "Encontrando la receta perfecta según tu despensa.",
+    chef_elo_says: "CHEF ELO DICE",
+    voice_on: "Escuchar y Leer: ON",
+    voice_off: "Voz: OFF",
+    install_app: "Instalar App",
+    install_app_title: "Instalar Chef Elo",
+    install_app_sub: "Añade Chef Elo a tu pantalla de inicio para acceso directo.",
+    install_app_btn: "Instalar aplicación ahora",
+    update_required: "ACTUALIZACIÓN REQUERIDA",
+    update_title: "Actualización disponible",
+    update_now: "Actualizar ahora",
+    got_it: "Entendido",
+    annual_plan: "Plan Anual",
+    monthly_plan: "Plan Mensual",
+    standard_monthly: "Facturación mensual estándar",
+    start_free_trial: "Iniciar prueba gratis de 7 días",
+    after_trial: "tras prueba",
+    legal: "LEGAL",
+    language: "IDIOMA",
+    pantry_chicken: "Pollo",
+    pantry_beef: "Carne de res",
+    pantry_pork: "Cerdo",
+    pantry_seafood: "Mariscos",
+    pantry_pasta: "Pasta",
+    pantry_veg: "Verduras",
+    pantry_staples: "Legumbres y Granos",
+    pantry_leftovers: "Sobras",
+    pantry_empty: "Casi nada",
+    effort_10: "10 min",
+    effort_30: "30 min",
+    effort_cook: "Yo cocino",
+    diet_vegetarian: "Vegetariano",
+    diet_dairy_free: "Sin lácteos",
+    diet_kid_friendly: "Apto para niños",
+    allergy_gluten: "Sin gluten",
+    allergy_dairy: "Sin lácteos",
+    allergy_eggs: "Sin huevo",
+    allergy_nuts: "Sin frutos secos",
+    health_diabetic_friendly: "Apto para diabéticos",
+    health_low_sodium: "Bajo en sodio"
   },
   fr: {
+    app_title: "Chef Elo",
     lets_get_started: "Commençons !",
     morning_eyebrow: "DÉCISION DU MATIN",
     morning_title: "Qu'est-ce qu'on mange au petit-déjeuner ?",
@@ -120,12 +224,14 @@ const TRANSLATIONS = {
     time_title: "COMBIEN DE TEMPS AVEZ-VOUS ?",
     diet_title: "RESTRICTIONS ALIMENTAIRES ?",
     allergies_title: "ALLERGIES ET RESTRICTIONS",
-    health_title: "OBJECTIFS SANTÉ ET RÉGIME",
+    health_title: "CONSIDÉRATIONS DE SANTÉ",
     decide_btn: "Décide pour moi",
-    not_this: "Pas celui-ci",
-    doing_this: "Je fais ça",
+    not_this: "Pas celui-ci, choisis-en un autre",
+    doing_this: "Choisir ce plat",
     cook_now: "Cuisiner maintenant",
-    view_recipe: "Voir la recette",
+    view_recipe: "Comment préparer ?",
+    cook_step_by_step: "Cuisiner étape par étape",
+    decide_again_tomorrow: "Rechoisir demain",
     ingredients: "INGRÉDIENTS",
     steps: "ÉTAPES DE PRÉPARATION",
     step_of: "ÉTAPE",
@@ -138,38 +244,84 @@ const TRANSLATIONS = {
     food_ready: "Le repas est prêt, servez !",
     hi_elo: "Salut, je suis Elo, ton Chef !",
     menu: "Menu",
-    live_chat: "Chat en direct & support",
-    undergoing_maintenance: "En maintenance",
+    support: "Support",
+    live_chat: "Chat en direct & Support",
+    undergoing_maintenance: "En cours de maintenance",
     filters_active: "FILTRE(S) ACTIF(S)",
-    filters_off: "AUCUN FILTRE ALIMENTAIRE",
+    filters_off: "FILTRES DESACTIVÉS",
     edit_preferences: "Modifier les préférences",
     restore_purchases: "Restaurer les achats",
-    terms: "Conditions",
-    privacy: "Confidentialité"
+    terms: "Conditions d'utilisation",
+    privacy: "Politique de confidentialité",
+    loading: "Chargement...",
+    scouting: "Elo recherche sur le web...",
+    scouting_sub: "Recherche de la recette parfaite selon votre placard.",
+    chef_elo_says: "CHEF ELO DIT",
+    voice_on: "Écouter & Lire : OUI",
+    voice_off: "Voix : NON",
+    install_app: "Installer l'app",
+    install_app_title: "Installer Chef Elo",
+    install_app_sub: "Ajoutez Chef Elo à votre écran d'accueil en 1 clic.",
+    install_app_btn: "Installer l'application maintenant",
+    update_required: "MISE À JOUR REQUISE",
+    update_title: "Mise à jour disponible",
+    update_now: "Mettre à jour maintenant",
+    got_it: "J'ai compris",
+    annual_plan: "Plan Annuel",
+    monthly_plan: "Plan Mensuel",
+    standard_monthly: "Facturation mensuelle standard",
+    start_free_trial: "Essai gratuit de 7 jours",
+    after_trial: "après l'essai",
+    legal: "MENTIONS LÉGALES",
+    language: "LANGUE",
+    pantry_chicken: "Poulet",
+    pantry_beef: "Bœuf",
+    pantry_pork: "Porc",
+    pantry_seafood: "Fruits de mer",
+    pantry_pasta: "Pâtes",
+    pantry_veg: "Légumes",
+    pantry_staples: "Légumineuses & Céréales",
+    pantry_leftovers: "Restes",
+    pantry_empty: "Presque rien",
+    effort_10: "10 min",
+    effort_30: "30 min",
+    effort_cook: "Je cuisine",
+    diet_vegetarian: "Végétarien",
+    diet_dairy_free: "Sans produit laitier",
+    diet_kid_friendly: "Adapté aux enfants",
+    allergy_gluten: "Sans gluten",
+    allergy_dairy: "Sans lactose",
+    allergy_eggs: "Sans œuf",
+    allergy_nuts: "Sans fruits à coque",
+    health_diabetic_friendly: "Adapté aux diabétiques",
+    health_low_sodium: "Pauvre en sel"
   },
   de: {
-    lets_get_started: "Lass uns anfangen",
-    morning_eyebrow: "ENTSCHEIDUNG AM MORGEN",
+    app_title: "Chef Elo",
+    lets_get_started: "Lass uns anfangen!",
+    morning_eyebrow: "MORGENS ENTSCHEIDUNG",
     morning_title: "Was gibt's zum Frühstück?",
-    afternoon_eyebrow: "ENTSCHEIDUNG AM MITTAG",
+    afternoon_eyebrow: "MITTAGS ENTSCHEIDUNG",
     afternoon_title: "Was gibt's zum Mittagessen?",
-    tonight_eyebrow: "ENTSCHEIDUNG AM ABEND",
+    tonight_eyebrow: "ABENDS ENTSCHEIDUNG",
     tonight_title: "Was gibt's zum Abendessen?",
-    meal_decision_eyebrow: "MAHLZEIT-ENTSCHEIDUNG",
+    meal_decision_eyebrow: "MAHLZEIT ENTSCHEIDUNG",
     meal_type_title: "FÜR WELCHE MAHLZEIT ENTSCHEIDEN WIR?",
     meal_breakfast: "Frühstück",
     meal_lunch: "Mittagessen",
     meal_dinner: "Abendessen",
     pantry_title: "WAS IST IM VORRATSSCHRANK?",
     time_title: "WIE VIEL ZEIT HAST DU?",
-    diet_title: "DIÄT-EINSCHRÄNKUNGEN?",
+    diet_title: "ERNÄHRUNGSEINSCHRÄNKUNGEN?",
     allergies_title: "ALLERGIEN & EINSCHRÄNKUNGEN",
-    health_title: "GESUNDHEITS- & ERNÄHRUNGSZIELE",
+    health_title: "GESUNDHEITSZIELE",
     decide_btn: "Entscheide für mich",
-    not_this: "Nicht das",
-    doing_this: "Ich koche das",
+    not_this: "Nicht dieses, wähle ein anderes",
+    doing_this: "Dieses wählen",
     cook_now: "Jetzt kochen",
-    view_recipe: "Rezept ansehen",
+    view_recipe: "Wie koche ich das?",
+    cook_step_by_step: "Schritt für Schritt kochen",
+    decide_again_tomorrow: "Morgen neu entscheiden",
     ingredients: "ZUTATEN",
     steps: "ZUBEREITUNGSSCHRITTE",
     step_of: "SCHRITT",
@@ -179,27 +331,71 @@ const TRANSLATIONS = {
     prev_step: "Vorheriger Schritt",
     done: "Fertig",
     thanks_chef: "Danke Chef",
-    food_ready: "Das Essen ist fertig, bitte servieren!",
-    hi_elo: "Hallo, ich bin Elo, dein Chef!",
+    food_ready: "Essen ist fertig, bitte servieren!",
+    hi_elo: "Hi, ich bin Elo, dein Chef!",
     menu: "Menü",
-    live_chat: "Live-Chat & Support",
-    undergoing_maintenance: "Wird gewartet",
+    support: "Support",
+    live_chat: "Live Chat & Support",
+    undergoing_maintenance: "Wartungsarbeiten",
     filters_active: "FILTER AKTIV",
-    filters_off: "KEINE DIÄT-FILTER",
+    filters_off: "ALLE FILTER AUS",
     edit_preferences: "Einstellungen bearbeiten",
     restore_purchases: "Käufe wiederherstellen",
-    terms: "AGB",
-    privacy: "Datenschutz"
+    terms: "Nutzungsbedingungen",
+    privacy: "Datenschutz",
+    loading: "Wird geladen...",
+    scouting: "Elo sucht im Web...",
+    scouting_sub: "Findet das perfekte Rezept für deinen Vorrat.",
+    chef_elo_says: "CHEF ELO SAGT",
+    voice_on: "Hören & Lesen: AN",
+    voice_off: "Stimme: AUS",
+    install_app: "App installieren",
+    install_app_title: "Chef Elo installieren",
+    install_app_sub: "Füge Chef Elo für 1-Klick-Zugriff hinzu.",
+    install_app_btn: "Jetzt installieren",
+    update_required: "UPDATE ERFORDERLICH",
+    update_title: "Update verfügbar",
+    update_now: "Jetzt aktualisieren",
+    got_it: "Verstanden",
+    annual_plan: "Jahresplan",
+    monthly_plan: "Monatsplan",
+    standard_monthly: "Standard monatliche Abrechnung",
+    start_free_trial: "7 Tage kostenlos testen",
+    after_trial: "nach Testphase",
+    legal: "RECHTLICHES",
+    language: "SPRACHE",
+    pantry_chicken: "Hähnchen",
+    pantry_beef: "Rindfleisch",
+    pantry_pork: "Schweinefleisch",
+    pantry_seafood: "Meeresfrüchte",
+    pantry_pasta: "Nudeln",
+    pantry_veg: "Gemüse",
+    pantry_staples: "Hülsenfrüchte & Getreide",
+    pantry_leftovers: "Reste",
+    pantry_empty: "Fast nichts",
+    effort_10: "10 Min",
+    effort_30: "30 Min",
+    effort_cook: "Ich koche",
+    diet_vegetarian: "Vegetarisch",
+    diet_dairy_free: "Laktosefrei",
+    diet_kid_friendly: "Kinderfreundlich",
+    allergy_gluten: "Glutenfrei",
+    allergy_dairy: "Laktosefrei",
+    allergy_eggs: "Eifrei",
+    allergy_nuts: "Nussfrei",
+    health_diabetic_friendly: "Diabetikerfreundlich",
+    health_low_sodium: "Natriumarm"
   },
   it: {
+    app_title: "Chef Elo",
     lets_get_started: "Iniziamo!",
     morning_eyebrow: "DECISIONE DEL MATTINO",
     morning_title: "Cosa c'è per colazione?",
-    afternoon_eyebrow: "DECISIONE DEL POMERIGGIO",
+    afternoon_eyebrow: "DECISIONE DEL PRANZO",
     afternoon_title: "Cosa c'è per pranzo?",
-    tonight_eyebrow: "DECISIONE DI STASERA",
+    tonight_eyebrow: "DECISIONE DELLA SERA",
     tonight_title: "Cosa c'è per cena?",
-    meal_decision_eyebrow: "DECISIONE PASTO",
+    meal_decision_eyebrow: "DECISIONE DEL PASTO",
     meal_type_title: "PER QUALE PASTO DECIDIAMO?",
     meal_breakfast: "Colazione",
     meal_lunch: "Pranzo",
@@ -208,43 +404,89 @@ const TRANSLATIONS = {
     time_title: "QUANTO TEMPO HAI?",
     diet_title: "RESTRIZIONI ALIMENTARI?",
     allergies_title: "ALLERGIE E RESTRIZIONI",
-    health_title: "OBIETTIVI SALUTE E DIETA",
+    health_title: "CONSIDERAZIONI DI SALUTE",
     decide_btn: "Decidi per me",
-    not_this: "Non questo",
-    doing_this: "Faccio questo",
+    not_this: "Non questo, scegli un altro",
+    doing_this: "Scegli questo",
     cook_now: "Cucina ora",
-    view_recipe: "Vedi ricetta",
+    view_recipe: "Come si prepara?",
+    cook_step_by_step: "Cucina passo dopo passo",
+    decide_again_tomorrow: "Decidi di nuovo domani",
     ingredients: "INGREDIENTI",
     steps: "PASSAGGI DI PREPARAZIONE",
-    step_of: "PASSAGGIO",
+    step_of: "PASSO",
     of: "DI",
     quit_cooking: "Esci dalla cucina",
-    next_step: "Passaggio successivo",
-    prev_step: "Passaggio precedente",
+    next_step: "Passo successivo",
+    prev_step: "Passo precedente",
     done: "Fatto",
     thanks_chef: "Grazie Chef",
-    food_ready: "Il cibo è pronto, servire prego!",
+    food_ready: "Il cibo è pronto, servire!",
     hi_elo: "Ciao, sono Elo, il tuo Chef!",
     menu: "Menu",
-    live_chat: "Chat dal vivo e supporto",
+    support: "Supporto",
+    live_chat: "Chat dal vivo & Supporto",
     undergoing_maintenance: "In manutenzione",
-    filters_active: "FILTRO/I ATTIVO/I",
-    filters_off: "NESSUN FILTRO ALIMENTARE",
+    filters_active: "FILTRO/I ATTIVI",
+    filters_off: "TUTTI I FILTRI DISATTIVATI",
     edit_preferences: "Modifica preferenze",
     restore_purchases: "Ripristina acquisti",
-    terms: "Termini",
-    privacy: "Privacy"
+    terms: "Termini di servizio",
+    privacy: "Informativa sulla privacy",
+    loading: "Caricamento...",
+    scouting: "Elo sta cercando sul web...",
+    scouting_sub: "Trovando la ricetta perfetta per la tua dispensa.",
+    chef_elo_says: "CHEF ELO DICE",
+    voice_on: "Ascolta & Leggi: ON",
+    voice_off: "Voce: OFF",
+    install_app: "Installa App",
+    install_app_title: "Installa Chef Elo",
+    install_app_sub: "Aggiungi Chef Elo alla schermata home.",
+    install_app_btn: "Installa l'app ora",
+    update_required: "AGGIORNAMENTO RICHIESTO",
+    update_title: "Aggiornamento disponibile",
+    update_now: "Aggiorna ora",
+    got_it: "Ho capito",
+    annual_plan: "Piano Annuale",
+    monthly_plan: "Piano Mensile",
+    standard_monthly: "Fatturazione mensile standard",
+    start_free_trial: "Inizia la prova gratuita di 7 giorni",
+    after_trial: "dopo la prova",
+    legal: "NOTE LEGALI",
+    language: "LINGUA",
+    pantry_chicken: "Pollo",
+    pantry_beef: "Manzo",
+    pantry_pork: "Maiale",
+    pantry_seafood: "Frutti di mare",
+    pantry_pasta: "Pasta",
+    pantry_veg: "Verdure",
+    pantry_staples: "Legumi & Cereali",
+    pantry_leftovers: "Avanzi",
+    pantry_empty: "Quasi niente",
+    effort_10: "10 min",
+    effort_30: "30 min",
+    effort_cook: "Cucino io",
+    diet_vegetarian: "Vegetariano",
+    diet_dairy_free: "Senza lattosio",
+    diet_kid_friendly: "Adatto ai bambini",
+    allergy_gluten: "Senza glutine",
+    allergy_dairy: "Senza lattosio",
+    allergy_eggs: "Senza uova",
+    allergy_nuts: "Senza frutta a guscio",
+    health_diabetic_friendly: "Adatto ai diabetici",
+    health_low_sodium: "Basso contenuto di sodio"
   },
   pt: {
+    app_title: "Chef Elo",
     lets_get_started: "Vamos começar!",
     morning_eyebrow: "DECISÃO DA MANHÃ",
     morning_title: "O que tem para o café da manhã?",
-    afternoon_eyebrow: "DECISÃO DA TARDE",
+    afternoon_eyebrow: "DECISÃO DO ALMOÇO",
     afternoon_title: "O que tem para o almoço?",
     tonight_eyebrow: "DECISÃO DA NOITE",
     tonight_title: "O que tem para o jantar?",
-    meal_decision_eyebrow: "DECISÃO DE REFEIÇÃO",
-    meal_type_title: "PARA QUAL REFEIÇÃO VAMOS DECIDIR?",
+    meal_decision_eyebrow: "DECISÃO DA REFEIÇÃO",
+    meal_type_title: "PARA QUAL REFEIÇÃO ESTAMOS DECIDINDO?",
     meal_breakfast: "Café da manhã",
     meal_lunch: "Almoço",
     meal_dinner: "Jantar",
@@ -252,79 +494,171 @@ const TRANSLATIONS = {
     time_title: "QUANTO TEMPO VOCÊ TEM?",
     diet_title: "RESTRIÇÕES ALIMENTARES?",
     allergies_title: "ALERGIAS E RESTRIÇÕES",
-    health_title: "METAS DE SAÚDe E DIETA",
+    health_title: "CONSIDERAÇÕES DE SAÚDE",
     decide_btn: "Decida por mim",
-    not_this: "Este não",
-    doing_this: "Vou fazer este",
+    not_this: "Este não, escolha outro",
+    doing_this: "Escolher este",
     cook_now: "Cozinhar agora",
-    view_recipe: "Ver receita",
+    view_recipe: "Como preparar?",
+    cook_step_by_step: "Cozinhar passo a passo",
+    decide_again_tomorrow: "Decidir novamente amanhã",
     ingredients: "INGREDIENTES",
-    steps: "ETAPAS DE PREPARAÇÃO",
-    step_of: "ETAPA",
+    steps: "PASSO A PASSO DA PREPARAÇÃO",
+    step_of: "PASSO",
     of: "DE",
     quit_cooking: "Sair da cozinha",
-    next_step: "Próxima etapa",
-    prev_step: "Etapa anterior",
-    done: "Pronto",
+    next_step: "Próximo passo",
+    prev_step: "Passo anterior",
+    done: "Concluído",
     thanks_chef: "Obrigado Chef",
-    food_ready: "A comida está pronta, sirva por favor!",
+    food_ready: "A comida está pronta, sirva-se!",
     hi_elo: "Olá, sou o Elo, seu Chef!",
     menu: "Menu",
-    live_chat: "Chat ao vivo e suporte",
+    support: "Suporte",
+    live_chat: "Chat ao vivo & Suporte",
     undergoing_maintenance: "Em manutenção",
     filters_active: "FILTRO(S) ATIVO(S)",
-    filters_off: "SEM FILTROS ALIMENTARES",
+    filters_off: "TODOS OS FILTROS DESLIGADOS",
     edit_preferences: "Editar preferências",
     restore_purchases: "Restaurar compras",
-    terms: "Termos",
-    privacy: "Privacidade"
+    terms: "Termos de serviço",
+    privacy: "Política de privacidade",
+    loading: "Carregando...",
+    scouting: "Elo está procurando na web...",
+    scouting_sub: "Encontrando a receita perfeita para sua dispensa.",
+    chef_elo_says: "CHEF ELO DIZ",
+    voice_on: "Ouvir & Ler: LIGADO",
+    voice_off: "Voz: DESLIGADO",
+    install_app: "Instalar App",
+    install_app_title: "Instalar Chef Elo",
+    install_app_sub: "Adicione o Chef Elo à sua tela inicial.",
+    install_app_btn: "Instalar aplicativo agora",
+    update_required: "ATUALIZAÇÃO NECESSÁRIA",
+    update_title: "Atualização disponível",
+    update_now: "Atualizar agora",
+    got_it: "Entendi",
+    annual_plan: "Plano Anual",
+    monthly_plan: "Plano Mensal",
+    standard_monthly: "Cobrança mensal padrão",
+    start_free_trial: "Iniciar teste grátis de 7 dias",
+    after_trial: "após o teste",
+    legal: "JURÍDICO",
+    language: "IDIOMA",
+    pantry_chicken: "Frango",
+    pantry_beef: "Carne bovina",
+    pantry_pork: "Porco",
+    pantry_seafood: "Frutos do mar",
+    pantry_pasta: "Massa",
+    pantry_veg: "Vegetais",
+    pantry_staples: "Leguminosas & Grãos",
+    pantry_leftovers: "Sobras",
+    pantry_empty: "Quase nada",
+    effort_10: "10 min",
+    effort_30: "30 min",
+    effort_cook: "Eu cozinho",
+    diet_vegetarian: "Vegetariano",
+    diet_dairy_free: "Sem laticínios",
+    diet_kid_friendly: "Para crianças",
+    allergy_gluten: "Sem glúten",
+    allergy_dairy: "Sem laticínios",
+    allergy_eggs: "Sem ovo",
+    allergy_nuts: "Sem nozes",
+    health_diabetic_friendly: "Para diabéticos",
+    health_low_sodium: "Baixo teor de sódio"
   },
   zh: {
-    lets_get_started: "让我们开始吧",
-    morning_eyebrow: "早晨决定",
+    app_title: "Chef Elo",
+    lets_get_started: "让我们开始吧！",
+    morning_eyebrow: "早晨的决定",
     morning_title: "早餐吃什么？",
-    afternoon_eyebrow: "午间决定",
+    afternoon_eyebrow: "午间的决定",
     afternoon_title: "午餐吃什么？",
-    tonight_eyebrow: "晚餐决定",
+    tonight_eyebrow: "今晚的决定",
     tonight_title: "晚餐吃什么？",
     meal_decision_eyebrow: "用餐决定",
-    meal_type_title: "决定哪一餐？",
+    meal_type_title: "我们要为何餐做决定？",
     meal_breakfast: "早餐",
     meal_lunch: "午餐",
     meal_dinner: "晚餐",
-    pantry_title: "储藏室里有什么？",
+    pantry_title: "储物柜里有什么？",
     time_title: "你有多少时间？",
     diet_title: "有饮食限制吗？",
-    allergies_title: "过敏与限制",
-    health_title: "健康与饮食目标",
+    allergies_title: "过敏与饮食限制",
+    health_title: "健康考虑",
     decide_btn: "帮我决定",
-    not_this: "换一个",
-    doing_this: "就做这个",
-    cook_now: "现在烹饪",
-    view_recipe: "查看食谱",
+    not_this: "换一个，再挑挑",
+    doing_this: "就选这个",
+    cook_now: "现在开始做饭",
+    view_recipe: "怎么做？",
+    cook_step_by_step: "逐步烹饪指导",
+    decide_again_tomorrow: "明天再决定",
     ingredients: "食材清单",
     steps: "烹饪步骤",
     step_of: "步骤",
-    of: "共",
+    of: "/",
     quit_cooking: "退出烹饪",
     next_step: "下一步",
     prev_step: "上一步",
     done: "完成",
     thanks_chef: "谢谢大厨",
-    food_ready: "美食已做好，请上菜！",
-    hi_elo: "你好，我是 Elo，你的专属大厨！",
+    food_ready: "美食准备好了，请享用！",
+    hi_elo: "嗨，我是Elo，你的主厨！",
     menu: "菜单",
+    support: "支持",
     live_chat: "在线客服与支持",
     undergoing_maintenance: "维护中",
-    filters_active: "已开启筛选",
-    filters_off: "无饮食筛选",
-    edit_preferences: "修改偏好",
+    filters_active: "已启用筛选",
+    filters_off: "关闭所有筛选",
+    edit_preferences: "编辑偏好",
     restore_purchases: "恢复购买",
-    terms: "条款",
-    privacy: "隐私"
+    terms: "服务条款",
+    privacy: "隐私政策",
+    loading: "加载中...",
+    scouting: "Elo 正在为您寻找最佳食谱...",
+    scouting_sub: "匹配您的食材和饮食偏好。",
+    chef_elo_says: "CHEF ELO 提示",
+    voice_on: "语音朗读：开启",
+    voice_off: "语音朗读：关闭",
+    install_app: "安装应用",
+    install_app_title: "安装 Chef Elo",
+    install_app_sub: "添加到主屏幕，一键快速使用。",
+    install_app_btn: "立即安装应用",
+    update_required: "需要更新",
+    update_title: "发现新版本",
+    update_now: "立即更新",
+    got_it: "知道了",
+    annual_plan: "年度计划",
+    monthly_plan: "月度计划",
+    standard_monthly: "标准按月计费",
+    start_free_trial: "开启 7 天免费试用",
+    after_trial: "试用期后",
+    legal: "法律信息",
+    language: "语言",
+    pantry_chicken: "鸡肉",
+    pantry_beef: "牛肉",
+    pantry_pork: "猪肉",
+    pantry_seafood: "海鲜",
+    pantry_pasta: "意面",
+    pantry_veg: "蔬菜为主",
+    pantry_staples: "豆类与谷物",
+    pantry_leftovers: "剩菜",
+    pantry_empty: "基本没有",
+    effort_10: "10分钟",
+    effort_30: "30分钟",
+    effort_cook: "下厨烹饪",
+    diet_vegetarian: "素食",
+    diet_dairy_free: "无乳制品",
+    diet_kid_friendly: "适合儿童",
+    allergy_gluten: "无麸质",
+    allergy_dairy: "无乳制品",
+    allergy_eggs: "无鸡蛋",
+    allergy_nuts: "无坚果",
+    health_diabetic_friendly: "糖尿病友好",
+    health_low_sodium: "低钠"
   },
   ja: {
-    lets_get_started: "はじめましょう",
+    app_title: "Chef Elo",
+    lets_get_started: "はじめましょう！",
     morning_eyebrow: "朝の決定",
     morning_title: "朝食は何にする？",
     afternoon_eyebrow: "昼の決定",
@@ -332,64 +666,112 @@ const TRANSLATIONS = {
     tonight_eyebrow: "夜の決定",
     tonight_title: "夕食は何にする？",
     meal_decision_eyebrow: "食事の決定",
-    meal_type_title: "どの食事の決定ですか？",
+    meal_type_title: "どの食事を決めますか？",
     meal_breakfast: "朝食",
     meal_lunch: "昼食",
     meal_dinner: "夕食",
     pantry_title: "パントリーに何がある？",
-    time_title: "時間はどのくらいある？",
+    time_title: "時間はどれくらいある？",
     diet_title: "食事制限はある？",
-    allergies_title: "アレルギー＆制限",
-    health_title: "健康＆ダイエット目標",
-    decide_btn: "選んでもらう",
-    not_this: "別の料理",
+    allergies_title: "アレルギーと制限",
+    health_title: "健康上の配慮",
+    decide_btn: "シェフにおまかせ",
+    not_this: "これじゃない、他を選ぶ",
     doing_this: "これにする",
-    cook_now: "今すぐ作る",
-    view_recipe: "レシピを見る",
+    cook_now: "今すぐ調理する",
+    view_recipe: "作り方を見る",
+    cook_step_by_step: "ステップ順に作る",
+    decide_again_tomorrow: "明日また決める",
     ingredients: "材料",
-    steps: "作り方手順",
+    steps: "調理手順",
     step_of: "ステップ",
     of: "/",
     quit_cooking: "調理を終了",
-    next_step: "次のステップ",
-    prev_step: "前のステップ",
+    next_step: "次へ",
+    prev_step: "前へ",
     done: "完了",
-    thanks_chef: "シェフ、ありがとう",
-    food_ready: "料理が完成しました！召し上がれ！",
-    hi_elo: "こんにちは、シェフの Elo です！",
+    thanks_chef: "ありがとうシェフ",
+    food_ready: "料理の完成です、召し上がれ！",
+    hi_elo: "こんにちは、専属シェフのEloです！",
     menu: "メニュー",
+    support: "サポート",
     live_chat: "ライブチャット＆サポート",
     undergoing_maintenance: "メンテナンス中",
     filters_active: "フィルター適用中",
-    filters_off: "フィルターなし",
-    edit_preferences: "設定を変更",
+    filters_off: "全フィルターOFF",
+    edit_preferences: "設定を編集",
     restore_purchases: "購入を復元",
     terms: "利用規約",
-    privacy: "プライバシー"
+    privacy: "プライバシーポリシー",
+    loading: "読み込み中...",
+    scouting: "Eloがウェブ検索中...",
+    scouting_sub: "あなたのパントリーに最適なレシピを探しています。",
+    chef_elo_says: "CHEF ELOの指示",
+    voice_on: "音声読み上げ: ON",
+    voice_off: "音声読み上げ: OFF",
+    install_app: "アプリをインストール",
+    install_app_title: "Chef Eloをインストール",
+    install_app_sub: "ホーム画面に追加してワンタップで起動。",
+    install_app_btn: "今すぐインストール",
+    update_required: "アップデートが必要です",
+    update_title: "最新バージョンが利用可能",
+    update_now: "今すぐ更新",
+    got_it: "了解",
+    annual_plan: "年額プラン",
+    monthly_plan: "月額プラン",
+    standard_monthly: "月額標準請求",
+    start_free_trial: "7日間無料体験を開始",
+    after_trial: "無料体験終了後",
+    legal: "法的情報",
+    language: "言語",
+    pantry_chicken: "鶏肉",
+    pantry_beef: "牛肉",
+    pantry_pork: "豚肉",
+    pantry_seafood: "魚介類",
+    pantry_pasta: "パスタ",
+    pantry_veg: "野菜中心",
+    pantry_staples: "豆・穀物",
+    pantry_leftovers: "残り物",
+    pantry_empty: "ほぼ何もなし",
+    effort_10: "10分",
+    effort_30: "30分",
+    effort_cook: "じっくり調理",
+    diet_vegetarian: "ベジタリアン",
+    diet_dairy_free: "乳製品不使用",
+    diet_kid_friendly: "子供向け",
+    allergy_gluten: "グルテンフリー",
+    allergy_dairy: "乳製品フリー",
+    allergy_eggs: "卵フリー",
+    allergy_nuts: "ナッツフリー",
+    health_diabetic_friendly: "糖尿病配慮",
+    health_low_sodium: "减塩"
   },
   ar: {
-    lets_get_started: "هيا لنبدأ",
+    app_title: "Chef Elo",
+    lets_get_started: "هيا لنبدأ!",
     morning_eyebrow: "قرار الصباح",
     morning_title: "ماذا سنأكل في الإفطار؟",
-    afternoon_eyebrow: "قرار الظهيرة",
+    afternoon_eyebrow: "قرار الغداء",
     afternoon_title: "ماذا سنأكل في الغداء؟",
     tonight_eyebrow: "قرار المساء",
     tonight_title: "ماذا سنأكل في العشاء؟",
     meal_decision_eyebrow: "قرار الوجبة",
-    meal_type_title: "أي وجبة نختار لها؟",
-    meal_breakfast: "إفطار",
-    meal_lunch: "غداء",
-    meal_dinner: "عشاء",
+    meal_type_title: "أي وجبة نحددها الآن؟",
+    meal_breakfast: "الإفطار",
+    meal_lunch: "الغداء",
+    meal_dinner: "العشاء",
     pantry_title: "ماذا يوجد في الخزانة؟",
     time_title: "كم من الوقت لديك؟",
-    diet_title: "هل هناك قيود غذائية؟",
+    diet_title: "هل لديك أي قيود غذائية؟",
     allergies_title: "الحساسية والقيود",
-    health_title: "أهداف الصحة والنظام الغذائي",
-    decide_btn: "اختر لي",
-    not_this: "ليس هذا",
+    health_title: "اعتبارات صحية",
+    decide_btn: "قرر نيابة عني",
+    not_this: "ليس هذا، اختر وجبة أخرى",
     doing_this: "سأطبخ هذا",
-    cook_now: "اطبخ الآن",
-    view_recipe: "عرض الوصفة",
+    cook_now: "ابدأ الطبخ الآن",
+    view_recipe: "كيف أطبخها؟",
+    cook_step_by_step: "الطبخ خطوة بخطوة",
+    decide_again_tomorrow: "قرر غداً مجدداً",
     ingredients: "المكونات",
     steps: "خطوات التحضير",
     step_of: "الخطوة",
@@ -400,18 +782,62 @@ const TRANSLATIONS = {
     done: "تم",
     thanks_chef: "شكراً لك شيف",
     food_ready: "الطعام جاهز، تفضل بالتقديم!",
-    hi_elo: "أهلاً، أنا إيلو، طاهيك الخاص!",
+    hi_elo: "مرحباً، أنا إيلو الشيف الخاص بك!",
     menu: "القائمة",
-    live_chat: "الدعم والمحادثة المباشرة",
-    undergoing_maintenance: "قيد الصيانة",
+    support: "الدعم",
+    live_chat: "المحادثة المباشرة والدعم",
+    undergoing_maintenance: "قيد الصيانة حالياً",
     filters_active: "الفلاتر مفعّلة",
-    filters_off: "بدون فلاتر",
+    filters_off: "إيقاف كل الفلاتر",
     edit_preferences: "تعديل التفضيلات",
     restore_purchases: "استعادة المشتريات",
-    terms: "الشروط",
-    privacy: "الخصوصية"
+    terms: "شروط الخدمة",
+    privacy: "سياسة الخصوصية",
+    loading: "جاري التحميل...",
+    scouting: "إيلو يبحث في الويب...",
+    scouting_sub: "العثور على الوصفة المثالية المتوافقة مع مكوناتك.",
+    chef_elo_says: "تعليمات الشيف إيلو",
+    voice_on: "القراءة الصوتية: مفعلة",
+    voice_off: "القراءة الصوتية: معطلة",
+    install_app: "تثبيت التطبيق",
+    install_app_title: "تثبيت Chef Elo",
+    install_app_sub: "إضافة الشيف إيلو للشاشة الرئيسية للوصول السريع.",
+    install_app_btn: "تثبيت التطبيق الآن",
+    update_required: "تحديث مطلوب",
+    update_title: "يتوفر تحديث جديد",
+    update_now: "تحديث الآن",
+    got_it: "فهمت",
+    annual_plan: "الخطة السنوية",
+    monthly_plan: "الخطة الشهرية",
+    standard_monthly: "الفواتير الشهرية القياسية",
+    start_free_trial: "بدء التجربة المجانية لمدة 7 أيام",
+    after_trial: "بعد التجربة",
+    legal: "معلومات قانونية",
+    language: "اللغة",
+    pantry_chicken: "دجاج",
+    pantry_beef: "لحم بقر",
+    pantry_pork: "لحم خنزير",
+    pantry_seafood: "مأكولات بحرية",
+    pantry_pasta: "باستا",
+    pantry_veg: "خضار غالبًا",
+    pantry_staples: "بقوليات وحبوب",
+    pantry_leftovers: "بقايا طعام",
+    pantry_empty: "لا شيء تقريبًا",
+    effort_10: "10 دقائق",
+    effort_30: "30 دقيقة",
+    effort_cook: "سأطبخ بنفسي",
+    diet_vegetarian: "نباتي",
+    diet_dairy_free: "خالي من الالبان",
+    diet_kid_friendly: "مناسب للأطفال",
+    allergy_gluten: "خالي من الجلوتين",
+    allergy_dairy: "خالي من اللكتوز",
+    allergy_eggs: "خالي من البيض",
+    allergy_nuts: "خالي من المكسرات",
+    health_diabetic_friendly: "مناسب لمرضى السكري",
+    health_low_sodium: "قليل الصوديوم"
   }
 };
+
 // ---------- Data ----------
 const MEALS = [
   { id: "m1", name: "Garlic butter chicken thighs", reason: "Ten minutes of hands-on time, then the oven does the rest.", effort: "10", pantry: ["chicken"], diet: ["dairy-free", "kid-friendly"], allergies: ["dairy"], health: ["diabetic-friendly"], mealType: ["dinner"], image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80" },
@@ -638,7 +1064,9 @@ const HEALTH_CONDITIONS = [
 
 
 // ---------- Interactive Kitchen Setting for "Chef Elo Says" ----------
-function ChefEloKitchenStage({ stepText, currentStep, totalSteps, isVoiceActive, onToggleVoice, lang = "en" }) {
+function ChefEloKitchenStage({ stepText, currentStep, totalSteps, isVoiceActive, onToggleVoice, lang = "en", t }) {
+  // Local safety fallback for translation helper t
+  const translate = t || ((key, fallback = "") => (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) || (TRANSLATIONS.en && TRANSLATIONS.en[key]) || fallback || key);
   // Helper to speak text with proper browser voice & language
   const speakText = (textToSpeak) => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
@@ -656,9 +1084,25 @@ function ChefEloKitchenStage({ stepText, currentStep, totalSteps, isVoiceActive,
         ja: "ja-JP",
         ar: "ar-SA"
       };
-      utterance.lang = langTags[lang] || "en-US";
+      const targetLang = langTags[lang] || "en-US";
+      utterance.lang = targetLang;
+
+      // Select consistent MALE voice matching language
+      const voices = window.speechSynthesis.getVoices();
+      if (voices && voices.length > 0) {
+        const maleVoice = voices.find(v => 
+          v.lang.startsWith(targetLang.slice(0, 2)) && 
+          /male|david|george|thomas|henri|jorge|daniel|nicolas|stefan|diego|paul|gilles|remy|bruno/i.test(v.name)
+        ) || voices.find(v => v.lang.startsWith(targetLang.slice(0, 2)));
+
+        if (maleVoice) {
+          utterance.voice = maleVoice;
+        }
+      }
+
+      // Rich, warm, masculine voice timbre pitch & rate
+      utterance.pitch = 0.86;
       utterance.rate = 0.95;
-      utterance.pitch = 1.0;
       utterance.volume = 1.0;
       window.speechSynthesis.speak(utterance);
     } catch (e) {
@@ -731,7 +1175,7 @@ function ChefEloKitchenStage({ stepText, currentStep, totalSteps, isVoiceActive,
             fontFamily: "'IBM Plex Mono', monospace",
             letterSpacing: "0.06em"
           }}>
-            <span>🍳 CHEF ELO SAYS</span>
+            <span>{translate("chef_elo_says", "🍳 CHEF ELO SAYS")}</span>
           </div>
           <button
             type="button"
@@ -754,7 +1198,7 @@ function ChefEloKitchenStage({ stepText, currentStep, totalSteps, isVoiceActive,
             }}
           >
             {isVoiceActive ? <Volume2 size={13} /> : <VolumeX size={13} />}
-            <span>{isVoiceActive ? "Listen & Read: ON" : "Voice: OFF"}</span>
+            <span>{isVoiceActive ? translate("voice_on", "Listen & Read: ON") : translate("voice_off", "Voice: OFF")}</span>
           </button>
         </div>
         <div className="tn-mono" style={{
@@ -1331,6 +1775,18 @@ export default function TonightApp() {
     }
     return fallback || key;
   };
+  // Helper to translate meal names, reasons, ingredients, and steps dynamically
+  const tMealText = (str) => {
+    if (!str || typeof str !== "string" || lang === "en") return str;
+    
+    // Check if exact key exists in TRANSLATIONS
+    if (TRANSLATIONS[lang] && TRANSLATIONS[lang][str]) {
+      return TRANSLATIONS[lang][str];
+    }
+    
+    return str;
+  };
+
 
   const handleLanguageChange = (newLang) => {
     setLang(newLang);
@@ -2127,7 +2583,7 @@ export default function TonightApp() {
                 margin: "0 0 6px",
                 lineHeight: 1.15
               }}>
-                Chef Elo — Meal Decider
+                Chef Elo
               </h1>
               <p style={{
                 color: "#6B8F82",
@@ -2154,7 +2610,7 @@ export default function TonightApp() {
                 fontFamily: "'DM Sans', sans-serif",
                 letterSpacing: "0.04em"
               }}>
-                <span>LOADING</span>
+                <span>{t("loading_label", "LOADING")}</span>
                 <span>{Math.min(100, loadPercent)}%</span>
               </div>
               <div style={styles.loaderBarBg}>
@@ -2260,6 +2716,7 @@ export default function TonightApp() {
             <div style={styles.cookingPanel} className="tn-card-enter">
               {/* Kitchen Setting for Chef Elo Says */}
               <ChefEloKitchenStage
+                t={t}
                 stepText={currentRecipe.steps[currentStepIndex]}
                 currentStep={currentStepIndex + 1}
                 totalSteps={currentRecipe.steps.length}
@@ -2377,7 +2834,7 @@ export default function TonightApp() {
                     <ChipRow>
                       {ALLERGIES.map((a) => (
                         <Chip key={a.id} active={selectedAllergies.includes(a.id)} onClick={() => toggleAllergy(a.id)}>
-                          {t("allergy_" + a.id, a.label)}
+                          {t("allergy_" + a.id.replace(/-/g, "_"), a.label)}
                         </Chip>
                       ))}
                     </ChipRow>
@@ -2492,7 +2949,7 @@ export default function TonightApp() {
                       {current.image && (
                         <img src={current.image} alt={current.name} style={styles.cardImage} />
                       )}
-                      <div className="tn-mono" style={styles.cardEyebrow}>{selectedMealType === "breakfast" ? "YOUR BREAKFAST DECISION IS" : selectedMealType === "lunch" ? "YOUR LUNCH DECISION IS" : "YOUR DINNER DECISION IS"}</div>
+                      <div className="tn-mono" style={styles.cardEyebrow}>{selectedMealType === "breakfast" ? t("breakfast_decision", "YOUR BREAKFAST DECISION IS") : selectedMealType === "lunch" ? t("lunch_decision", "YOUR LUNCH DECISION IS") : t("dinner_decision", "YOUR DINNER DECISION IS")}</div>
                       <div style={styles.cardName}>{current.name}</div>
                       <div style={styles.cardReason}>{current.reason}</div>
                       <div style={styles.cardTagRow}>
@@ -2530,7 +2987,7 @@ export default function TonightApp() {
                   {current.image && (
                     <img src={current.image} alt={current.name} style={styles.doneImage} />
                   )}
-                  <p style={styles.doneSub}>Something amazing</p>
+                  <p style={styles.doneSub}>{t("food_is_on_the_way", "Something amazing is coming!")}</p>
 
                   {!showRecipe && currentRecipe && (
                     <button className="tn-focus" style={styles.recipeBtn} onClick={() => setShowRecipe(true)}>
@@ -2543,7 +3000,7 @@ export default function TonightApp() {
                     <div style={styles.recipeBox} className="tn-card-enter">
                       <div className="tn-mono" style={styles.recipeTime}>
                         <Clock size={12} style={{ marginRight: 5, verticalAlign: "-2px" }} />
-                        {currentRecipe.time} · serves 2
+                        {currentRecipe.time} · {t("serves_2", "serves 2")}
                       </div>
 
                       <div style={{ marginBottom: 20 }}>
@@ -3164,7 +3621,7 @@ export default function TonightApp() {
               >
                 <Globe size={18} color="#045137" />
                 <div style={{ flex: 1, textAlign: "left" }}>
-                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>LANGUAGE</div>
+                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>{t("language", "LANGUAGE")}</div>
                   <div>{LANGUAGES.find(l => l.code === lang)?.label || "English"}</div>
                 </div>
                 <span style={{ fontSize: 12, color: "#6B8F82" }}>Change ▾</span>
@@ -3194,8 +3651,8 @@ export default function TonightApp() {
               >
                 <MessageCircle size={18} color="#045137" />
                 <div style={{ flex: 1, textAlign: "left" }}>
-                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>SUPPORT</div>
-                  <div>Live Chat</div>
+                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>{t("support", "SUPPORT")}</div>
+                  <div>{t("live_chat", "Live Chat")}</div>
                 </div>
               </button>
 
@@ -3220,8 +3677,8 @@ export default function TonightApp() {
               >
                 <FileText size={18} color="#045137" />
                 <div style={{ flex: 1, textAlign: "left" }}>
-                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>LEGAL</div>
-                  <div>Terms of Service</div>
+                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>{t("legal", "LEGAL")}</div>
+                  <div>{t("terms", "Terms of Service")}</div>
                 </div>
               </button>
 
@@ -3246,8 +3703,8 @@ export default function TonightApp() {
               >
                 <ShieldCheck size={18} color="#045137" />
                 <div style={{ flex: 1, textAlign: "left" }}>
-                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>PRIVACY</div>
-                  <div>Privacy Policy</div>
+                  <div style={{ fontSize: 11, color: "#6B8F82", fontWeight: 500 }}>{t("privacy_header", "PRIVACY")}</div>
+                  <div>{t("privacy", "Privacy Policy")}</div>
                 </div>
               </button>
             </div>
