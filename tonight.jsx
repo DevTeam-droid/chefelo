@@ -1822,7 +1822,70 @@ export default function TonightApp() {
     }
   }); // health | ask | reveal | done
   const [showMenu, setShowMenu] = useState(false);
-  const [showSupportModal, setShowSupportModal] = useState(false);
+
+  const openLiveSupport = () => {
+    setShowMenu(false);
+    setChatError("");
+    setShowPreChatModal(true);
+  };
+
+  const startChatSession = (e) => {
+    if (e) e.preventDefault();
+    if (!chatName.trim()) {
+      setChatError(t("error_name_required", "Please enter your full name."));
+      return;
+    }
+    if (!chatEmail.trim() || !chatEmail.includes("@")) {
+      setChatError(t("error_email_required", "Please enter a valid email address."));
+      return;
+    }
+    if (!chatPhone.trim() || chatPhone.trim().length < 6) {
+      setChatError(t("error_phone_required", "Please enter your phone number."));
+      return;
+    }
+
+    setChatError("");
+    setShowPreChatModal(false);
+
+    if (typeof window !== "undefined" && window.Tawk_API) {
+      try {
+        window.Tawk_API.visitor = {
+          name: chatName.trim(),
+          email: chatEmail.trim(),
+          phone: chatPhone.trim()
+        };
+        if (typeof window.Tawk_API.setAttributes === "function") {
+          window.Tawk_API.setAttributes({
+            name: chatName.trim(),
+            email: chatEmail.trim(),
+            phone: chatPhone.trim()
+          }, function(err){});
+        }
+        if (typeof window.Tawk_API.showWidget === "function") {
+          window.Tawk_API.showWidget();
+        }
+        if (typeof window.Tawk_API.maximize === "function") {
+          window.Tawk_API.maximize();
+          return;
+        }
+        if (typeof window.Tawk_API.toggle === "function") {
+          window.Tawk_API.toggle();
+          return;
+        }
+      } catch (err) {
+        console.warn("Tawk API error:", err);
+      }
+    }
+    setShowSupportModal(true);
+  };
+
+  
+  const [showPreChatModal, setShowPreChatModal] = useState(false);
+  const [chatName, setChatName] = useState("");
+  const [chatEmail, setChatEmail] = useState("");
+  const [chatPhone, setChatPhone] = useState("");
+  const [chatError, setChatError] = useState("");
+const [showSupportModal, setShowSupportModal] = useState(false);
   const [effort, setEffort] = useState(null);
   const [pantry, setPantry] = useState(null);
   const [diet, setDiet] = useState([]);
@@ -3647,10 +3710,7 @@ export default function TonightApp() {
 
               {/* Live Chat & Support */}
               <button
-                onClick={() => {
-                  setShowMenu(false);
-                  setShowSupportModal(true);
-                }}
+                onClick={openLiveSupport}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -3726,6 +3786,171 @@ export default function TonightApp() {
                 </div>
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      
+      {/* Pre-Chat Lead Capture Modal */}
+      {showPreChatModal && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "rgba(35, 50, 45, 0.76)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+          zIndex: 99999,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "16px",
+        }} className="tn-card-enter" onClick={() => setShowPreChatModal(false)}>
+          <div style={{
+            background: "#FFFFFF",
+            borderRadius: 24,
+            border: "1px solid #C2DDD4",
+            padding: "26px 22px 22px",
+            maxWidth: 380,
+            width: "100%",
+            boxShadow: "0 20px 40px -15px rgba(35, 50, 45, 0.25)",
+            position: "relative",
+          }} onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setShowPreChatModal(false)}
+              className="tn-focus"
+              style={{
+                position: "absolute",
+                top: 16,
+                right: 16,
+                background: "#F5F9F7",
+                border: "1px solid #C2DDD4",
+                borderRadius: "50%",
+                width: 30,
+                height: 30,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#6B8F82",
+                cursor: "pointer",
+                fontSize: 14,
+                fontWeight: 700,
+              }}
+            >
+              ✕
+            </button>
+
+            <div className="tn-mono" style={{ fontSize: 11, color: "#045137", fontWeight: 700, letterSpacing: "0.08em", marginBottom: 4, textAlign: "left" }}>
+              {t("prechat_eyebrow", "LIVE CHAT SUPPORT")}
+            </div>
+            <h3 style={{ color: "#23322D", fontSize: 22, fontWeight: 800, margin: "0 0 6px", fontFamily: "'DM Sans', sans-serif", letterSpacing: "-0.02em", textAlign: "left" }}>
+              {t("prechat_title", "Start Live Chat")}
+            </h3>
+            <p style={{ color: "#6B8F82", fontSize: 13, margin: "0 0 16px", lineHeight: 1.45, fontFamily: "'Inter', sans-serif", textAlign: "left" }}>
+              {t("prechat_sub", "Please enter your details to connect directly with Chef Elo support.")}
+            </p>
+
+            <form onSubmit={startChatSession} style={{ display: "flex", flexDirection: "column", gap: 12, textAlign: "left" }}>
+              {chatError && (
+                <div style={{ background: "#FEE2E2", border: "1px solid #FCA5A5", color: "#DC2626", padding: "8px 12px", borderRadius: 8, fontSize: 12, fontWeight: 600 }}>
+                  {chatError}
+                </div>
+              )}
+
+              <div>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#23322D", marginBottom: 4 }}>
+                  {t("label_name", "Full Name")} *
+                </label>
+                <input
+                  type="text"
+                  value={chatName}
+                  onChange={(e) => setChatName(e.target.value)}
+                  placeholder={t("ph_name", "e.g. Alex Morgan")}
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "10px 12px",
+                    borderRadius: 10,
+                    border: "1px solid #C2DDD4",
+                    background: "#F5F9F7",
+                    fontSize: 14,
+                    color: "#23322D",
+                    outline: "none",
+                    fontFamily: "'Inter', sans-serif"
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#23322D", marginBottom: 4 }}>
+                  {t("label_email", "Email Address")} *
+                </label>
+                <input
+                  type="email"
+                  value={chatEmail}
+                  onChange={(e) => setChatEmail(e.target.value)}
+                  placeholder={t("ph_email", "e.g. alex@example.com")}
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "10px 12px",
+                    borderRadius: 10,
+                    border: "1px solid #C2DDD4",
+                    background: "#F5F9F7",
+                    fontSize: 14,
+                    color: "#23322D",
+                    outline: "none",
+                    fontFamily: "'Inter', sans-serif"
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "#23322D", marginBottom: 4 }}>
+                  {t("label_phone", "Phone Number")} *
+                </label>
+                <input
+                  type="tel"
+                  value={chatPhone}
+                  onChange={(e) => setChatPhone(e.target.value)}
+                  placeholder={t("ph_phone", "e.g. +1 555-0199")}
+                  required
+                  style={{
+                    width: "100%",
+                    padding: "10px 12px",
+                    borderRadius: 10,
+                    border: "1px solid #C2DDD4",
+                    background: "#F5F9F7",
+                    fontSize: 14,
+                    color: "#23322D",
+                    outline: "none",
+                    fontFamily: "'Inter', sans-serif"
+                  }}
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="tn-btn-primary tn-focus"
+                style={{
+                  ...styles.decideBtn,
+                  marginTop: 6,
+                  width: "100%",
+                  padding: "12px 18px",
+                  fontSize: 15,
+                  fontWeight: 700,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 6
+                }}
+              >
+                <MessageCircle size={16} />
+                <span>{t("btn_start_chat", "Start Chat")}</span>
+              </button>
+            </form>
           </div>
         </div>
       )}
