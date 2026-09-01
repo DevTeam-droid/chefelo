@@ -1085,44 +1085,86 @@ const HEALTH_CONDITIONS = [
 function ChefEloKitchenStage({ stepText, currentStep, totalSteps, isVoiceActive, onToggleVoice, lang = "en", t }) {
   // Local safety fallback for translation helper t
   const translate = t || ((key, fallback = "") => (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) || (TRANSLATIONS.en && TRANSLATIONS.en[key]) || fallback || key);
-  // Helper to speak text with proper browser voice & language
+  // Ref to store selected male voice persistently across steps
+  const maleVoiceRef = useRef(null);
+
+  // Comprehensive list of known male voice name fragments across browsers & OS
+  const MALE_VOICE_PATTERNS = /\b(male|man|guy|david|george|thomas|mark|fred|alex|daniel|jorge|stefan|diego|paul|nicolas|gilles|remy|bruno|pablo|matteo|luca|giovanni|pierre|jean|claude|felix|oliver|carlos|juan|ibrahim|ali|hans|fritz|henrik|mikkel|ivan|dmitri|wei|taro|hiro|takeshi|kenji)\b/i;
+
+  const langTags = {
+    en: "en-US",
+    es: "es-ES",
+    fr: "fr-FR",
+    de: "de-DE",
+    it: "it-IT",
+    pt: "pt-PT",
+    zh: "zh-CN",
+    ja: "ja-JP",
+    ar: "ar-SA"
+  };
+
+  // Pick and cache the best male voice for the current language
+  const pickMaleVoice = () => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const voices = window.speechSynthesis.getVoices();
+    if (!voices || voices.length === 0) return;
+    const targetLang = langTags[lang] || "en-US";
+    const langPrefix = targetLang.slice(0, 2);
+
+    // Priority 1: voice name explicitly contains male keyword + matches lang
+    let picked = voices.find(v =>
+      v.lang.startsWith(langPrefix) && MALE_VOICE_PATTERNS.test(v.name)
+    );
+    // Priority 2: any male-named voice regardless of exact lang code
+    if (!picked) {
+      picked = voices.find(v => MALE_VOICE_PATTERNS.test(v.name));
+    }
+    // Priority 3: first voice that matches lang (most browsers default to female, so prefer deeper pitch names)
+    if (!picked) {
+      picked = voices.find(v => v.lang.startsWith(langPrefix) && !v.name.toLowerCase().includes("female"));
+    }
+    // Priority 4: absolute fallback — first available voice for lang
+    if (!picked) {
+      picked = voices.find(v => v.lang.startsWith(langPrefix));
+    }
+
+    if (picked) {
+      maleVoiceRef.current = picked;
+    }
+  };
+
+  // Initialize voice on mount and reload if voices change
+  useEffect(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    pickMaleVoice();
+    const handleVoicesChanged = () => { pickMaleVoice(); };
+    window.speechSynthesis.addEventListener("voiceschanged", handleVoicesChanged);
+    return () => {
+      window.speechSynthesis.removeEventListener("voiceschanged", handleVoicesChanged);
+    };
+  }, [lang]);
+
   const speakText = (textToSpeak) => {
     if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
     try {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(textToSpeak);
-      const langTags = {
-        en: "en-US",
-        es: "es-ES",
-        fr: "fr-FR",
-        de: "de-DE",
-        it: "it-IT",
-        pt: "pt-PT",
-        zh: "zh-CN",
-        ja: "ja-JP",
-        ar: "ar-SA"
-      };
-      const targetLang = langTags[lang] || "en-US";
-      utterance.lang = targetLang;
+      // Short delay to ensure cancel() completes before speaking
+      setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.lang = langTags[lang] || "en-US";
 
-      // Select consistent MALE voice matching language
-      const voices = window.speechSynthesis.getVoices();
-      if (voices && voices.length > 0) {
-        const maleVoice = voices.find(v => 
-          v.lang.startsWith(targetLang.slice(0, 2)) && 
-          /male|david|george|thomas|henri|jorge|daniel|nicolas|stefan|diego|paul|gilles|remy|bruno/i.test(v.name)
-        ) || voices.find(v => v.lang.startsWith(targetLang.slice(0, 2)));
-
-        if (maleVoice) {
-          utterance.voice = maleVoice;
+        // Use cached male voice; refresh if not yet loaded
+        if (!maleVoiceRef.current) pickMaleVoice();
+        if (maleVoiceRef.current) {
+          utterance.voice = maleVoiceRef.current;
         }
-      }
 
-      // Rich, warm, masculine voice timbre pitch & rate
-      utterance.pitch = 0.86;
-      utterance.rate = 0.95;
-      utterance.volume = 1.0;
-      window.speechSynthesis.speak(utterance);
+        // Deep, warm masculine voice settings
+        utterance.pitch = 0.85;
+        utterance.rate = 0.92;
+        utterance.volume = 1.0;
+        window.speechSynthesis.speak(utterance);
+      }, 80);
     } catch (e) {
       console.warn("Speech synthesis error:", e);
     }
