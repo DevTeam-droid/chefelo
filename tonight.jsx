@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack, Globe, Smartphone, Download, Menu, FileText, ShieldCheck, MessageCircle, Volume2, VolumeX } from "lucide-react";
+import { ChefHat, Flame, Clock, Utensils, Check, RotateCcw, Pin, Play, Pause, SkipForward, SkipBack, Globe, Smartphone, Download, Menu, Settings, FileText, ShieldCheck, MessageCircle, Volume2, VolumeX } from "lucide-react";
 
 // ---------- Internationalization & Multi-Language Support ----------
 const LANGUAGES = [
@@ -16,6 +16,8 @@ const LANGUAGES = [
 
 const TRANSLATIONS = {
   en: {
+    settings: "Settings",
+    settings_header: "SETTINGS & OPTIONS",
     free_trial_sub: "Then $4.99/mo. Cancel anytime in App Store or Settings.",
     free_trial_title: "Start 7-Day Free Trial",
     something_amazing: "Something amazing is coming!",
@@ -117,6 +119,8 @@ const TRANSLATIONS = {
     health_low_sodium: "Low-sodium"
   },
   es: {
+    settings: "Ajustes",
+    settings_header: "AJUSTES Y OPCIONES",
     app_title: "Chef Elo",
     lets_get_started: "¡Empecemos!",
     morning_eyebrow: "DECISIÓN DE LA MAÑANA",
@@ -207,6 +211,8 @@ const TRANSLATIONS = {
     health_low_sodium: "Bajo en sodio"
   },
   fr: {
+    settings: "Paramètres",
+    settings_header: "PARAMÈTRES ET OPTIONS",
     app_title: "Chef Elo",
     lets_get_started: "Commençons !",
     morning_eyebrow: "DÉCISION DU MATIN",
@@ -297,6 +303,8 @@ const TRANSLATIONS = {
     health_low_sodium: "Pauvre en sel"
   },
   de: {
+    settings: "Einstellungen",
+    settings_header: "EINSTELLUNGEN & OPTIONEN",
     app_title: "Chef Elo",
     lets_get_started: "Lass uns anfangen!",
     morning_eyebrow: "MORGENS ENTSCHEIDUNG",
@@ -387,6 +395,8 @@ const TRANSLATIONS = {
     health_low_sodium: "Natriumarm"
   },
   it: {
+    settings: "Impostazioni",
+    settings_header: "IMPOSTAZIONI E OPZIONI",
     app_title: "Chef Elo",
     lets_get_started: "Iniziamo!",
     morning_eyebrow: "DECISIONE DEL MATTINO",
@@ -477,6 +487,8 @@ const TRANSLATIONS = {
     health_low_sodium: "Basso contenuto di sodio"
   },
   pt: {
+    settings: "Configurações",
+    settings_header: "CONFIGURAÇÕES E OPÇÕES",
     app_title: "Chef Elo",
     lets_get_started: "Vamos começar!",
     morning_eyebrow: "DECISÃO DA MANHÃ",
@@ -567,6 +579,8 @@ const TRANSLATIONS = {
     health_low_sodium: "Baixo teor de sódio"
   },
   zh: {
+    settings: "设置",
+    settings_header: "设置与选项",
     app_title: "Chef Elo",
     lets_get_started: "让我们开始吧！",
     morning_eyebrow: "早晨的决定",
@@ -657,6 +671,8 @@ const TRANSLATIONS = {
     health_low_sodium: "低钠"
   },
   ja: {
+    settings: "設定",
+    settings_header: "設定とオプション",
     app_title: "Chef Elo",
     lets_get_started: "はじめましょう！",
     morning_eyebrow: "朝の決定",
@@ -747,6 +763,8 @@ const TRANSLATIONS = {
     health_low_sodium: "减塩"
   },
   ar: {
+    settings: "الإعدادات",
+    settings_header: "الإعدادات والخيارات",
     app_title: "Chef Elo",
     lets_get_started: "هيا لنبدأ!",
     morning_eyebrow: "قرار الصباح",
@@ -2680,7 +2698,7 @@ export default function TonightApp() {
                     type="button"
                     onClick={() => setShowMenu(true)}
                     className="tn-focus"
-                    aria-label="Open Menu"
+                    aria-label="Open Settings"
                     style={{
                       background: "#F5F9F7",
                       border: "1px solid #C2DDD4",
@@ -2697,8 +2715,8 @@ export default function TonightApp() {
                       fontWeight: 700,
                     }}
                   >
-                    <Menu size={13} style={{ verticalAlign: "-1px" }} />
-                    <span>{t("menu", "Menu")}</span>
+                    <Settings size={13} style={{ verticalAlign: "-1px" }} />
+                    <span>{t("settings", "Settings")}</span>
                   </button>
                 </div>
               </div>
@@ -3575,7 +3593,7 @@ export default function TonightApp() {
           }} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
               <div className="tn-mono" style={{ fontSize: 12, color: "#045137", fontWeight: 700, letterSpacing: "0.08em" }}>
-                MENU & OPTIONS
+                {t("settings_header", "SETTINGS & OPTIONS")}
               </div>
               <button
                 onClick={() => setShowMenu(false)}
